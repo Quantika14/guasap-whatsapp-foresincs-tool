@@ -234,22 +234,20 @@ def count_dbs_root():
 	return dbs
 
 def count_dbs():
-	dbs_=list()
 	for directory in config.directory:
 		command = config.adb_comm+" shell ls "+directory+"WhatsApp/Databases/"
 		dbs = os.popen(command).read()
 		if "No such file or directory" in dbs:
 			continue
 		else:
-			dbs = dbs.replace("\r","").split("\n")
-			for db in dbs:
-				if " " in db:
-					db = db.split(" ")
-					for d in db:
-						dbs_.append(d)
-				else:
-					dbs_.append(db)
-			return dbs_
+			if "\n" in dbs:
+				dbs = dbs.replace("\r","").split("\n")
+				if len(dbs) <= 2 and dbs[1]=='':
+					dbs = dbs[0].split(" ")
+				return dbs
+			else:
+				dbs = dbs.split(" ")
+return dbs
 
 def create_dir_log():
 	try:
