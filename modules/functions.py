@@ -247,7 +247,7 @@ def count_dbs():
 				return dbs
 			else:
 				dbs = dbs.split(" ")
-return dbs
+				return dbs
 
 def create_dir_log():
 	try:
