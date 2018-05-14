@@ -34,7 +34,7 @@ def check_directory():
 			return directory
 
 def pull_media(directory):
-	pull = modules.config.adb_comm+" pull "+directory+"WhatsApp/Media ../Whatsapp-Forensic-OPEN/Whatsapp_Extracted_Media/"
+	pull = modules.config.adb_comm+" pull "+directory+"WhatsApp/Media Whatsapp_Extracted_Media/"
 	print pull
 	os.popen(pull)
 
