@@ -255,7 +255,7 @@ if __name__ == '__main__':
 		root = Tk()
 		root.configure(width=600, height=450)
 		root.resizable(width=False, height=False)
-		root.title("WhatsApp Forensic OPEN")
+		root.title("Guasap Forensic - WhatsApp Forensic App GNU 3")
 		imagen = PhotoImage(file="images/logika14-2.PPM")
 		widget = Label(root, image=imagen)
 		widget.image = imagen
