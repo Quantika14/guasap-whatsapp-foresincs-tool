@@ -10,18 +10,16 @@ universal androot|| none ||universalandroot.apk
 easy rooting toolkit|| none ||not apk
 towel root|| none ||com.geohot.towelroot-1.0-1-minAPI3.apk
 baidu root|| none ||Baidu Root_v1.0.apk
-wondershare mobilego
-root genius
-tunesgo root
-ping pong root
-odin
-cf auto root
-iroot
-howtoroot
-oneclickroot
-dr.fone root
-weaksauce
-supersu pro root
-superuser pro root
-superuser x
-instagram
+wondershare mobilego || com.wondershare.mobilego ||com.wondershare.mobilego.apk
+root genius || none ||RootGenius-v.1.0.21.apk
+tunesgo root || none ||not apk
+ping pong root || none ||pingpongroot_v6.apk
+odin || none ||not apk
+cf auto root || none ||not apk
+iroot || none ||RomasterSu_3.4.5_170811T1200_2075_r.apk
+howtoroot || none ||not apk
+oneclickroot || none ||OneClickRoot.apk
+dr.fone root || none ||not apk
+weaksauce || none ||WeakSauce-1.0.1.apk
+supersu pro root || none ||supersu-pro.apk
+superuser x || none ||Superuser X Free Root_vL 107_apkpure.com.apk

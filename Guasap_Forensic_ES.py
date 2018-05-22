@@ -251,11 +251,25 @@ def icon(top,parent):
 	top.destroy()
 
 if __name__ == '__main__':
+	print modules.config.banner
+	print "****************************************************************"
+	print "////////////////////////////////////////////////////////////////"
+	print "****************************************************************"
+	print "-- APP NAME: GUASAP FORENSIC                                  --"
+	print "-- Description: WhatsApp Forensic App                         --"
+	print "-- Created by QuantiKa14 Team                                 --"
+	print "-- License GNU 3                                              --"
+	print "-- Authors: Jorge Coronado A.K.A @JorgeWebsec & Ramon Bajona  --"
+	print "-- Date: 10-05-2018                                           --"
+	print "-- Email contact: info@quantika14.com                         --"
+	print "****************************************************************"
+	print "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+	print "****************************************************************"
 	while(menu):
 		root = Tk()
 		root.configure(width=600, height=450)
 		root.resizable(width=False, height=False)
-		root.title("WhatsApp Forensic OPEN")
+		root.title("Guasap Forensic - WhatsApp Forensic App GNU 3")
 		imagen = PhotoImage(file="images/logika14-2.PPM")
 		widget = Label(root, image=imagen)
 		widget.image = imagen
