@@ -4,6 +4,8 @@ import os
 import config
 import gzip, time, datetime, modules.config
 
+from Tkinter import *
+
 #FORENSIC FUNCTIONS
 
 def extract_deleted_messages():
@@ -37,7 +39,7 @@ def extract_deleted_messages():
 							count_n=0
 							tel = tel.split("getMediaMessagesTailCursor:")[1].split("@")[0]
 							for n in tel:
-								if n.isdigit(): 
+								if n.isdigit():
 									if count_n == 10 and num != False:
 										tel_d = tel
 									count_n+=1
@@ -46,8 +48,8 @@ def extract_deleted_messages():
 									num=False
 							if tel_d and num:
 								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
-								texts.append(text)
-								print text
+								if text not in texts:
+									texts.append(text)
 						elif "stanzaKey" in tel:
 							num=True
 							count_n=0
@@ -63,25 +65,29 @@ def extract_deleted_messages():
 							if tel_d and num:
 								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
 								print text
-								texts.append(text)
+								if text not in texts:
+									texts.append(text)
 						else:
-							num=True
-							count_n=0
-							tel = tel.split(" ")
-							l_tel = len(tel)
-							tel = tel[l_tel-2].split("@")[0]
-							for n in tel:
-								if n.isdigit(): 
-									if count_n == 10 and num != False:
-										tel_d = tel
-									count_n+=1
-									continue
-								else:
-									num=False
-							if tel_d and num:
-								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
-								print text
-								texts.append(text)
+							if line not in texts:
+								texts.append(line)
+#							num=True
+#							count_n=0
+#							tel = tel.split(" ")
+#							l_tel = len(tel)
+#							tel = tel[l_tel-2].split("@")[0]
+#							print tel
+#							for n in tel:
+#								if n.isdigit(): 
+#									if count_n == 10 and num != False:
+#										tel_d = tel
+#									count_n+=1
+#									continue
+#								else:
+#									num=False
+#							if tel_d and num:
+#								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
+#								print text
+#								texts.append(text)
 				if "msgstore/backupdb\n" in line:
 					time_backup = line.split(" ")
 					time_backup = time_backup[0]+" "+time_backup[1]
@@ -180,8 +186,7 @@ def get_whatsappDB(db):
 	try:
 		for directory in config.directory:
 			a = config.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
-			print a
-			Extract = config.adb_comm+" pull "+directory+db+"  WhatsappDB/"+db
+			Extract = config.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
 			command = os.popen(a)
 			command=command.read().replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
