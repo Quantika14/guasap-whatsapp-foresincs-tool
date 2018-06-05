@@ -94,32 +94,36 @@ def popup():
 	label_root = True
 
 def whatsapp_deb(root, option):
-	en,out,err=os.popen3(modules.config.adb_comm+" shell ls data")
-	err = err.read()
-	if "device unauthorized" in err:
-		os.popen(modules.config.adb_comm+" kill-server")
-		os.popen(modules.config.adb_comm+" start-server")
-		print "Please connect your Android device with USB Debugging enabled:"
-		os.popen(modules.config.adb_comm+" wait-for-device")
-	elif "error: device" in err:
-		print """[ES]No se ha encontrado ningún dispositivo conectado al ordenador. Por favor conecte uno para realizar las funcionalidades de la aplicación. Gracias.
-[IN]No such device, please check the conection and restart app"""
-		option = 0
-	elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err:
-		print "adb not installed, please install and restart app "
-		option = 0
-	if option == 1:
-		info_root_f(root)
-	elif option == 2:
-		whatsapp_root(root)
-	elif option == 3:
-		whatsapp_mm(root)
-	elif option == 4:
-		whatsapp_db_f(root)
-	elif option == 5:
-		whatsapp_db_root(root)
-	elif option == 6:
-		whatsapp_log_f(root)
+	try:
+		en,out,err=os.popen3(modules.config.adb_comm+" shell ls data")
+		err = err.read()
+		if "device unauthorized" in err:
+			os.popen(modules.config.adb_comm+" kill-server")
+			os.popen(modules.config.adb_comm+" start-server")
+			print "Please connect your Android device with USB Debugging enabled:"
+			os.popen(modules.config.adb_comm+" wait-for-device")
+		elif "error: device" in err:
+			print """[ES]No se ha encontrado ningún dispositivo conectado al ordenador. Por favor conecte uno para realizar las funcionalidades de la aplicación. Gracias.
+	[IN]No such device, please check the conection and restart app"""
+			option = 0
+		elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err:
+			print "[ES]ADB no instalado o no encontrado, instala o configura bien la ruta en modules/config.py Var:adb_l/adb_w"
+			print "[IN]Adb not installed or not found, please install or configure path on modules/config.py Var:adb_l/adb_w"
+			option = 0
+		if option == 1:
+			info_root_f(root)
+		elif option == 2:
+			whatsapp_root(root)
+		elif option == 3:
+			whatsapp_mm(root)
+		elif option == 4:
+			whatsapp_db_f(root)
+		elif option == 5:
+			whatsapp_db_root(root)
+		elif option == 6:
+			whatsapp_log_f(root)
+	except Exception as e:
+		print "[ERROR] "+str(e)
 
 def whatsapp_root(root):
 	option , version, marca = check_data()
