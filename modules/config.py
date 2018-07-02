@@ -27,10 +27,10 @@ banner = """
                                                           |_|      |___/ 
 """
 
-##COMANDOS WINDOWS
+##Ruta ADB WINDOWS/PATH ADB WIN
 adb_w="c:\\adb\\adb"
 
-##COMANDOS LINUX
+##Ruta ADB Linux/PATH ADB LIN
 adb_l="adb"
 
 ##GLOBAL
