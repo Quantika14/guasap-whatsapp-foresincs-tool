@@ -77,8 +77,10 @@ def check_root():
 	return list_root_info, root_posibility
 
 def check_magisk():
-	a = modules.config.adb_comm+" shell cd data/adb && ls"
+	a = modules.config.adb_comm+" shell cd data/data/adb && ls"
 	a = os.popen(a).read()
+	b = modules.config.adb_comm+" shell cd data/adb && ls"
+	b = os.popen(a).read()
 	if "magisk" in a:
 		print "Find root file"
 		print "App: Magisk"
