@@ -71,6 +71,8 @@ def check_root():
 		magisk=check_magisk()
 		if magisk:
 			list_root_info.append(magisk)
+		if len(list_root_info)<2:
+			print "No se han encontrado evidencias de root/Don't find root evidences"
 #	list_root_info.append(root_posibility)
 	return list_root_info, root_posibility
 
