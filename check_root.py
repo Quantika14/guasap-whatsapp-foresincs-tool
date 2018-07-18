@@ -81,7 +81,7 @@ def check_magisk():
 	a = os.popen(a).read()
 	b = modules.config.adb_comm+" shell cd data/adb && ls"
 	b = os.popen(a).read()
-	if "magisk" in a:
+	if "magisk" in a or "magisk" in b:
 		print "Find root file"
 		print "App: Magisk"
 		print "Directory: data/adb\n"
