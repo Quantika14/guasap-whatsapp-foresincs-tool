@@ -11,12 +11,12 @@ def check_root():
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
-	if root != "No adb installed" and root_posibility:
+	if root != "No adb installed":
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
 			print "Checking root... \n"
-			if "No such file" not in a and "sh: 1: adb:" not in a and root_posibility:
+			if "No such file" not in a and "sh: 1: adb:" not in a:
 				a = a.replace("\r","").split("\n")
 				for apk in a:
 					#A partir de esta línea, lee el archivo "apks_to_root.txt" y compara los nombre de las aplicaciones con el de los paquetes y/o aplicaciones en la carpeta de Descargas.
