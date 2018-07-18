@@ -68,11 +68,24 @@ def check_root():
 								list_root_info.append(name_d)
 								count+=1
 			print "Change directory..."
+		magisk=check_magisk()
+		if magisk:
+			list_root_info.append(magisk)
 #	list_root_info.append(root_posibility)
 	return list_root_info, root_posibility
-#
+
+def check_magisk():
+	a = modules.config.adb_comm+" shell cd data/adb && ls"
+	a = os.popen(a).read()
+	if "magisk" in a:
+		print "Find root file"
+		print "App: Magisk"
+		print "Directory: data/adb\n"
+		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
+	else:
+		return False
+
 #Aquí comprobamos a través de un comando si el dispositivo dispone de permisos de root.
-#
 def check_su():
 	global root_posibility
 	command = modules.config.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
