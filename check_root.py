@@ -11,12 +11,12 @@ def check_root():
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
-	if root != "No adb installed" and root_posibility:
+	if root != "No adb installed":
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
 			print "Checking root... \n"
-			if "No such file" not in a and "sh: 1: adb:" not in a and root_posibility:
+			if "No such file" not in a and "sh: 1: adb:" not in a:
 				a = a.replace("\r","").split("\n")
 				for apk in a:
 					#A partir de esta línea, lee el archivo "apks_to_root.txt" y compara los nombre de las aplicaciones con el de los paquetes y/o aplicaciones en la carpeta de Descargas.
@@ -68,11 +68,28 @@ def check_root():
 								list_root_info.append(name_d)
 								count+=1
 			print "Change directory..."
+		magisk=check_magisk()
+		if magisk:
+			list_root_info.append(magisk)
+		if len(list_root_info)<2:
+			print "No se han encontrado evidencias de root/Don't find root evidences"
 #	list_root_info.append(root_posibility)
 	return list_root_info, root_posibility
-#
+
+def check_magisk():
+	a = modules.config.adb_comm+" shell cd data/data/adb && ls"
+	a = os.popen(a).read()
+	b = modules.config.adb_comm+" shell cd data/adb && ls"
+	b = os.popen(a).read()
+	if "magisk" in a or "magisk" in b:
+		print "Find root file"
+		print "App: Magisk"
+		print "Directory: data/adb\n"
+		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
+	else:
+		return False
+
 #Aquí comprobamos a través de un comando si el dispositivo dispone de permisos de root.
-#
 def check_su():
 	global root_posibility
 	command = modules.config.adb_comm+" shell su 0 ls /data/data/com.whatsapp"

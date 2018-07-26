@@ -23,3 +23,4 @@ dr.fone root || none ||not apk
 weaksauce || none ||WeakSauce-1.0.1.apk
 supersu pro root || none ||supersu-pro.apk
 superuser x || none ||Superuser X Free Root_vL 107_apkpure.com.apk
+magisk || magisk_debug || magisk
