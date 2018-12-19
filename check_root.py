@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
+
 import modules.config, modules.functions, os
 from subprocess import Popen, PIPE, STDOUT
+from Tkinter import *
 
 root_posibility=False
 
 #A partir de esta línea comenzamos a verificar si el dispositivo está rooteado.
-def check_root():
+def check_root(pop_wait):
 	root=check_su()
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
+		mensaje_deb = Label(pop_wait, text="Buscando aplicaciones que requieren de Root...")
+		mensaje_deb.place(x=20,y=80)
+		pop_wait.update()
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
@@ -68,12 +73,12 @@ def check_root():
 								list_root_info.append(name_d)
 								count+=1
 			print "Change directory..."
-		magisk=check_magisk()
-		if magisk:
-			list_root_info.append(magisk)
-		if len(list_root_info)<2:
-			print "No se han encontrado evidencias de root/Don't find root evidences"
+	magisk=check_magisk()
+	if magisk:
+		list_root_info.append(magisk)
 #	list_root_info.append(root_posibility)
+	if len(list_root_info)<2:
+		print "No se han encontrado evidencias de root."
 	return list_root_info, root_posibility
 
 def check_magisk():

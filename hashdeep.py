@@ -1,11 +1,11 @@
-"""
-Build recursive hash of files in directory tree in hashdeep format.
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
 
-"""
 import os, time
 import os.path as osp
 import hashlib
 import modules.config, modules.functions
+from Tkinter import *
 
 def write(text):
     """ helper for writing output, as a single point for replacement """
@@ -35,8 +35,9 @@ def check_directory():
 
 def pull_media(directory):
 	pull = modules.config.adb_comm+" pull "+directory+"WhatsApp/Media Whatsapp_Extracted_Media/"
+	a = os.popen(pull)
 	print pull
-	os.popen(pull)
+	print a.read()
 
 def get_subdirectoris(directory):
 	ls_recursi = modules.config.adb_comm+" shell ls -R "+directory+"WhatsApp/Media"
@@ -59,7 +60,7 @@ def get_mdinfo(path, i):
 		hash_ = os.popen(md5).read()
 		return name, hash_.split(" ")[0]
 
-def extract_mm():
+def extract_mm(pop_wait):
 	md5_original=list()
 	md5_cloned=list()
 	files=list()
@@ -70,6 +71,21 @@ def extract_mm():
 	directory = check_directory()
 	pull_media(directory)
 
+	# --- /helpers ---
+
+#	write("""\
+#	%%%% HASH_CHECK
+#	%%%% size,sha256,filename
+#	##
+#	## Clone media hash check
+#	##""")
+
+	mensaje_deb = Label(pop_wait, text="Creando hash y comparando...")
+	mensaje_deb.place(x=20,y=80)
+	pop_wait.update()
+	mensaje_deb = Label(pop_wait, text="(Este proceso varia su duracion en base a los archivos multimedia)")
+	mensaje_deb.place(x=20,y=80)
+	pop_wait.update()
 
 	PATH = 'Whatsapp_Extracted_Media/'
 	""" Clone media data check """
@@ -77,11 +93,19 @@ def extract_mm():
 		for fpath in [osp.join(path, f) for f in files]:
 			md5 = filehash(fpath)
 			name = osp.relpath(fpath, PATH)
-			print "---------------------"
-			print "MD5 [>] "+str(md5)
-			print "Path [>] "+str(name)
+#			print "---------------------"
+#			print "MD5 [>] "+str(md5)
+#			print "Path [>] "+str(name)
 			md5_original.append((name,md5))
 	print "Finish hash cloned..."
+
+#	print '\n'
+#	write("""\
+#	%%%% HASH_CHECK
+#	%%%% size,sha256,filename
+#	##
+#	## Original media hash check
+#	##""")
 
 	ls=get_subdirectoris(directory)
 	ls=ls.replace("\r", "").split("\n")
@@ -114,9 +138,9 @@ def extract_mm():
 		for i in range(len(directory)-1):
 			name, md5 = get_mdinfo(path, directory[i])
 			md5_cloned.append((name,md5))
-			print "---------------------"
-			print "MD5 [>] "+str(md5)
-			print "Path [>] "+str(name)
+#			print "---------------------"
+#			print "MD5 [>] "+str(md5)
+#			print "Path [>] "+str(name)
 	print "Finish hash origin..."
 	print "Comparing..."
 	for i in range(len(md5_cloned)):

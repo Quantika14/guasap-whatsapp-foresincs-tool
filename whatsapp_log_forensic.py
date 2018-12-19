@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import modules.config, modules.functions
+from Tkinter import *
 
-def extract_log():
+def extract_log(pop_wait):
 	#Create directory
 	modules.functions.create_dir_log()
 	#Extract logs names
@@ -13,6 +14,9 @@ def extract_log():
 			pass
 		else:
 			#Extract logs
+			mensaje_deb = Label(pop_wait, text="Logs extraidos, analizando...")
+			mensaje_deb.place(x=20,y=80)
+			pop_wait.update()
 			log = modules.functions.get_whatsappLog(log)
 			#Decompress gz
 			if ".gz" in log:

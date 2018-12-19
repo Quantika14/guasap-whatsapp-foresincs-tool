@@ -16,7 +16,8 @@ def analyze_db():
 		if len(row_date)>10:
 			row_date = row_date[:len(row_date)-3]
 		row_date=datetime.datetime.fromtimestamp(int(row_date)).strftime('%Y-%m-%d %H:%M:%S')
-		text = "Number phone deleted[>] "+ str(str(row[1]).split("@")[0]) + "\nTimestamp [>] "+row_date
+		text = "Numero de telefono de whatsapp borrado [>] "+ str(str(row[1]).split("@")[0]) + "\nTimestamp [>] "+row_date
+		print text
 		rows.append(text)
 
 	cursor.close()
