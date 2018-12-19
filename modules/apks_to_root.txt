@@ -22,5 +22,6 @@ oneclickroot || none ||OneClickRoot.apk
 dr.fone root || none ||not apk
 weaksauce || none ||WeakSauce-1.0.1.apk
 supersu pro root || none ||supersu-pro.apk
-superuser x || none ||Superuser X Free Root_vL 107_apkpure.com.apk
-magisk || magisk_debug || magisk
+superuser x || none ||Superuser X Free Root_vL 107_apk
+rom manager ||none ||rom-manager-5-5-3-7-en-android.apk
+SCR Screen Recorder Pro ||none || scr-screen-recorder-pro-1.0.5.apk
