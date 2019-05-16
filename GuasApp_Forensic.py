@@ -14,7 +14,7 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #VERSION: 1.1
 #********************************************
 
-import whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
+import parser_db, whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
 
 from Tkinter import *
 import os, time, socket, requests
@@ -281,6 +281,13 @@ def whatsapp_db_root(root, pop_wait):
 	mensaje_deb.place(x=20,y=60)
 	pop_wait.update()
 	list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
+	# adding last Trello tasks
+	mensaje_num = Label(pop_wait, text="Obteniendo estadísicas de mensajes...")
+	mensaje_num.place(x=20,y=100)
+	pop_wait.update()
+	total_messages, byConversation_messages = whatsapp_db.count_messages(pop_wait)
+	break_id, real_id, removed_id = whatsapp_db.detect_breakID(total_messages)
+	# end
 	add_report(rows, 5)
 	label_root = True
 	reloadd(root)
