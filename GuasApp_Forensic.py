@@ -298,7 +298,7 @@ def whatsapp_db_root(root, pop_wait):
 	# end Trello tasks
 # Begin comments for message analytics report while the final workflow is under construction:
 	# add_report(rows, 5)
-# end "for offline development"
+# end "for message analytics"
 	label_root = True
 	reloadd(root)
 
