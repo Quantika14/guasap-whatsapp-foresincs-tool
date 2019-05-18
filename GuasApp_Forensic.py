@@ -277,11 +277,11 @@ def whatsapp_db_f(root, pop_wait):
 def whatsapp_db_root(root, pop_wait):
 	global list_dbs
 	global label_root
-# commented for offline development:
-	# mensaje_deb = Label(pop_wait, text="Extrayendo base de datos descifrada...")
-	# mensaje_deb.place(x=20,y=60)
-	# pop_wait.update()
-	# list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
+# Begin comments for offline development (using db files from another device (require one for root checker)):
+	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos descifrada...")
+	mensaje_deb.place(x=20,y=60)
+	pop_wait.update()
+	list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
 # end "for offline development"
 	# Adding last Trello tasks
 	mensaje_num = Label(pop_wait, text="Obteniendo estadísticas de mensajes...")
@@ -295,8 +295,8 @@ def whatsapp_db_root(root, pop_wait):
 	# differences between these 
 	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
 	add_report(msg_analytics, 5)
-	# end
-# commented for offline development:
+	# end Trello tasks
+# Begin comments for message analytics report while the final workflow is under construction:
 	# add_report(rows, 5)
 # end "for offline development"
 	label_root = True

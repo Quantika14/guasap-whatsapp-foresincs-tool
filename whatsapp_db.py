@@ -74,8 +74,10 @@ def count_messages(pop_wait):
 	groups_members = {}
 	# Check the total of messages
 	for jid_msg in conn.execute('SELECT key_remote_jid FROM messages'):
+		if jid_msg[0] == "-1":
+			continue
 		total_msg += 1
-		# Check ff the "key_remote_jid" belongs to a group
+		# Check if the "key_remote_jid" belongs to a group
 		for group in conn.execute('SELECT subject FROM chat_list WHERE key_remote_jid=?', jid_msg):
 			# If is a group
 			if group[0] != None:
