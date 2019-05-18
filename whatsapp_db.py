@@ -70,26 +70,35 @@ def count_messages(pop_wait):
 	pop_wait.update()
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')	
 	total_msg = 0
-	byConversation_messages={}
+	byConversation_messages = {}
+	groups_members = {}
+	# Check the total of messages
 	for jid_msg in conn.execute('SELECT key_remote_jid FROM messages'):
 		total_msg += 1
-		peer = str(jid_msg[0]).replace("@s.whatsapp.net","")
+		# Check ff the "key_remote_jid" belongs to a group
+		for group in conn.execute('SELECT subject FROM chat_list WHERE key_remote_jid=?', jid_msg):
+			# If is a group
+			if group[0] != None:
+				peer = "Group " + group[0]
+				# Check if the members belonging a target group have been retrieved yet
+				if group[0] not in groups_members:
+					groups_members[group[0]] = modules.functions.get_members(jid_msg)
+			# If is a single user we clean garbage chars
+			else:
+				peer = "User " + modules.functions.clean_user(jid_msg[0])
 		# Dict with number of messages with peers removing unnecessary chars 
-		# i.e: ['phone_number' : 3 , 'phone_number': 50, 'phone_number': 24]
+		# i.e: {'phone_number' : 3 , 'phone_number': 50, 'phone_number': 24}
 		if peer in byConversation_messages:
 			byConversation_messages[peer] += 1
 		else:
 			byConversation_messages[peer] = 1
 	conn.close()
-	print "\nNúmero de mensajes totales: \n\t" ,total_msg
-	print "\nNúmero de mensajes por conversacion: \n\t"
-	print('\n'.join("{}: {}".format(conversation, num_msg) for conversation, num_msg in byConversation_messages.items()))
-	return total_msg, byConversation_messages
+	return total_msg, byConversation_messages, groups_members
 
 def detect_breakID(total_msg):
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')
 	cursor = conn.cursor()
-	# Retrieved the first id in whatsapp db, build a list filled with contiguous IDs for later compare between them.
+	# Once retrieved the first id in whatsapp db, build a list filled with contiguous IDs for later compare between them.
 	# i.e:
 	# 	first_id = 14
 	# 	adjacents_id_list will be: [ 14, 15, 16, 17, ...]
@@ -106,6 +115,4 @@ def detect_breakID(total_msg):
 	conn.close()
 	# a list with the removed _id message in whatsapp database
 	removed_id = [id for id in adjacents_id_list if id not in msg_id_list]
-
-	print "\nID eliminados: \n\t", removed_id
-	return adjacents_id_list, msg_id_list, removed_id
+	return removed_id
