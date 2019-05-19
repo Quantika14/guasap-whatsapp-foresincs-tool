@@ -371,6 +371,30 @@ def clean_user(peer):
 	user = str(peer[2:]).replace("@s.whatsapp.net","")
 	return user
 
+# Parsing important data from msgstore.db structure header (first 100 bytes of *.db file) to try restore deleted messages
+def db_head_parser(db):
+	# In the SQLite official site the are stored the specifications doc 
+	# with the offset in the header of sqlite file about the data stored and lenght (offset - n bytes)
+	db_info = []
+	db_dump = open(db, "rb")
+	db_dump.seek(16)
+	page_size_raw = db_dump.read(2)
+	db_dump.seek(28)
+	number_pages_raw = db_dump.read(4)
+	db_dump.seek(32)
+	first_trunk_page_raw = db_dump.read(4)
+	db_dump.seek(96)
+	db_ver_raw = db_dump.read(4)
+	# Converting hex to decimal
+	first_trunk_page = int(first_trunk_page_raw.encode("hex"), 16)
+	db_ver = int(db_ver_raw.encode("hex"), 16)
+	page_size = int(page_size_raw.encode("hex"), 16)
+	number_pages = int(number_pages_raw.encode("hex"), 16)
+	db_info.extend((page_size, number_pages, first_trunk_page, db_ver))
+
+	print db_info
+
+
 def create_report(t, list_dbs, info_root, whatsapp_log):
 	text_final="Date of system: "+ str(t)+"\n"
 	command = config.adb_comm+" shell date"

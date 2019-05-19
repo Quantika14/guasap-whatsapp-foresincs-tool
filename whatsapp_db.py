@@ -95,6 +95,7 @@ def count_messages(pop_wait):
 		else:
 			byConversation_messages[peer] = 1
 	conn.close()
+	modules.functions.db_head_parser('WhatsappDB/msgstore.db')
 	return total_msg, byConversation_messages, groups_members
 
 def detect_breakID(total_msg):
