@@ -14,7 +14,7 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #VERSION: 1.1
 #********************************************
 
-import whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
+import parser_db, whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
 
 from Tkinter import *
 import os, time, socket, requests
@@ -277,11 +277,28 @@ def whatsapp_db_f(root, pop_wait):
 def whatsapp_db_root(root, pop_wait):
 	global list_dbs
 	global label_root
+# Begin comments for offline development (using db files from another device (require one for root checker)):
 	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos descifrada...")
 	mensaje_deb.place(x=20,y=60)
 	pop_wait.update()
 	list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
-	add_report(rows, 5)
+# end "for offline development"
+	# Adding last Trello tasks
+	mensaje_num = Label(pop_wait, text="Obteniendo estadísticas de mensajes...")
+	mensaje_num.place(x=20,y=100)
+	pop_wait.update()
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(pop_wait)
+	removed_id = whatsapp_db.detect_breakID(total_messages)
+	msg_analytics = []
+	# Appending the msg analytics of each extraction for in a future will be able
+	# to do a comparison among Whatsapp backup DBs and create knowledge from the 
+	# differences between these 
+	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
+	add_report(msg_analytics, 5)
+	# end Trello tasks
+# Begin comments for message analytics report while the final workflow is under construction:
+	# add_report(rows, 5)
+# end "for message analytics"
 	label_root = True
 	reloadd(root)
 
@@ -297,12 +314,16 @@ def add_report(data, option):
 		text_final+= modules.config.css
 		text_final+="<h1>Guasap Forensic Report</h1><h2>QK14</h2>"
 		first_add=False
+	#Extrae la version de Android
 	command = modules.config.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
+	#Ejecuta los comandos para extraer version
 	en,android_v,err = os.popen3(command)
 	en,marca,err = os.popen3(command2)
+
 	android_v=android_v.read()
 	marca=marca.read()
+
 	if android_v!="" and android_v!="\r\n":
 		if option == 0:
 			text_final+="<p class='cabecera'><b>Root check</b></p>"
@@ -316,10 +337,14 @@ def add_report(data, option):
 			text_final+="<p class='cabecera'><b>Extracted media</b></p>"
 		t = time.strftime('%A %B, %d %Y %H:%M:%S')
 
+		#Crea en el informe fecha y hora de Android
 		text_final+="<h3> Date of system: "+ str(t)+"</h3>"
+		#Obtiene la fecha y hora
 		command = modules.config.adb_comm+" shell date"
+
 		en,time_device,err = os.popen3(command)
 		time_device=time_device.read()
+
 		if ":" not in time_device:
 			text_final+="Device Not found \n\n"
 		else:
@@ -332,6 +357,7 @@ def add_report(data, option):
 	if option == 0:
 		text_final+="""<p class='rootinfo'>"""
 		divo=True
+
 		for i in range(len(info_root)):
 			if i == 0:
 				if info_root[i]=="Root Device":
@@ -345,6 +371,7 @@ def add_report(data, option):
 				else:
 					text_final+= "Root files: "+info_root[i]["file"]+", "+"Directory: "+info_root[i]["directory"]+", App used to root:"+info_root[i]["App"]+"<br>"
 		text_final+="</div>"
+
 		commandd = modules.config.adb_comm+" shell pm list packages -f"
 		en,packages,err = os.popen3(commandd)
 		packages=packages.read()
@@ -429,7 +456,7 @@ function listar_log_"""+str(clase_list)+"""(){
 					divo=True
 				db_v = dbs["name"].split(".")
 				db_v = db_v[len(db_v)-1]
-				text_final += "<p class='aversion'><b> DataBase cript version</b>: "+db_v+"</p>"
+				text_final += "<p class='aversion'><b> Encrypt DB version</b>: "+db_v+"</p>"
 				text_final += "<p class='hash'>------------------------"+"<br>"
 				text_final += "-------  <b>Cloned</b>  ------"+"<br>"
 				text_final+="MD5 [>] "+str(dbs["hash_d"].split(" ")[0])+"<br>"
@@ -467,10 +494,25 @@ function listar_log_"""+str(clase_list)+"""(){
 		if divo:
 			text_final+="</div>"
 			text_final+='<a id="boton_dbs_root" href="#" onclick="javascript:listar_dbs_root();return false">Show all</a>'
-		text_final += "<p class='subcabecera'>Deleted Messages</p>"
-		for row in data:
-			text_final += """<p class='messages'>"""+row.replace("Numero de telefono de whatsapp borrado", "WhatsApp phone number deleted").replace("\nTimestamp","; Timestamp")+"<br>"
-		text_final+="</p>"
+		#text_final += "<p class='subcabecera'>Deleted Messages</p>"
+		# for row in data:
+		# 	text_final += """<p class='messages'>"""+row.replace("Numero de telefono de whatsapp borrado", "WhatsApp phone number deleted").replace("\nTimestamp","; Timestamp")+"<br>"
+		# text_final+="</p>"
+		# Adding message analytics:
+		# TODO: Create a new window that can offer  interaction to select or order messages by 
+		# groups, users, dates,  etc.  and show message analysis customized by users. 
+		text_final += "<p class='subcabecera'>Messages Analytics</p>"
+		for elem in data:
+			text_final+="<b>Total messages: </b>"+str(elem[0][0])+"<br>"
+			text_final+="<b>Messages by conversations: </b>"+"<br>"
+			for conv, msg_num in elem[1][0].items():
+				text_final+=conv+": "+str(msg_num)+"<br>"
+			text_final+="<b>Groups members: </b><br>"
+			for group, members in elem[3][0].items():
+				text_final+=group+" Members: "
+				for member in members:
+					text_final+="&emsp;"+member+"<br>"
+			text_final+="<b>Deleted messages: </b>"+str(elem[2][0])+"<br>"
 	elif option == 6:
 		md5_cloned=data[0]
 		md5_original=data[1]
