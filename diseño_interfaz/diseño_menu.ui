@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>60</y>
+      <width>71</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/imagen/Qk_imagen.PNG&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>50</y>
+      <width>401</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;PERITOS INFORMÁTICOS | INVESTIGADORES&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;______________________________________________&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;WWW.QUÁNTIKA14.COM&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="encontrar_root">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>160</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Find ROOT in the device </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rootear">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>210</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Root device</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="multimedia">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>260</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Extract WhatsApp multimedia</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="base_datos">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>310</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Extract Encript Data Base</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="analizar_bbdd">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>360</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Extract/Analize Data Base (Only root)</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="log">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>400</y>
+      <width>421</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Extract/Analize Whatsapp log (Only root)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>440</y>
+      <width>481</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;AYUDANOS A ENCONTRAR MENORES DESAPARECIDOS CON SOLO 1 EURO AL MES&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;https://www.teaming.net/ayudaabuscaramenoresdesaparecidosatravesdelastecnologias- &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="diseño.qrc"/>
+ </resources>
+ <connections/>
+</ui>
