@@ -2,8 +2,9 @@ from menu import *
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-        self.setupUi(self) 
-        #self.pushButton.clicked.connect(self.actualizar)
+        self.setupUi(self)
+        self.analizar_bbdd.setEnabled(False)
+        self.log.setEnabled(False)
         self.encontrar_root.clicked.connect(self.boton_encontrar)
         self.rootear.clicked.connect(self.boton_root)
         self.multimedia.clicked.connect(self.boton_multimedia)
@@ -11,7 +12,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.analizar_bbdd.clicked.connect(self.boton_analizar_bbdd)
         self.log.clicked.connect(self.boton_log)
        # las funciones no deben tener el mismo nombre que el elemento 
-        #self.boton_modificado.clicked.connect(self.modificacion)
       
     def boton_encontrar(self):
         self.encontrar_root.setStyleSheet("background-color: red")

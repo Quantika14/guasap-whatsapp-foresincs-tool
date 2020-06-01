@@ -3,7 +3,9 @@
 
 import modules.config, modules.functions, os
 from subprocess import Popen, PIPE, STDOUT
-from Tkinter import *
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 
 root_posibility=False
 
@@ -20,8 +22,11 @@ def check_root(pop_wait):
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
-			print "Checking root... \n"
+			print ("Checking root... \n")
+			print("esto es a")
+			print(a)
 			if "No such file" not in a and "sh: 1: adb:" not in a:
+				print("no encontrado")
 				a = a.replace("\r","").split("\n")
 				for apk in a:
 					#A partir de esta línea, lee el archivo "apks_to_root.txt" y compara los nombre de las aplicaciones con el de los paquetes y/o aplicaciones en la carpeta de Descargas.
@@ -33,14 +38,15 @@ def check_root(pop_wait):
 							else:
 								if lin in apk:
 									#A partir de esta línea nos indica que se ha localizado una aplicación  en la carpeta de Descargas que permite realizar un rooteo.
-									print "Find root file"
-									print "App: "+line[0].title() +" ---> "+apk 
-									print "Directory: "+ directory+"Download/"+"\n"
+									print ("Find root file")
+									print ("App: "+line[0].title() +" ---> "+apk) 
+									print ("Directory: "+ directory+"Download/"+"\n")
 									name_d="dict_"+str(count)
 									name_d={"App":line[0].title(), "file":apk, "directory":directory}
 									list_root_info.append(name_d)
 									count+=1
 			#A partir de esta línea comienza a buscar en todo el dispositivo alguna aplicación que permita realizar el rooteo.
+			#si encuentra por que sigue buscando?
 			for line in open("modules/apks_to_root.txt", "r"):
 				line = line.split("||")
 				for lin in line:
@@ -52,9 +58,9 @@ def check_root(pop_wait):
 						for bpk in b:
 							for li in lin:
 								if li in bpk:
-									print "Find root file"
-									print "App: "+line[0].title() +" ---> Evidence: "+bpk 
-									print "Directory: "+ directory+"\n"
+									print ("Find root file")
+									print ("App: "+line[0].title() +" ---> Evidence: "+bpk) 
+									print ("Directory: "+ directory+"\n")
 									name_d="dict_"+str(count)
 									name_d={"App":line[0].title(), "file":bpk, "directory":directory}
 									list_root_info.append(name_d)
@@ -65,20 +71,20 @@ def check_root(pop_wait):
 						b = b.replace("\r","").split("\n")
 						for bpk in b:
 							if lin in bpk:
-								print "Find root file"
-								print "App: "+line[0].title() +" ---> "+apk
-	 							print "Directory: "+ directory+"Download/"+"\n"
+								print ("Find root file")
+								print ("App: "+line[0].title() +" ---> "+apk)
+								print ("Directory: "+ directory+"Download/"+"\n")
 								name_d="dict_"+str(count)
 								name_d={"App":line[0].title(), "file":bpk, "directory":directory}
 								list_root_info.append(name_d)
 								count+=1
-			print "Change directory..."
+			print ("Change directory...")
 	magisk=check_magisk()
 	if magisk:
 		list_root_info.append(magisk)
 #	list_root_info.append(root_posibility)
 	if len(list_root_info)<2:
-		print "No se han encontrado evidencias de root."
+		print ("No se han encontrado evidencias de root.")
 	return list_root_info, root_posibility
 
 def check_magisk():
@@ -87,9 +93,9 @@ def check_magisk():
 	b = modules.config.adb_comm+" shell cd data/adb && ls"
 	b = os.popen(a).read()
 	if "magisk" in a or "magisk" in b:
-		print "Find root file"
-		print "App: Magisk"
-		print "Directory: data/adb\n"
+		print ("Find root file")
+		print ("App: Magisk")
+		print ("Directory: data/adb\n")
 		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
 	else:
 		return False
@@ -100,34 +106,39 @@ def check_su():
 	command = modules.config.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
 	#p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
 	#output = p.stdout.read()
-	en, output, error=os.popen3(command)
+	process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
+	output, error = process.communicate()
+	out = output.decode('utf-8')
+	err = error.decode('utf-8')
 
-	err = error.read()
-	out = output.read()
+	#en, output, error=os.popen3(command)
+
+	#err = error.read()
+	#out = output.read()
 
 #Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
 	if "sh: 1: adb:" in err or "no se reconoce como un comando" in err:
-		print "No adb installed"
+		print ("No adb installed")
 		root_posibility=False
-		return "No adb installed"
+		return ("No adb installed")
 #Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
 	elif "device unauthorized" in err:
-		print "No debugging actve"
+		print ("No debugging active")
 		root_posibility=False
-		return "No debugging actve"
+		return ("No debugging active")
 #Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
 	elif "error: device" in err:
-		print "No such device..."
+		print ("No such device...")
 		root_posibility=False
 		return "No such device"
 	else:
 #Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
 		if "su: not found" in out:
-			print "No root device..."
+			print ("No root device...")
 			root_posibility=False
 			return "No root device"
 #Nos devolverá este aviso en caso de que el dispositivo esté rooteado
 		else:
-			print "Root Device detect..."
+			print ("Root Device detect...")
 			root_posibility=True
 			return "Root Device"

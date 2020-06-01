@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import modules.config, modules.functions, parser_db, sqlite3
-from Tkinter import *
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 
 def extract_db(pop_wait):
 	count=1
@@ -15,7 +17,7 @@ def extract_db(pop_wait):
 	mensaje_deb.place(x=20,y=80)
 	pop_wait.update()
 	for db in dbs:
-		print "-------*-------"
+		print ("-------*-------")
 		if db=="":
 			pass
 		else:
@@ -27,9 +29,9 @@ def extract_db(pop_wait):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			print "DB extract sucesfully [>] "+str(db)
-			print "Original hash file[>] "+str(hash_origen)
-			print "Cloned file hash [>] "+str(hash_clonado)
+			print ("DB extract sucesfully [>] "+str(db))
+			print ("Original hash file[>] "+str(hash_origen))
+			print ("Cloned file hash [>] "+str(hash_clonado))
 			count+=1
 	return dbs_list
 
@@ -45,7 +47,7 @@ def extract_db_root(pop_wait):
 	mensaje_deb.place(x=20,y=80)
 	pop_wait.update()
 	for db in dbs:
-		print "-------*-------"
+		print ("-------*-------")
 		if db=="":
 			pass
 		else:
@@ -57,9 +59,9 @@ def extract_db_root(pop_wait):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			print "DB extract sucesfully [>] "+str(db)
-			print "Original hash file[>] "+str(hash_origen)
-			print "Cloned file hash [>] "+str(hash_clonado)
+			print ("DB extract sucesfully [>] "+str(db))
+			print ("Original hash file[>] "+str(hash_origen))
+			print ("Cloned file hash [>] "+str(hash_clonado))
 			count+=1
 	rows=parser_db.analyze_db()
 	return dbs_list, rows

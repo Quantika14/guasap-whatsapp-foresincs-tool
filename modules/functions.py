@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import os 
-import config
+
+#daba error al no indicar la ruta absoluta
+from . import config
 import gzip, time, datetime, modules.config, sqlite3
 
-from Tkinter import *
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 
 #FORENSIC FUNCTIONS
 
 def extract_deleted_messages():
 	try:
 		log_list=list()
-		print config.analyze_logs
+		print (config.analyze_logs)
 		for log in config.analyze_logs:
 			texts=list()
 			count = 0
@@ -64,7 +68,7 @@ def extract_deleted_messages():
 									num=False
 							if tel_d and num:
 								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
-								print text
+								print (text)
 								if text not in texts:
 									texts.append(text)
 						else:
@@ -75,7 +79,7 @@ def extract_deleted_messages():
 #							tel = tel.split(" ")
 #							l_tel = len(tel)
 #							tel = tel[l_tel-2].split("@")[0]
-#							print tel
+#							print (tel)
 #							for n in tel:
 #								if n.isdigit(): 
 #									if count_n == 10 and num != False:
@@ -86,12 +90,12 @@ def extract_deleted_messages():
 #									num=False
 #							if tel_d and num:
 #								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
-#								print text
+#								print (text)
 #								texts.append(text)
 				if "msgstore/backupdb\n" in line:
 					time_backup = line.split(" ")
 					time_backup = time_backup[0]+" "+time_backup[1]
-					print "Backup DBs on time [>] "+time_backup
+					print ("Backup DBs on time [>] "+time_backup)
 					times.append(time_backup)
 				if "onGroupInfoFromList/gjid" in line:
 					group_info = line.split(" ")
@@ -115,7 +119,7 @@ def extract_deleted_messages():
 							user_num = user.split("@")[0]
 							users.append(user_num)
 					group = {"creator":num_creator,"date_creation":date_creation,"subject_owner":subject_owner,"subject":subject,"subject_time":subject_time,"users":users}
-					print "Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users)
+					print ("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
 					list_groups.append(group)
 
 				if "network/info" in line:
@@ -131,9 +135,9 @@ def extract_deleted_messages():
 					state_sec = sec_con[1].split(":")[1]
 					extra_sec = sec_con[3].split(":")[1]
 
-					print "Time of change network [>] "+time_con
-					print "Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri
-					print "Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec 
+					print ("Time of change network [>] "+time_con)
+					print ("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
+					print ("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec)
 					con_dict={"time":time_con,"first_change":{"state":state_pri, "name":extra_pri},"second_change":{"state":state_sec, "name":extra_sec}}
 					if con_dict not in con_list:
 						con_list.append(con_dict)
@@ -157,7 +161,7 @@ def extract_deleted_messages():
 						break
 		return log_list
 	except:
-		print config.error_alert[0]
+		print (config.error_alert[0])
 
 def decompress(filename):
 	comprimido=gzip.open(filename, "r");
@@ -174,13 +178,13 @@ def get_whatsappLog(log):
 			command = os.popen(a).read()
 			if "directory" not in command:
 				os.system(a)
-				print 'USB debbuging active...'
+				print ('USB debbuging active...')
 				os.system(Extract)
-				print'Extract whatsapp log...'
+				print('Extract whatsapp log...')
 				return log
-			print 'Change directory...'
+			print ('Change directory...')
 	except :
-		print config.error_alert[0]
+		print (config.error_alert[0])
 
 def get_whatsappDB(db):
 	try:
@@ -191,13 +195,13 @@ def get_whatsappDB(db):
 			command=command.read().replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
 	#			os.system(a)
-				print 'USB debbuging active...'
+				print ('USB debbuging active...')
 				os.system(Extract)
-				print'Extract whatsapp db...'
+				print ('Extract whatsapp db...')
 				return db 
-			print 'Change directory...'
+			print ('Change directory...')
 	except :
-		print config.error_alert[0]
+		print (config.error_alert[0])
 
 def get_whatsappDB_root(db):
 	try:
@@ -208,21 +212,21 @@ def get_whatsappDB_root(db):
 			command=command.read().replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)]:
 	#			os.system(a)
-				print 'USB debbuging active...'
+				print ('USB debbuging active...')
 				os.system(Extract)
-				print'Extract whatsapp db...'
+				print ('Extract whatsapp db...')
 				return db 
-			print 'Change directory...'
+			print ('Change directory...')
 	except :
-		print config.error_alert[0]
+		print (config.error_alert[0])
 
 def set_permission_log(filename):
-	print filename
+	print (filename)
 	command = "chmod 777 WhatsappLOG/"+filename
 	os.system(command)
 
 def set_permission_db(filename):
-	print filename
+	print (filename)
 	command = "chmod 777 WhatsappDB/"+filename
 	os.system(command)
 
@@ -259,30 +263,30 @@ def count_dbs():
 def create_dir_log():
 	try:
 		os.mkdir("WhatsappLOG")
-		print 'The directory was created correctly'
+		print ('The directory was created correctly')
 	except:
-		print 'Verify that the WhatsappLOG directory is created'
+		print ('Verify that the WhatsappLOG directory is created')
 
 def create_dir_db():
 	try:
 		os.mkdir("WhatsappDB")
-		print 'The directory was created correctly'
+		print ('The directory was created correctly')
 	except:
-		print 'Verify that the WhatsappDB directory is created'
+		print ('Verify that the WhatsappDB directory is created')
 
 def create_dir_report():
 	try:
 		os.mkdir("Reports_Whatsapp_Forensic")
-		print 'The directory was created correctly'
+		print ('The directory was created correctly')
 	except:
-		print 'Verify that the Reports directory is created'
+		print ('Verify that the Reports directory is created')
 
 def create_dir_media():
 	try:
 		os.mkdir("Whatsapp_Extracted_Media")
-		print 'The directory was created correctly'
+		print ('The directory was created correctly')
 	except:
-		print 'Verify that the Media directory is created'
+		print ('Verify that the Media directory is created')
 
 
 def get_hash_root(data, option):
@@ -392,7 +396,7 @@ def db_head_parser(db):
 	number_pages = int(number_pages_raw.encode("hex"), 16)
 	db_info.extend((page_size, number_pages, first_trunk_page, db_ver))
 
-	print db_info
+	print (db_info)
 
 
 def create_report(t, list_dbs, info_root, whatsapp_log):
@@ -428,13 +432,13 @@ def create_report(t, list_dbs, info_root, whatsapp_log):
 	f = open (t+'_report_whatsapp_forensic.txt','w')
 	f.write(text_final)
 	f.close()
-	print text_final
+	print (text_final)
 
 def banner():
-	print config.banner
-	print "------------------------------------------------------------------------------"
-	print "[AUTHORS]: Jorge Coronado (aka @JorgeWebsec) | Ramon Bajona"
-	print "[Email]: info@quantika14.com | [Twitter]: @QuantiKa14"
-	print "[Version]: 1.0 | [Date]: 10-10-2017"
-	print "------------------------------------------------------------------------------"
-	print ""
+	print (config.banner)
+	print ("------------------------------------------------------------------------------")
+	print ("[AUTHORS]: Jorge Coronado (aka @JorgeWebsec) | Ramon Bajona")
+	print ("[Email]: info@quantika14.com | [Twitter]: @QuantiKa14")
+	print ("[Version]: 1.0 | [Date]: 10-10-2017")
+	print ("------------------------------------------------------------------------------")
+	print ("")

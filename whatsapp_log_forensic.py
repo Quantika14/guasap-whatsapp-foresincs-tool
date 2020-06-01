@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import modules.config, modules.functions
-from Tkinter import *
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 
 def extract_log(pop_wait):
 	#Create directory
@@ -9,7 +11,7 @@ def extract_log(pop_wait):
 	#Extract logs names
 	logs = modules.functions.count_logs()
 	for log in logs:
-		print "-------*-------"
+		print ("-------*-------")
 		if log=="":
 			pass
 		else:

@@ -5,7 +5,9 @@ import os, time
 import os.path as osp
 import hashlib
 import modules.config, modules.functions
-from Tkinter import *
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 
 def write(text):
     """ helper for writing output, as a single point for replacement """
@@ -36,8 +38,8 @@ def check_directory():
 def pull_media(directory):
 	pull = modules.config.adb_comm+" pull "+directory+"WhatsApp/Media Whatsapp_Extracted_Media/"
 	a = os.popen(pull)
-	print pull
-	print a.read()
+	print (pull)
+	print (a.read())
 
 def get_subdirectoris(directory):
 	ls_recursi = modules.config.adb_comm+" shell ls -R "+directory+"WhatsApp/Media"
@@ -93,13 +95,13 @@ def extract_mm(pop_wait):
 		for fpath in [osp.join(path, f) for f in files]:
 			md5 = filehash(fpath)
 			name = osp.relpath(fpath, PATH)
-#			print "---------------------"
-#			print "MD5 [>] "+str(md5)
-#			print "Path [>] "+str(name)
+#			print ("---------------------")
+#			print ("MD5 [>] "+str(md5))
+#			print ("Path [>] "+str(name)) 
 			md5_original.append((name,md5))
-	print "Finish hash cloned..."
+	print ("Finish hash cloned...")
 
-#	print '\n'
+#	print ('\n')
 #	write("""\
 #	%%%% HASH_CHECK
 #	%%%% size,sha256,filename
@@ -138,20 +140,20 @@ def extract_mm(pop_wait):
 		for i in range(len(directory)-1):
 			name, md5 = get_mdinfo(path, directory[i])
 			md5_cloned.append((name,md5))
-#			print "---------------------"
-#			print "MD5 [>] "+str(md5)
-#			print "Path [>] "+str(name)
-	print "Finish hash origin..."
-	print "Comparing..."
+#			print ("---------------------")
+#			print ("MD5 [>] "+str(md5))
+#			print ("Path [>] "+str(name))
+	print ("Finish hash origin...")
+	print ("Comparing...")
 	for i in range(len(md5_cloned)):
 		for has in md5_original:
 			if has[1] == md5_cloned[i][1]:
-				print "-----------------------"
-				print "-------  Cloned  ------"
-				print "MD5 [>] "+str(md5_cloned[i][1])
-				print "Path [>] "+str(md5_cloned[i][0])
-				print "--------Original-------"
-				print "MD5 [>] "+str(has[1])
-				print "Path [>] "+str(has[0])
+				print ("-----------------------")
+				print ("-------  Cloned  ------")
+				print ("MD5 [>] "+str(md5_cloned[i][1]))
+				print ("Path [>] "+str(md5_cloned[i][0]))
+				print ("--------Original-------")
+				print ("MD5 [>] "+str(has[1]))
+				print ("Path [>] "+str(has[0]))
 #				time.sleep(1)
 	return md5_cloned, md5_original

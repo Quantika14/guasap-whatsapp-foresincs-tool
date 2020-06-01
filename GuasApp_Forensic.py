@@ -16,7 +16,13 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 
 import parser_db, whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
 
-from Tkinter import *
+#importamos subprocess para cambiarlo por el os
+import subprocess
+from subprocess import Popen, PIPE
+
+# poner como un try y except
+# from Tkinter import *
+from tkinter import *
 import os, time, socket, requests
 from time import sleep
 from distutils.version import LooseVersion
@@ -51,8 +57,8 @@ def enviar_licencia(licenci, root):
 	inten = True
 	licencia = "true"
 	root.destroy()
-	print "[INFO][>] Licencia GNU V.3. Recuerde que siempre podrá contribuir con la causa aportando mejoras a la aplicación desde el repositorio de GITHUB."
-	print "[INFO][>] ----------------------------------> WWWW.QUANTIKA14.COM/GUASAP-FORENSIC"
+	print ("[INFO][>] Licencia GNU V.3. Recuerde que siempre podrá contribuir con la causa aportando mejoras a la aplicación desde el repositorio de GITHUB.")
+	print ("[INFO][>] ----------------------------------> WWWW.QUANTIKA14.COM/GUASAP-FORENSIC")
 
 def info_root_f(root, pop_wait):
 	global info_root
@@ -105,6 +111,11 @@ def popup():
 	add_report(info_root, 0)
 
 def whatsapp_deb(root, option):
+	#prueba de si la opcion es la 2
+	#comprobar que esto sea correcto
+	if option==2:
+		whatsapp_root(root)
+	
 	if option != 2:
 		pop_wait = Toplevel()
 		icon = PhotoImage(file=os.path.join("images",'ico.gif'))
@@ -115,55 +126,81 @@ def whatsapp_deb(root, option):
 		mensaje = Label(pop_wait, text="Espere mientras se realiza el proceso")
 		mensaje.place(x=20,y=40)
 		pop_wait.update()
-	en,out,err=os.popen3(modules.config.adb_comm+" shell ls data")
-	err = err.read()
-	#WIN LIN
-	if "device unauthorized" in err:
-		os.popen(modules.config.adb_comm+" kill-server")
-		os.popen(modules.config.adb_comm+" start-server")
-		print "Please connect your Android device with USB Debugging enabled:"
-		mensaje_deb = Label(pop_wait, text="Por favor, conecte el modo depuración en la pantalla de su dispositivo")
-		mensaje_deb.place(x=20,y=60)
-		pop_wait.update()
-		os.popen(modules.config.adb_comm+" wait-for-device")
-		mensaje_deb.destroy()
-	#WIN LIN
-	elif "error: device" in err:
-		print "No such device, please check the conection and restart app"
-		mensaje_deb = Label(pop_wait, text="No se encuentra ningun dispositivo, por favor,")
-		mensaje_deb.place(x=20,y=60)
-		mensaje_deb2 = Label(pop_wait, text="compruebe la conexion y prueba de nuevo")
-		mensaje_deb2.place(x=20,y=80)
-		pop_wait.update()
-		time.sleep(1)
-		option = 0
-	#LIN									WIN
-	elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
-		print "adb not installed, please install and restart app "
-		mensaje_deb = Label(pop_wait, text="Adb no se encuentra en el ordenador, por favor,")
-		mensaje_deb.place(x=20,y=60)
-		mensaje_deb2 = Label(pop_wait, text="instala adb y prueba de nuevo")
-		mensaje_deb2.place(x=20,y=80)
-		pop_wait.update()
-		time.sleep(1)
-		option = 0
-	if option == 1:
-		info_root_f(root, pop_wait)
-	elif option == 2:
-		whatsapp_root(root)
-	elif option == 3:
-		whatsapp_mm(root, pop_wait)
-	elif option == 4:
-		whatsapp_db_f(root, pop_wait)
-	elif option == 5:
-		whatsapp_db_root(root, pop_wait)
-	elif option == 6:
-		whatsapp_log_f(root, pop_wait)
-	elif option == 0:
-		reloadd(root)
+	
+	#cambiar si el adb no se encuentra dejar que el programa lo busque
+	try:
+		process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
+		out, err = process.communicate()
+		out = out.decode('utf-8')
+		err = err.decode('utf-8')
+		#comprobamos que el adb se encuentre en el sistema el fichero que contiene adb
+		adb_instalado = True
+			
+	except:
+			print("no se ha encontrado el archivo adb en el sistema")
+			print("por favor instalo para que podamos continuar")
+
+	if adb_instalado == True:
+		print("hemos encontrado el fichero adb asi que continuamos")
+			
+		#WIN LIN
+		if "Permission denied" in err:
+			print ("Error de permiso")
+			subprocess.call(modules.config.adb_comm+" kill-server")
+			subprocess.call(modules.config.adb_comm+" start-server")
+			print ("Please connect your Android device with USB Debugging enabled:")
+			#no tiene la ventana principal si esta seleccionada la opció 2 por que?
+			mensaje_deb = Label(pop_wait, text="Por favor, conecte el modo depuración en la pantalla de su dispositivo")
+			mensaje_deb.place(x=20,y=60)
+			pop_wait.update()
+			subprocess.call(modules.config.adb_comm+" wait-for-device")
+			mensaje_deb.destroy()
+			print("hasta aqui va")
+		#WIN LIN
+		elif "error: device" in err:
+			print ("No such device, please check the conection and restart app")
+			mensaje_deb = Label(pop_wait, text="No se encuentra ningun dispositivo, por favor,")
+			mensaje_deb.place(x=20,y=60)
+			mensaje_deb2 = Label(pop_wait, text="compruebe la conexion y prueba de nuevo")
+			mensaje_deb2.place(x=20,y=80)
+			pop_wait.update()
+			time.sleep(1)
+			option = 0 
+		#LIN									WIN
+		elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
+			print ("adb not installed, please install and restart app ")
+			mensaje_deb = Label(pop_wait, text="Adb no se encuentra en el ordenador, por favor,")
+			mensaje_deb.place(x=20,y=60)
+			mensaje_deb2 = Label(pop_wait, text="instala adb y prueba de nuevo")
+			mensaje_deb2.place(x=20,y=80)
+			pop_wait.update()
+			time.sleep(1)
+			option = 0
+		if option == 1:
+			print("se llega a la opcion 1")
+			print("este es el valor de root")
+			print(root)
+			info_root_f(root, pop_wait)
+		elif option == 2:
+			whatsapp_root(root)
+		elif option == 3:
+			whatsapp_mm(root, pop_wait)
+		elif option == 4:
+			whatsapp_db_f(root, pop_wait)
+		elif option == 5:
+			whatsapp_db_root(root, pop_wait)
+		elif option == 6:
+			whatsapp_log_f(root, pop_wait)
+		elif option == 0:
+			reloadd(root) 
 
 def whatsapp_root(root):
-	option , version, marca = check_data()
+	#option , version, marca = check_data()
+	#print("vamos a comprobar")
+	print(check_data())
+	#to do activar la funcion check data
+	
+	version, marca = check_data()
 	pop_roote = Toplevel()
 	pop_roote.title("Information to Root device")
 	pop_roote.configure(width=445, height=220)
@@ -206,7 +243,7 @@ def whatsapp_root(root):
 	else:
 		mensaje_4 = Label(pop_roote, text="OBSERVATIONS:\n"+option["observaciones"])
 		mensaje_4.place(x=20,y=100)
-		mensaje_4.configure(foreground="red")
+		mensaje_4.configure(foreground="red") 
 
 
 def check_how_root(android_v, marca):
@@ -230,7 +267,7 @@ def check_how_root(android_v, marca):
 	elif other_option != "none":
 		return other_option
 
-def check_data():
+"""def check_data():
 	command=modules.config.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
 	en,android_v,err = os.popen3(command)
@@ -241,7 +278,34 @@ def check_data():
 		option = check_how_root(android_v, marca)
 		return option , android_v, marca
 	else:
-		print "Version not found on device"
+		print ("Version not found on device") """
+
+def check_data():
+	command=modules.config.adb_comm+" shell getprop ro.build.version.release"
+	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
+	objeto_version = Popen(command, stdout=PIPE, stderr=PIPE)
+	android_v=objeto_version.communicate()[0].decode("utf-8").split("\\r\\n")[0]
+	#android_v=objeto_version.communicate()[0].decode("uf8").split("\\")[0]
+	err=objeto_version.communicate()[1].decode("utf-8")
+
+	if(err==""):
+		print("Este es la version de tu dispositivo "+android_v)
+	else:
+		print(err)
+
+	objeto_marca=Popen(command2, stdout=PIPE, stderr=PIPE)
+	marca=objeto_marca.communicate()[0].decode("utf-8")
+	err=objeto_marca.communicate()[1].decode("utf-8")
+	if(err==""):
+		print("Este es la marca de tu dispositivo "+marca)
+	else:
+		print(err)
+
+	if android_v!="" and android_v!="\r\n":
+		option = check_how_root(android_v, marca)
+		return android_v, marca
+	else:
+		print ("Version not found on device")
 
 def whatsapp_mm(root, pop_wait):
 	mensaje_deb = Label(pop_wait, text="Extrayendo archivos multimedia...")
@@ -318,11 +382,17 @@ def add_report(data, option):
 	command = modules.config.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
 	#Ejecuta los comandos para extraer version
-	en,android_v,err = os.popen3(command)
-	en,marca,err = os.popen3(command2)
+	android_v,err=Popen(command, stdout=PIPE, stderr=PIPE).communicate()
+	android_v=android_v.decode("utf-8")
+	err=err.decode("utf-8")
+	marca,err=Popen(command2, stdout=PIPE, stderr=PIPE).communicate()
+	marca=marca.decode("utf-8")
 
-	android_v=android_v.read()
-	marca=marca.read()
+	print("esta es el android v")
+	print(android_v)
+
+	print("este es el posible error")
+	print(err)
 
 	if android_v!="" and android_v!="\r\n":
 		if option == 0:
@@ -342,15 +412,18 @@ def add_report(data, option):
 		#Obtiene la fecha y hora
 		command = modules.config.adb_comm+" shell date"
 
-		en,time_device,err = os.popen3(command)
-		time_device=time_device.read()
+		#continuar con los cambios en las librerias
+		time_device,err=Popen(command2, stdout=PIPE, stderr=PIPE).communicate()
+		time_device=time_device.decode("utf-8")
+		#en,time_device,err = os.popen3(command)
+		#time_device=time_device.read()
 
 		if ":" not in time_device:
 			text_final+="Device Not found \n\n"
 		else:
 			text_final+="<h3> Date of device: "+ str(time_device)+"</h3>"
 		text_final+="<p class='aversion'><b>Android version</b>: "+android_v+"</p>"
-		text_final+="<p><b>Mobile brand</b>: "+marca+"</p>"
+		text_final+="<p><b>Mobile brand</b>: "+ marca +"</p>"
 	else:
 		text_final+="<p class='cabecera'>Device Information</p><br>"
 		text_final+="<p class='aversion'>Android version: Not found</p>"
@@ -373,8 +446,11 @@ def add_report(data, option):
 		text_final+="</div>"
 
 		commandd = modules.config.adb_comm+" shell pm list packages -f"
-		en,packages,err = os.popen3(commandd)
-		packages=packages.read()
+		#en,packages,err = os.popen3(commandd)
+		packages,err=Popen(command, stdout=PIPE, stderr=PIPE).communicate()
+		packages=android_v.decode("utf-8")
+
+		#packages=packages.read()
 		packages = packages.split("\n")
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
@@ -578,27 +654,26 @@ def icon(top,parent):
 	top.destroy()
 
 if __name__ == '__main__':
-	print modules.config.banner
-	print "*********************************************************************************"
-	print "/////////////////////////////////////////////////////////////////////////////////"
-	print "*********************************************************************************"
-	print "-- APP NAME: GUASAP FORENSIC                                                   --"
-	print "-- Description: WhatsApp Forensic App                                          --"
-	print "-- Created by QuantiKa14 Team                                                  --"
-	print "-- Licencia GNU V.3                      Quantika14 Servicios Integrales S.L.  --"
-	print "-- Authors: Jorge Coronado A.K.A @JorgeWebsec  / Ramon Bajona                  --"
-	print "-- Date: 10-05-2018 | 19/12/2018                                                           --"
-	print "-- Email contact: info@quantika14.com                                          --"
-	print "*********************************************************************************"
-	print "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-	print "*********************************************************************************"
+	print (modules.config.banner)
+	print ("///////////////////////////////////////////////////////////////////////////////// ")
+	print ("*********************************************************************************")
+	print ("-- APP NAME: GUASAP FORENSIC                                                   --")
+	print ("-- Description: WhatsApp Forensic App                                          --")
+	print ("-- Created by QuantiKa14 Team                                                  --")
+	print ("-- Licencia GNU V.3                      Quantika14 Servicios Integrales S.L.  --")
+	print ("-- Authors: Jorge Coronado A.K.A @JorgeWebsec  / Ramon Bajona                  --")
+	print ("-- Date: 10-05-2018 | 19/12/2018                                               --")
+	print ("-- Email contact: info@quantika14.com                                          --")
+	print ("*********************************************************************************")
+	print ("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+	print ("*********************************************************************************")
 
 	t=time.strftime('%A %B, %d %Y %H:%M:%S')
 
 	create_report_f(t)
-	
-	#Comprobamos que las dependencias están instaladas
-	modules.dependencies.check_dependencies()
+
+	#TO DOComprobamos que las dependencias están instaladas
+	#modules.dependencies.check_dependencies()
 
 	while(menu):
 		root = Tk()
