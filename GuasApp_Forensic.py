@@ -126,7 +126,8 @@ def whatsapp_deb(root, option):
 		mensaje = Label(pop_wait, text="Espere mientras se realiza el proceso")
 		mensaje.place(x=20,y=40)
 		pop_wait.update()
-	
+
+	# TO DO
 	#cambiar si el adb no se encuentra dejar que el programa lo busque
 	try:
 		process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
@@ -448,16 +449,21 @@ def add_report(data, option):
 		commandd = modules.config.adb_comm+" shell pm list packages -f"
 		#en,packages,err = os.popen3(commandd)
 		packages,err=Popen(command, stdout=PIPE, stderr=PIPE).communicate()
-		packages=android_v.decode("utf-8")
+		packages=packages.decode("utf-8")
 
 		#packages=packages.read()
+		print("imprimimos el paquete")
+		print(packages)
 		packages = packages.split("\n")
+		print(packages)
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
 		text_final+="<p>"+packages[0]+"</p>"
-		text_final+="<p>"+packages[1]+"</p>"
-		text_final+="<p>"+packages[2]+"</p>"
-		text_final+="<div id='list'>"
+		if len(packages)>1:
+			text_final+="<p>"+packages[1]+"</p>"
+		if len(packages)>2:
+			text_final+="<p>"+packages[2]+"</p>"
+			text_final+="<div id='list'>"
 		for i in range(3,len(packages)):
 			text_final+="<p>"+packages[i]+"</p>"
 		text_final+="</div>"
