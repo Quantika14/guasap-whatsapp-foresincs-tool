@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
+# TO DO corregir los prints que sobran
+
 import modules.config, modules.functions, os
 from subprocess import Popen, PIPE, STDOUT
 # poner como un try y except
@@ -23,8 +25,6 @@ def check_root(pop_wait):
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
 			print ("Checking root... \n")
-			print("esto es a")
-			print(a)
 			if "No such file" not in a and "sh: 1: adb:" not in a:
 				print("no encontrado")
 				a = a.replace("\r","").split("\n")

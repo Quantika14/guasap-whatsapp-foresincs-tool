@@ -73,7 +73,6 @@ def info_root_f(root, pop_wait):
 	popup_a=True
 	reloadd(root)
 
-
 def popup():
 	global info_root
 	global label_root
@@ -392,8 +391,10 @@ def add_report(data, option):
 	print("esta es el android v")
 	print(android_v)
 
-	print("este es el posible error")
-	print(err)
+	
+	if(len(err)>0 and err != "b''"):
+		print("este es el posible error")
+		print(err)
 
 	if android_v!="" and android_v!="\r\n":
 		if option == 0:
@@ -448,26 +449,22 @@ def add_report(data, option):
 
 		commandd = modules.config.adb_comm+" shell pm list packages -f"
 		#en,packages,err = os.popen3(commandd)
-		packages,err=Popen(command, stdout=PIPE, stderr=PIPE).communicate()
+		
+		packages,err=Popen(commandd, stdout=PIPE, stderr=PIPE).communicate()
 		packages=packages.decode("utf-8")
-
-		#packages=packages.read()
-		print("imprimimos el paquete")
-		print(packages)
 		packages = packages.split("\n")
-		print(packages)
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
 		text_final+="<p>"+packages[0]+"</p>"
-		if len(packages)>1:
-			text_final+="<p>"+packages[1]+"</p>"
-		if len(packages)>2:
-			text_final+="<p>"+packages[2]+"</p>"
-			text_final+="<div id='list'>"
+		text_final+="<p>"+packages[1]+"</p>"
+		text_final+="<p>"+packages[2]+"</p>"
+		text_final+="<div id='list'>"
+		
 		for i in range(3,len(packages)):
 			text_final+="<p>"+packages[i]+"</p>"
 		text_final+="</div>"
 		text_final+='<a id="boton_" href="#" onclick="javascript:listar();return false">Show all</a>'
+
 	elif option == 1:
 		clase_list=0
 		if whatsapp_log!=None:
