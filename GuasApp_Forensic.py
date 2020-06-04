@@ -27,6 +27,12 @@ import os, time, socket, requests
 from time import sleep
 from distutils.version import LooseVersion
 
+# Importamos el diseño
+from diseño_interfaz.model_ui import *
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QDialog
+
 licencia=""
 rute= ""
 inten=False
@@ -60,15 +66,17 @@ def enviar_licencia(licenci, root):
 	print ("[INFO][>] Licencia GNU V.3. Recuerde que siempre podrá contribuir con la causa aportando mejoras a la aplicación desde el repositorio de GITHUB.")
 	print ("[INFO][>] ----------------------------------> WWWW.QUANTIKA14.COM/GUASAP-FORENSIC")
 
-def info_root_f(root, pop_wait):
+def info_root_f(root):
 	global info_root
 	global label_root
 	global root_posibility
 	global popup_a
-	mensaje_deb = Label(pop_wait, text="Comprobando dispositivo...")
-	mensaje_deb.place(x=20,y=60)
-	pop_wait.update()
-	info_root,roote=check_root.check_root(pop_wait)
+	mensaje_deb = "Comprobando dispositivo..."
+	popup = Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	info_root,roote=check_root.check_root()
 	root_posibility=roote
 	popup_a=True
 	reloadd(root)
@@ -109,25 +117,7 @@ def popup():
 	label_root = True
 	add_report(info_root, 0)
 
-def whatsapp_deb(root, option):
-	#prueba de si la opcion es la 2
-	#comprobar que esto sea correcto
-	if option==2:
-		whatsapp_root(root)
-	
-	if option != 2:
-		pop_wait = Toplevel()
-		icon = PhotoImage(file=os.path.join("images",'ico.gif'))
-		pop_wait.tk.call('wm', 'iconphoto', pop_wait._w, icon)
-		pop_wait.title("Información WhatsApp Forensic")
-		pop_wait.configure(width=500, height=220)
-		pop_wait.resizable(width=False, height=False)
-		mensaje = Label(pop_wait, text="Espere mientras se realiza el proceso")
-		mensaje.place(x=20,y=40)
-		pop_wait.update()
-
-	# TO DO
-	#cambiar si el adb no se encuentra dejar que el programa lo busque
+""" def whatsapp_deb(root, option):
 	try:
 		process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
 		out, err = process.communicate()
@@ -149,10 +139,10 @@ def whatsapp_deb(root, option):
 			subprocess.call(modules.config.adb_comm+" kill-server")
 			subprocess.call(modules.config.adb_comm+" start-server")
 			print ("Please connect your Android device with USB Debugging enabled:")
-			#no tiene la ventana principal si esta seleccionada la opció 2 por que?
+			#no tiene la ventana principal si esta seleccionada la opción 2 por que?
 			mensaje_deb = Label(pop_wait, text="Por favor, conecte el modo depuración en la pantalla de su dispositivo")
 			mensaje_deb.place(x=20,y=60)
-			pop_wait.update()
+			app.pop_wait(mensaje_deb)
 			subprocess.call(modules.config.adb_comm+" wait-for-device")
 			mensaje_deb.destroy()
 			print("hasta aqui va")
@@ -163,7 +153,7 @@ def whatsapp_deb(root, option):
 			mensaje_deb.place(x=20,y=60)
 			mensaje_deb2 = Label(pop_wait, text="compruebe la conexion y prueba de nuevo")
 			mensaje_deb2.place(x=20,y=80)
-			pop_wait.update()
+			app.pop_wait(mensaje_deb)
 			time.sleep(1)
 			option = 0 
 		#LIN									WIN
@@ -173,77 +163,67 @@ def whatsapp_deb(root, option):
 			mensaje_deb.place(x=20,y=60)
 			mensaje_deb2 = Label(pop_wait, text="instala adb y prueba de nuevo")
 			mensaje_deb2.place(x=20,y=80)
-			pop_wait.update()
+			app.pop_wait(mensaje_deb)
 			time.sleep(1)
 			option = 0
 		if option == 1:
 			print("se llega a la opcion 1")
 			print("este es el valor de root")
 			print(root)
-			info_root_f(root, pop_wait)
+			info_root_f(root)
 		elif option == 2:
 			whatsapp_root(root)
 		elif option == 3:
-			whatsapp_mm(root, pop_wait)
+			whatsapp_mm(root)
 		elif option == 4:
-			whatsapp_db_f(root, pop_wait)
+			whatsapp_db_f(root)
 		elif option == 5:
-			whatsapp_db_root(root, pop_wait)
+			whatsapp_db_root(root)
 		elif option == 6:
-			whatsapp_log_f(root, pop_wait)
-		elif option == 0:
-			reloadd(root) 
+			whatsapp_log_f(root)
+		#elif option == 0:
+			#reloadd(root)  """
 
 def whatsapp_root(root):
-	#option , version, marca = check_data()
-	#print("vamos a comprobar")
+	option , version, marca = check_data()
+	print("vamos a comprobar")
 	print(check_data())
 	#to do activar la funcion check data
 	
 	version, marca = check_data()
-	pop_roote = Toplevel()
+	mensaje_total = ""
+	
+	pop_roote = Popup()
 	pop_roote.title("Information to Root device")
-	pop_roote.configure(width=445, height=220)
-	imgicon = PhotoImage(file=os.path.join("images",'ico.gif'))
-	pop_roote.tk.call('wm', 'iconphoto', pop_roote._w, imgicon)
-	pop_roote.resizable(width=False, height=False)
-	mensaje = Label(pop_roote, text="Version: "+version)
-	mensaje.place(x=20,y=40)
-	mensaje.configure(foreground="green")
-	mensaje_2 = Label(pop_roote, text="Mobile brand: "+marca)
-	mensaje_2.place(x=20,y=60)
-	mensaje_2.configure(foreground="blue")
-	mensaje_3 = Label(pop_roote, text="App recommended to root: "+option["app"])
-	mensaje_3.place(x=20,y=80)
-	mensaje_3.configure(foreground="brown")
+	pop_rootepopup.setGeometry(100, 200, 445, 220)
+	mensaje = "Version: "+version
+	mensaje_total += mensaje
+	mensaje_2 = "Mobile brand: "+marca
+	mensaje_total += mensaje2
+	mensaje_3 = "App recommended to root: "+option["app"]
+	mensaje_total += mensaje3
 	
 	if len(option["observaciones"]) > 60 and len(option["observaciones"]) < 150:
-		mensaje_4 = Label(pop_roote, text="OBSERVATIONS:\n"+option["observaciones"][:65])
-		mensaje_4.place(x=20,y=100)
-		mensaje_4.configure(foreground="red")
-		mensaje_5 = Label(pop_roote, text=option["observaciones"][65:130])
-		mensaje_5.place(x=20,y=140)
-		mensaje_5.configure(foreground="red")
-		mensaje_6 = Label(pop_roote, text=option["observaciones"][130:])
-		mensaje_6.place(x=20,y=140)
-		mensaje_6.configure(foreground="red")
+		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
+		mensaje_total += mensaje4
+		mensaje_5 = option["observaciones"][65:130]
+		mensaje_total += mensaje5
+		mensaje_6 = option["observaciones"][130:]
+		mensaje_total += mensaje6
 	elif len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
-		mensaje_4 = Label(pop_roote, text="OBSERVATIONS:\n"+option["observaciones"][:65])
-		mensaje_4.place(x=20,y=100)
-		mensaje_4.configure(foreground="red")
-		mensaje_5 = Label(pop_roote, text=option["observaciones"][65:130])
-		mensaje_5.place(x=20,y=140)
-		mensaje_5.configure(foreground="red")
-		mensaje_6 = Label(pop_roote, text=option["observaciones"][130:195])
-		mensaje_6.place(x=20,y=160)
-		mensaje_6.configure(foreground="red")
-		mensaje_6 = Label(pop_roote, text=option["observaciones"][195:])
-		mensaje_6.place(x=20,y=160)
-		mensaje_6.configure(foreground="red")
+		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
+		mensaje_total += mensaje4
+		mensaje_5 = option["observaciones"][65:130]
+		mensaje_total += mensaje5
+		mensaje_6 = option["observaciones"][130:195]
+		mensaje_total += mensaje6
+		mensaje_6 = option["observaciones"][195:]
+		mensaje_total += mensaje6
 	else:
-		mensaje_4 = Label(pop_roote, text="OBSERVATIONS:\n"+option["observaciones"])
-		mensaje_4.place(x=20,y=100)
-		mensaje_4.configure(foreground="red") 
+		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"]
+		mensaje_total += mensaje4
+	
+
 
 
 def check_how_root(android_v, marca):
@@ -255,13 +235,17 @@ def check_how_root(android_v, marca):
 			if dicts["version"]=="all":
 				pvd = LooseVersion("20.20.20") 
 			else:
-				pvd = LooseVersion(dicts["version"]) 
+				pvd = LooseVersion(dicts["version"])
 		except:
 			pvd = LooseVersion("20.20.20")
 		if dicts["marca"]==marca and (pvd==pvm or pvd<pvm):
 			perfect_option=dicts
-		if dicts["marca"]=="all" and (pvd==pvm or pvd<pvm):
-			other_option=dicts
+		try:
+			if dicts["marca"]=="all" and (pvd==pvm or pvd<pvm):
+				other_option=dicts
+		#a veces las versiones no son comparables
+		except (TypeError):
+			pass
 	if perfect_option != "none":
 		return perfect_option
 	elif other_option != "none":
@@ -284,8 +268,8 @@ def check_data():
 	command=modules.config.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
 	objeto_version = Popen(command, stdout=PIPE, stderr=PIPE)
-	android_v=objeto_version.communicate()[0].decode("utf-8").split("\\r\\n")[0]
-	#android_v=objeto_version.communicate()[0].decode("uf8").split("\\")[0]
+	#TO DO checkear que tipo de objeto tiene que ser android_v
+	android_v=objeto_version.communicate()[0].decode("utf-8").split("\r\n")[0]
 	err=objeto_version.communicate()[1].decode("utf-8")
 
 	if(err==""):
@@ -303,11 +287,11 @@ def check_data():
 
 	if android_v!="" and android_v!="\r\n":
 		option = check_how_root(android_v, marca)
-		return android_v, marca
+		return option, android_v , marca
 	else:
 		print ("Version not found on device")
 
-def whatsapp_mm(root, pop_wait):
+def whatsapp_mm(root, popup):
 	mensaje_deb = Label(pop_wait, text="Extrayendo archivos multimedia...")
 	mensaje_deb.place(x=20,y=60)
 	pop_wait.update()
@@ -316,41 +300,41 @@ def whatsapp_mm(root, pop_wait):
 	label_root=True
 	reloadd(root)
 
-def whatsapp_log_f(root, pop_wait):
+def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
 	mensaje_deb = Label(pop_wait, text="Extrayendo/analizando logs...")
 	mensaje_deb.place(x=20,y=60)
-	pop_wait.update()
+	app.pop_wait(mensaje_deb)
 	whatsapp_log=whatsapp_log_forensic.extract_log(pop_wait)
 	add_report(info_root, 1)
 	label_root = True
 	reloadd(root)
 
-def whatsapp_db_f(root, pop_wait):
+def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
 	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos cifrada...")
 	mensaje_deb.place(x=20,y=60)
-	pop_wait.update()
+	app.pop_wait(mensaje_deb)
 	list_dbs=whatsapp_db.extract_db(pop_wait)
 	add_report(list_dbs, 2)
 	label_root = True
 	reloadd(root)
 
-def whatsapp_db_root(root, pop_wait):
+def whatsapp_db_root(root):
 	global list_dbs
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
 	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos descifrada...")
 	mensaje_deb.place(x=20,y=60)
-	pop_wait.update()
+	app.pop_wait(mensaje_deb)
 	list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
 # end "for offline development"
 	# Adding last Trello tasks
 	mensaje_num = Label(pop_wait, text="Obteniendo estadísticas de mensajes...")
 	mensaje_num.place(x=20,y=100)
-	pop_wait.update()
+	app.pop_wait(mensaje_deb)
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(pop_wait)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
@@ -656,6 +640,90 @@ def out(top,parent):
 def icon(top,parent):
 	top.destroy()
 
+
+# Funcionalidades graficas
+
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+	def __init__(self, *args, **kwargs):
+		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+		self.setupUi(self)
+		self.btnStart.clicked.connect(self.ejecucion)
+
+	def ejecucion(self):
+		popup = Popup("s", self)
+		try:
+			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
+			out, err = process.communicate()
+			out = out.decode('utf-8')
+			err = err.decode('utf-8')
+			#comprobamos que el adb se encuentre en el sistema el fichero que contiene adb
+			adb_instalado = True
+			option = 1
+			
+		except:
+			print("no se ha encontrado el archivo adb en el sistema")
+			print("por favor instalo para que podamos continuar")
+
+		if adb_instalado == True:
+			print("hemos encontrado el fichero adb asi que continuamos")
+				
+			#WIN LIN
+			if "Permission denied" in err:
+				print ("Error de permiso")
+				subprocess.call(modules.config.adb_comm+" kill-server")
+				subprocess.call(modules.config.adb_comm+" start-server")
+				print ("Please connect your Android device with USB Debugging enabled:")
+				#no tiene la ventana principal si esta seleccionada la opción 2 por que?
+				mensaje_deb = "Por favor, conecte el modo depuración en la pantalla de su dispositivo"
+				app.pop_wait(mensaje_deb)
+				subprocess.call(modules.config.adb_comm+" wait-for-device")
+				mensaje_deb.destroy()
+				print("hasta aqui va")
+			#WIN LIN
+			elif "error: device" in err:
+				print ("No such device, please check the conection and restart app")
+				mensaje_deb = "No se encuentra ningun dispositivo, por favor, compruebe la conexion y prueba de nuevo"
+				app.pop_wait(mensaje_deb)
+				time.sleep(1)
+				option = 0 
+			#LIN									WIN
+			elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
+				print ("adb not installed, please install and restart app ")
+				mensaje_deb = "Adb no se encuentra en el ordenador, por favor, instala adb y prueba de nuevo"
+				app.pop_wait(mensaje_deb)
+				time.sleep(1)
+				option = 0
+			while option < 7:
+				if option == 1:
+					print("se llega a la opcion 1")
+					print("este es el valor de root")
+					print(app)
+					'''popup = Popup("mensaje_deb", self)
+					popup.setGeometry(100, 200, 400, 200)
+					popup.show()
+					popup.exec_()'''
+					info_root_f(app)
+				elif option == 2:
+					whatsapp_root(app)
+				elif option == 3:
+					whatsapp_mm(app)
+				elif option == 4:
+					whatsapp_db_f(app)
+				elif option == 5:
+					whatsapp_db_root(app)
+				elif option == 6:
+					whatsapp_log_f(app)
+				elif option == 0:
+					reloadd(app) 
+				option+=1
+
+class Popup(QDialog):
+	def __init__(self, texto = "", parent=None):
+		super().__init__(parent)
+		self.setWindowTitle("Información WhatsApp Forensic")
+		self.texto = texto
+		self.label = QLabel(self.texto, self)
+
 if __name__ == '__main__':
 	print (modules.config.banner)
 	print ("///////////////////////////////////////////////////////////////////////////////// ")
@@ -678,79 +746,7 @@ if __name__ == '__main__':
 	#TO DOComprobamos que las dependencias están instaladas
 	#modules.dependencies.check_dependencies()
 
-	while(menu):
-		root = Tk()
-		root.configure(width=600, height=550)
-		root.resizable(width=False, height=False)
-		imgicon = PhotoImage(file=os.path.join("images",'ico.gif'))
-		root.tk.call('wm', 'iconphoto', root._w, imgicon)
-		imagen = PhotoImage(file="images/logika14-2.PPM")
-		widget = Label(root, image=imagen)
-		widget.image = imagen
-		widget.place(x=40,y=10)
-		imagen2 = PhotoImage(file="images/logika14-1.PPM")
-		widget2 = Label(root, image=imagen2)
-		widget2.image = imagen2
-		widget2.place(x=40,y=500)
-		root.title("Guasap Forensic version GNU V.3")
-		w = Label(root, text="Introduzca número de licencia:")
-		w.place(x=40,y=80)
-		e = Entry(root, width=width_e, state=NORMAL)
-		e.place(x=40,y=95)
-		button = Button(root, text='Enviar', command= lambda: enviar_licencia(e.get(), root), height=1)
-		button.place(x=495, y=90)
-		if root_posibility == None:
-				button_root = Button(root, text="CHECK indicios de ROOT", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 1))
-				button_root.place(x=40, y=150)
-				if licencia:
-					button_root.config(state = NORMAL)
-		button_roote = Button(root, text="Rootear dispositivo", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 2))
-		button_roote.place(x=40, y=200)
-		button_mm = Button(root, text="Extracción de Whatsapp multimedia", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 3))
-		button_mm.place(x=40, y=250)
-		button_dbc = Button(root, text="Extracción de Data Base cifrada", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 4))
-		button_dbc.place(x=40, y=300)
-		button_db = Button(root, text="Extracción/Análisis de DB (root)", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 5))
-		button_db.place(x=40, y=350)
-		button_log = Button(root, text="Extracción/Análisis de Whatsapp Log (root)", width=width_w, state=DISABLED, command=lambda: whatsapp_deb(root, 6))
-		button_log.place(x=40, y=400)
-		info = Label(root, text="Informe:")
-		info.place(x=35,y=450)
-		rute_la = Label(root, text=rute)
-		rute_la.place(x=90,y=450)
-		if root_posibility == True:
-			button_root = Button(root, text="Comprobar rooteo en el dispositivo (Dispositivo rooteado)", width=width_w, command=lambda: whatsapp_deb(root, 1))
-			button_root.place(x=40, y=150)
-			button_root.config(foreground="green")
-			button_log.config(state = NORMAL)
-			button_db.config(state = NORMAL)
-		elif root_posibility == False:
-			button_root = Button(root, text="Comprobar rooteo en el dispositivo (Dispositivo no rooteado)", width=width_w, command=lambda: whatsapp_deb(root, 1))
-			button_root.place(x=40, y=150)
-			button_root.config(foreground="red")
-			button_log.config(state = DISABLED)
-			button_db.config(state = DISABLED)
-		if inten:
-			if licencia:
-				button_roote.config(state = NORMAL)
-				button_mm.config(state = NORMAL)
-				button_dbc.config(state = NORMAL)
-				e.config(state = DISABLED)
-				a = Label(root, text="Licencia validada correctamente")
-				a.config(foreground="#75507b")
-				a.place(x=40,y=115)
-			else:
-				a = Label(root, text="Licencia no valida")
-				a.place(x=40,y=115)
-		if popup_a:
-			popup()
-			popup_a=False
-		if label_root==True:
-			label_Root = Label(root, text="Trabajo finalizado.")
-			label_Root.config(foreground="red")
-			label_Root.place(x=250,y=430)
-			label_root==False
-		root.protocol("WM_DELETE_WINDOW", lambda:on_closing(root))
-		root.mainloop()
- 
-
+	app = QtWidgets.QApplication([])
+	window = MainWindow()
+	window.show()
+	app.exec_()

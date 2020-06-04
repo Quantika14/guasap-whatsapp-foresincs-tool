@@ -3,7 +3,7 @@
 
 # TO DO corregir los prints que sobran
 
-import modules.config, modules.functions, os
+import modules.config, modules.functions, os, GuasApp_Forensic
 from subprocess import Popen, PIPE, STDOUT
 # poner como un try y except
 # from Tkinter import *
@@ -12,15 +12,17 @@ from tkinter import *
 root_posibility=False
 
 #A partir de esta línea comenzamos a verificar si el dispositivo está rooteado.
-def check_root(pop_wait):
+def check_root():
 	root=check_su()
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
-		mensaje_deb = Label(pop_wait, text="Buscando aplicaciones que requieren de Root...")
-		mensaje_deb.place(x=20,y=80)
-		pop_wait.update()
+		mensaje_deb = "Buscando aplicaciones que requieren de Root..."
+		popup = GuasApp_Forensic.Popup(mensaje_deb)
+		popup.setGeometry(100, 200, 400, 200)
+		popup.show()
+		popup.exec_()
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
