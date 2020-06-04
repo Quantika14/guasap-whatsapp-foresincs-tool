@@ -4,7 +4,7 @@
 import os, time
 import os.path as osp
 import hashlib
-import modules.config, modules.functions
+import modules.config, modules.functions, GuasApp_Forensic
 # poner como un try y except
 # from Tkinter import *
 from tkinter import *
@@ -62,7 +62,7 @@ def get_mdinfo(path, i):
 		hash_ = os.popen(md5).read()
 		return name, hash_.split(" ")[0]
 
-def extract_mm(pop_wait):
+def extract_mm():
 	md5_original=list()
 	md5_cloned=list()
 	files=list()
@@ -82,12 +82,11 @@ def extract_mm(pop_wait):
 #	## Clone media hash check
 #	##""")
 
-	mensaje_deb = Label(pop_wait, text="Creando hash y comparando...")
-	mensaje_deb.place(x=20,y=80)
-	pop_wait.update()
-	mensaje_deb = Label(pop_wait, text="(Este proceso varia su duracion en base a los archivos multimedia)")
-	mensaje_deb.place(x=20,y=80)
-	pop_wait.update()
+	mensaje_deb = "Creando hash y comparando...(Este proceso varia su duracion en base a los archivos multimedia)"
+	popup = GuasApp_Forensic.Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
 
 	PATH = 'Whatsapp_Extracted_Media/'
 	""" Clone media data check """

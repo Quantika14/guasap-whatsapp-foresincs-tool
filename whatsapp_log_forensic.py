@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-import modules.config, modules.functions
+import modules.config, modules.functions, GuasApp_Forensic
 # poner como un try y except
 # from Tkinter import *
 from tkinter import *
 
-def extract_log(pop_wait):
+def extract_log():
 	#Create directory
 	modules.functions.create_dir_log()
 	#Extract logs names
@@ -16,9 +16,11 @@ def extract_log(pop_wait):
 			pass
 		else:
 			#Extract logs
-			mensaje_deb = Label(pop_wait, text="Logs extraidos, analizando...")
-			mensaje_deb.place(x=20,y=80)
-			pop_wait.update()
+			mensaje_deb = "Logs extraidos, analizando..."
+			popup = GuasApp_Forensic.Popup(mensaje_deb)
+			popup.setGeometry(100, 200, 400, 200)
+			popup.show()
+			popup.exec_()
 			log = modules.functions.get_whatsappLog(log)
 			#Decompress gz
 			if ".gz" in log:

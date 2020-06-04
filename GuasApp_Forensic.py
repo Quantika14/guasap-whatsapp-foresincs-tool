@@ -29,9 +29,8 @@ from distutils.version import LooseVersion
 
 # Importamos el diseño
 from diseño_interfaz.model_ui import *
-from PyQt5 import QtGui
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QDialog
+from PyQt5 import QtGui, QtCore
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QDialog, QVBoxLayout
 
 licencia=""
 rute= ""
@@ -73,13 +72,13 @@ def info_root_f(root):
 	global popup_a
 	mensaje_deb = "Comprobando dispositivo..."
 	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	popup.setGeometry(100, 200, 800, 200)
+	#popup.show()
+	#popup.exec_()
+	reloadd(popup)
 	info_root,roote=check_root.check_root()
 	root_posibility=roote
 	popup_a=True
-	reloadd(root)
 
 def popup():
 	global info_root
@@ -117,78 +116,11 @@ def popup():
 	label_root = True
 	add_report(info_root, 0)
 
-""" def whatsapp_deb(root, option):
-	try:
-		process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
-		out, err = process.communicate()
-		out = out.decode('utf-8')
-		err = err.decode('utf-8')
-		#comprobamos que el adb se encuentre en el sistema el fichero que contiene adb
-		adb_instalado = True
-			
-	except:
-			print("no se ha encontrado el archivo adb en el sistema")
-			print("por favor instalo para que podamos continuar")
-
-	if adb_instalado == True:
-		print("hemos encontrado el fichero adb asi que continuamos")
-			
-		#WIN LIN
-		if "Permission denied" in err:
-			print ("Error de permiso")
-			subprocess.call(modules.config.adb_comm+" kill-server")
-			subprocess.call(modules.config.adb_comm+" start-server")
-			print ("Please connect your Android device with USB Debugging enabled:")
-			#no tiene la ventana principal si esta seleccionada la opción 2 por que?
-			mensaje_deb = Label(pop_wait, text="Por favor, conecte el modo depuración en la pantalla de su dispositivo")
-			mensaje_deb.place(x=20,y=60)
-			app.pop_wait(mensaje_deb)
-			subprocess.call(modules.config.adb_comm+" wait-for-device")
-			mensaje_deb.destroy()
-			print("hasta aqui va")
-		#WIN LIN
-		elif "error: device" in err:
-			print ("No such device, please check the conection and restart app")
-			mensaje_deb = Label(pop_wait, text="No se encuentra ningun dispositivo, por favor,")
-			mensaje_deb.place(x=20,y=60)
-			mensaje_deb2 = Label(pop_wait, text="compruebe la conexion y prueba de nuevo")
-			mensaje_deb2.place(x=20,y=80)
-			app.pop_wait(mensaje_deb)
-			time.sleep(1)
-			option = 0 
-		#LIN									WIN
-		elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
-			print ("adb not installed, please install and restart app ")
-			mensaje_deb = Label(pop_wait, text="Adb no se encuentra en el ordenador, por favor,")
-			mensaje_deb.place(x=20,y=60)
-			mensaje_deb2 = Label(pop_wait, text="instala adb y prueba de nuevo")
-			mensaje_deb2.place(x=20,y=80)
-			app.pop_wait(mensaje_deb)
-			time.sleep(1)
-			option = 0
-		if option == 1:
-			print("se llega a la opcion 1")
-			print("este es el valor de root")
-			print(root)
-			info_root_f(root)
-		elif option == 2:
-			whatsapp_root(root)
-		elif option == 3:
-			whatsapp_mm(root)
-		elif option == 4:
-			whatsapp_db_f(root)
-		elif option == 5:
-			whatsapp_db_root(root)
-		elif option == 6:
-			whatsapp_log_f(root)
-		#elif option == 0:
-			#reloadd(root)  """
 
 def whatsapp_root(root):
 	option , version, marca = check_data()
 	print("vamos a comprobar")
 	print(check_data())
-	#to do activar la funcion check data
 	
 	version, marca = check_data()
 	mensaje_total = ""
@@ -222,6 +154,10 @@ def whatsapp_root(root):
 	else:
 		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"]
 		mensaje_total += mensaje4
+	
+	pop_roote.texto=mensaje_total
+	pop_roote.show()
+	pop_roote.exec_()
 	
 
 
@@ -291,11 +227,13 @@ def check_data():
 	else:
 		print ("Version not found on device")
 
-def whatsapp_mm(root, popup):
-	mensaje_deb = Label(pop_wait, text="Extrayendo archivos multimedia...")
-	mensaje_deb.place(x=20,y=60)
-	pop_wait.update()
-	md5_cloned,md5_original=hashdeep.extract_mm(pop_wait)
+def whatsapp_mm(root):
+	mensaje_deb = "Extrayendo archivos multimedia..."
+	popup = Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	md5_cloned,md5_original=hashdeep.extract_mm()
 	add_report((md5_cloned,md5_original),6)
 	label_root=True
 	reloadd(root)
@@ -303,10 +241,12 @@ def whatsapp_mm(root, popup):
 def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
-	mensaje_deb = Label(pop_wait, text="Extrayendo/analizando logs...")
-	mensaje_deb.place(x=20,y=60)
-	app.pop_wait(mensaje_deb)
-	whatsapp_log=whatsapp_log_forensic.extract_log(pop_wait)
+	mensaje_deb = "Extrayendo/analizando logs..."
+	popup = Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	whatsapp_log=whatsapp_log_forensic.extract_log()
 	add_report(info_root, 1)
 	label_root = True
 	reloadd(root)
@@ -314,10 +254,12 @@ def whatsapp_log_f(root):
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
-	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos cifrada...")
-	mensaje_deb.place(x=20,y=60)
-	app.pop_wait(mensaje_deb)
-	list_dbs=whatsapp_db.extract_db(pop_wait)
+	mensaje_deb = "Extrayendo base de datos cifrada..."
+	popup = Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	list_dbs=whatsapp_db.extract_db()
 	add_report(list_dbs, 2)
 	label_root = True
 	reloadd(root)
@@ -326,16 +268,21 @@ def whatsapp_db_root(root):
 	global list_dbs
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
-	mensaje_deb = Label(pop_wait, text="Extrayendo base de datos descifrada...")
-	mensaje_deb.place(x=20,y=60)
-	app.pop_wait(mensaje_deb)
-	list_dbs,rows=whatsapp_db.extract_db_root(pop_wait)
+	mensaje_deb = "Extrayendo base de datos descifrada..."
+	popup = Popup(mensaje_deb)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	list_dbs,rows=whatsapp_db.extract_db_root()
 # end "for offline development"
 	# Adding last Trello tasks
-	mensaje_num = Label(pop_wait, text="Obteniendo estadísticas de mensajes...")
-	mensaje_num.place(x=20,y=100)
-	app.pop_wait(mensaje_deb)
-	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(pop_wait)
+	mensaje_num = "Obteniendo estadísticas de mensajes..."
+	popup = Popup(mensaje_num)
+	popup.setGeometry(100, 200, 400, 200)
+	popup.show()
+	popup.exec_()
+	list_dbs,rows=whatsapp_db.extract_db_root()
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages()
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
 	# Appending the msg analytics of each extraction for in a future will be able
@@ -611,8 +558,8 @@ def create_report_f(t):
 	return t
 
 def reloadd(root):
-	root.destroy()
-#	root.update()
+	time.sleep(3)
+	root.close()
 
 def on_closing(root):
 	d = Dialog_exit(root)
@@ -650,7 +597,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.btnStart.clicked.connect(self.ejecucion)
 
 	def ejecucion(self):
-		popup = Popup("s", self)
 		try:
 			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
 			out, err = process.communicate()
@@ -675,7 +621,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				print ("Please connect your Android device with USB Debugging enabled:")
 				#no tiene la ventana principal si esta seleccionada la opción 2 por que?
 				mensaje_deb = "Por favor, conecte el modo depuración en la pantalla de su dispositivo"
-				app.pop_wait(mensaje_deb)
+				popup = Popup(mensaje_deb)
+				popup.setGeometry(100, 200, 400, 200)
+				popup.show()
+				popup.exec_()
 				subprocess.call(modules.config.adb_comm+" wait-for-device")
 				mensaje_deb.destroy()
 				print("hasta aqui va")
@@ -683,22 +632,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			elif "error: device" in err:
 				print ("No such device, please check the conection and restart app")
 				mensaje_deb = "No se encuentra ningun dispositivo, por favor, compruebe la conexion y prueba de nuevo"
-				app.pop_wait(mensaje_deb)
-				time.sleep(1)
+				popup = Popup(mensaje_deb)
+				popup.setGeometry(100, 200, 400, 200)
+				popup.show()
+				popup.exec_()
 				option = 0 
 			#LIN									WIN
 			elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
 				print ("adb not installed, please install and restart app ")
 				mensaje_deb = "Adb no se encuentra en el ordenador, por favor, instala adb y prueba de nuevo"
-				app.pop_wait(mensaje_deb)
-				time.sleep(1)
+				popup = Popup(mensaje_deb)
+				popup.setGeometry(100, 200, 400, 200)
+				popup.show()
+				popup.exec_()
 				option = 0
 			while option < 7:
 				if option == 1:
 					print("se llega a la opcion 1")
 					print("este es el valor de root")
 					print(app)
-					'''popup = Popup("mensaje_deb", self)
+					'''popup = Popup("mensaje_deb")
 					popup.setGeometry(100, 200, 400, 200)
 					popup.show()
 					popup.exec_()'''
@@ -717,12 +670,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 					reloadd(app) 
 				option+=1
 
-class Popup(QDialog):
+class Popup(QWidget):
+	def __init__(self, texto = ""):
+		super().__init__()
+		self.setWindowTitle("My Own Title")
+		self.label = QLabel('testo')
+		self.vbox = QVBoxLayout()
+		self.vbox.addWidget(self.label)
+		self.vbox.addStretch(1)
+		self.setLayout(self.vbox)
+		self.show()
+
+'''class Popup(QDialog):
 	def __init__(self, texto = "", parent=None):
 		super().__init__(parent)
 		self.setWindowTitle("Información WhatsApp Forensic")
 		self.texto = texto
 		self.label = QLabel(self.texto, self)
+		self.reject()
+
+	def close(self):
+		print('cerrando...')
+		self.reject'''
 
 if __name__ == '__main__':
 	print (modules.config.banner)
