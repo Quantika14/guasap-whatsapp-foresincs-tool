@@ -73,8 +73,6 @@ def info_root_f(root):
 	mensaje_deb = "Comprobando dispositivo..."
 	popup = Popup(mensaje_deb)
 	popup.setGeometry(100, 200, 800, 200)
-	#popup.show()
-	#popup.exec_()
 	reloadd(popup)
 	info_root,roote=check_root.check_root()
 	root_posibility=roote
@@ -674,11 +672,13 @@ class Popup(QWidget):
 	def __init__(self, texto = ""):
 		super().__init__()
 		self.setWindowTitle("My Own Title")
-		self.label = QLabel('testo')
-		self.vbox = QVBoxLayout()
+		self.texto = texto
+		self.label = QLabel(self.texto, self)
+		self.vbox = QVBoxLayout(self)
 		self.vbox.addWidget(self.label)
 		self.vbox.addStretch(1)
 		self.setLayout(self.vbox)
+		self.label.show()
 		self.show()
 
 '''class Popup(QDialog):
