@@ -30,7 +30,7 @@ from distutils.version import LooseVersion
 # Importamos el diseño
 from diseño_interfaz.model_ui import *
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QDialog, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QHBoxLayout, QVBoxLayout
 
 licencia=""
 rute= ""
@@ -72,7 +72,6 @@ def info_root_f(root):
 	global popup_a
 	mensaje_deb = "Comprobando dispositivo..."
 	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 800, 200)
 	reloadd(popup)
 	info_root,roote=check_root.check_root()
 	root_posibility=roote
@@ -670,15 +669,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 class Popup(QWidget):
 	def __init__(self, texto = ""):
-		super().__init__()
-		self.setWindowTitle("My Own Title")
+		super().__init__(self)
 		self.texto = texto
+		self.setWindowTitle("My Own Title")
+		self.setGeometry(100, 100, 640, 480)
+
 		self.label = QLabel(self.texto, self)
-		self.vbox = QVBoxLayout(self)
-		self.vbox.addWidget(self.label)
-		self.vbox.addStretch(1)
-		self.setLayout(self.vbox)
-		self.label.show()
+		self.label.adjustSize()
+
+		hbox=QHBoxLayout()
+		hbox.addStretch(1)
+		hbox.addWidget(self.label)
+
+		vbox=QVBoxLayout()
+		vbox.addStretch(1)
+		vbox.addLayout(hbox)
+
+		self.setLayout(vbox)
+
 		self.show()
 
 '''class Popup(QDialog):
