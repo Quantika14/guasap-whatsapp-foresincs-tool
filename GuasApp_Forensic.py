@@ -29,8 +29,9 @@ from distutils.version import LooseVersion
 
 # Importamos el diseño
 from diseño_interfaz.model_ui import *
+from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMessageBox, QVBoxLayout
 
 licencia=""
 rute= ""
@@ -71,8 +72,9 @@ def info_root_f(root):
 	global root_posibility
 	global popup_a
 	mensaje_deb = "Comprobando dispositivo..."
-	popup = Popup(mensaje_deb)
-	reloadd(popup)
+	window = root.show_dialog(mensaje_deb)
+	print(window)
+	reloadd(window)
 	info_root,roote=check_root.check_root()
 	root_posibility=roote
 	popup_a=True
@@ -556,6 +558,7 @@ def create_report_f(t):
 
 def reloadd(root):
 	time.sleep(3)
+	root.accept()
 	root.close()
 
 def on_closing(root):
@@ -592,6 +595,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
 		self.setupUi(self)
 		self.btnStart.clicked.connect(self.ejecucion)
+
+	def show_dialog(self, texto):
+		window = QMessageBox()
+		window.setWindowTitle('info')
+		window.setText(texto)
+		window.setStandardButtons(window.NoButton)
+		window.show()
+		return window
 
 	def ejecucion(self):
 		try:
@@ -645,14 +656,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				option = 0
 			while option < 7:
 				if option == 1:
-					print("se llega a la opcion 1")
-					print("este es el valor de root")
-					print(app)
-					'''popup = Popup("mensaje_deb")
-					popup.setGeometry(100, 200, 400, 200)
-					popup.show()
-					popup.exec_()'''
-					info_root_f(app)
+					info_root_f(self)
 				elif option == 2:
 					whatsapp_root(app)
 				elif option == 3:
@@ -667,39 +671,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 					reloadd(app) 
 				option+=1
 
-class Popup(QWidget):
-	def __init__(self, texto = ""):
-		super().__init__(self)
-		self.texto = texto
-		self.setWindowTitle("My Own Title")
-		self.setGeometry(100, 100, 640, 480)
+class Popup(QtWidgets.QMainWindow, Ui_MainWindow):
+	def __init__(self, *args, **kwargs):
+		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+		self.setupUi(self)
+		self.lblText.setText("self.texto")
 
-		self.label = QLabel(self.texto, self)
-		self.label.adjustSize()
-
-		hbox=QHBoxLayout()
-		hbox.addStretch(1)
-		hbox.addWidget(self.label)
-
-		vbox=QVBoxLayout()
-		vbox.addStretch(1)
-		vbox.addLayout(hbox)
-
-		self.setLayout(vbox)
-
-		self.show()
-
-'''class Popup(QDialog):
-	def __init__(self, texto = "", parent=None):
-		super().__init__(parent)
-		self.setWindowTitle("Información WhatsApp Forensic")
-		self.texto = texto
-		self.label = QLabel(self.texto, self)
-		self.reject()
-
-	def close(self):
-		print('cerrando...')
-		self.reject'''
 
 if __name__ == '__main__':
 	print (modules.config.banner)
