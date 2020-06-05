@@ -577,19 +577,35 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 	def ejecucion(self):
 		try:
+			#si el adb no esta instalado se va al except porque este comando dara error
 			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
 			out, err = process.communicate()
+			adb_instalado = True
 			out = out.decode('utf-8')
 			err = err.decode('utf-8')
+			print("se ha comprobado el adb de forma correcta")
 			#comprobamos que el adb se encuentre en el sistema el fichero que contiene adb
-			adb_instalado = True
-			option = 1
+			print("este es el resultado")
+			print(out)
+			print("este es el error")
+			print(err)
+			
+			#esto es si el adb esta instalado el el ordenador pero no hay dispositivo conectado
+			if "error: no devices/emulators found" in err:
+				print("NO DISPOSITIVO")
+				mensaje_deb2 = "No se ha encontrado dispotivo, redirigiendo al menu..."
+				self.updateConsole(mensaje_deb2)
+				sleep(5)
 			
 		except:
+			adb_instalado = False
+			mensaje_deb2 = "No se ha encontrado dispotivo, redirigiendo al menu..."
+			self.updateConsole(mensaje_deb2)
+			sleep(5)
 			print("no se ha encontrado el archivo adb en el sistema")
 			print("por favor instalo para que podamos continuar")
 
-		if adb_instalado == True:
+		if adb_instalado == True and "error: no devices/emulators found" not in err:
 			print("hemos encontrado el fichero adb asi que continuamos")
 				
 			#WIN LIN
@@ -598,32 +614,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				subprocess.call(modules.config.adb_comm+" kill-server")
 				subprocess.call(modules.config.adb_comm+" start-server")
 				print ("Please connect your Android device with USB Debugging enabled:")
-				#no tiene la ventana principal si esta seleccionada la opción 2 por que?
-				mensaje_deb = "Por favor, conecte el modo depuración en la pantalla de su dispositivo"
-				popup = Popup(mensaje_deb)
-				popup.setGeometry(100, 200, 400, 200)
-				popup.show()
-				popup.exec_()
+				#no tiene la ventana principal si esta seleccionada la opció 2 por que?
+
+				# TODO corregir este codigo ver la ejecucion de pop_wait
+				"""mensaje_deb = Label(pop_wait, text="Por favor, conecte el modo depuración en la pantalla de su dispositivo")
+				mensaje_deb.place(x=20,y=60)
+				pop_wait.update()"""
 				subprocess.call(modules.config.adb_comm+" wait-for-device")
-				mensaje_deb.destroy()
+				#mensaje_deb.destroy()
 				print("hasta aqui va")
 			#WIN LIN
 			elif "error: device" in err:
 				print ("No such device, please check the conection and restart app")
 				mensaje_deb = "No se encuentra ningun dispositivo, por favor, compruebe la conexion y prueba de nuevo"
-				popup = Popup(mensaje_deb)
-				popup.setGeometry(100, 200, 400, 200)
-				popup.show()
-				popup.exec_()
-				option = 0 
+				self.updateConsole(mensaje_deb)
+				time.sleep(1)
+				option = 1
 			#LIN									WIN
 			elif "sh: 1: adb:" in err  or "no se reconoce como un comando" in err:
 				print ("adb not installed, please install and restart app ")
 				mensaje_deb = "Adb no se encuentra en el ordenador, por favor, instala adb y prueba de nuevo"
-				popup = Popup(mensaje_deb)
-				popup.setGeometry(100, 200, 400, 200)
-				popup.show()
-				popup.exec_()
+				self.updateConsole(mensaje_deb)
+				time.sleep(1)
 				option = 1
 			while option < 7:
 				if option == 1:
