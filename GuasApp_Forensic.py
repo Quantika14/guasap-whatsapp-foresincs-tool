@@ -116,37 +116,34 @@ def popup():
 
 def whatsapp_root(root):
 	option , version, marca = check_data()
-	print("vamos a comprobar")
-	print(check_data())
 	
-	version, marca = check_data()
 	mensaje_total = ""
 	
 	mensaje = "Version: "+version
 	mensaje_total += mensaje
-	mensaje_2 = "Mobile brand: "+marca
+	mensaje2 = "Mobile brand: "+marca
 	mensaje_total += mensaje2
-	mensaje_3 = "App recommended to root: "+option["app"]
+	mensaje3 = "App recommended to root: "+option["app"]
 	mensaje_total += mensaje3
 	
 	if len(option["observaciones"]) > 60 and len(option["observaciones"]) < 150:
-		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
+		mensaje4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
 		mensaje_total += mensaje4
-		mensaje_5 = option["observaciones"][65:130]
+		mensaje5 = option["observaciones"][65:130]
 		mensaje_total += mensaje5
-		mensaje_6 = option["observaciones"][130:]
+		mensaje6 = option["observaciones"][130:]
 		mensaje_total += mensaje6
 	elif len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
-		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
+		mensaje4 = "OBSERVATIONS:\n"+option["observaciones"][:65]
 		mensaje_total += mensaje4
-		mensaje_5 = option["observaciones"][65:130]
+		mensaje5 = option["observaciones"][65:130]
 		mensaje_total += mensaje5
-		mensaje_6 = option["observaciones"][130:195]
+		mensaje6 = option["observaciones"][130:195]
 		mensaje_total += mensaje6
-		mensaje_6 = option["observaciones"][195:]
+		mensaje6 = option["observaciones"][195:]
 		mensaje_total += mensaje6
 	else:
-		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"]
+		mensaje4 = "OBSERVATIONS:\n"+option["observaciones"]
 		mensaje_total += mensaje4
 	
 	root.updateConsole(mensaje_total)
@@ -179,19 +176,6 @@ def check_how_root(android_v, marca):
 	elif other_option != "none":
 		return other_option
 
-"""def check_data():
-	command=modules.config.adb_comm+" shell getprop ro.build.version.release"
-	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
-	en,android_v,err = os.popen3(command)
-	android_v=android_v.read()
-	en,marca,err = os.popen3(command2)
-	marca=marca.read()
-	if android_v!="" and android_v!="\r\n":
-		option = check_how_root(android_v, marca)
-		return option , android_v, marca
-	else:
-		print ("Version not found on device") """
-
 def check_data():
 	command=modules.config.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.config.adb_comm+" shell getprop ro.product.manufacturer"
@@ -222,9 +206,15 @@ def check_data():
 def whatsapp_mm(root):
 	mensaje_deb = "Extrayendo archivos multimedia..."
 	root.updateConsole(mensaje_deb)
-	md5_cloned,md5_original=hashdeep.extract_mm()
-	add_report((md5_cloned,md5_original),6)
-	label_root=True
+	try:
+		md5_cloned,md5_original=hashdeep.extract_mm(root)
+		add_report((md5_cloned,md5_original),6)
+		label_root=True
+		print("el directorio de WhatsApp se ha encontrado de forma correcta")
+	except:
+		mensaje_deb = "No se ha encontrado el directorio de WhatsApp"
+		root.updateConsole(mensaje_deb)
+
 
 def whatsapp_log_f(root):
 	global whatsapp_log
@@ -240,7 +230,7 @@ def whatsapp_db_f(root):
 	global label_root
 	mensaje_deb = "Extrayendo base de datos cifrada..."
 	root.updateConsole(mensaje_deb)
-	list_dbs=whatsapp_db.extract_db()
+	list_dbs=whatsapp_db.extract_db(root)
 	add_report(list_dbs, 2)
 	label_root = True
 
@@ -250,12 +240,12 @@ def whatsapp_db_root(root):
 # Begin comments for offline development (using db files from another device (require one for root checker)):
 	mensaje_deb = "Extrayendo base de datos descifrada..."
 	root.updateConsole(mensaje_deb)
-	list_dbs,rows=whatsapp_db.extract_db_root()
+	list_dbs,rows=whatsapp_db.extract_db_root(root)
 # end "for offline development"
 	# Adding last Trello tasks
 	mensaje_num = "Obteniendo estadísticas de mensajes..."
 	root.updateConsole(mensaje_num)
-	list_dbs,rows=whatsapp_db.extract_db_root()
+	list_dbs,rows=whatsapp_db.extract_db_root(root)
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages()
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
@@ -568,6 +558,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 	def __init__(self, *args, **kwargs):
 		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
 		self.setupUi(self)
+		texto=self.lblDirectory.text()+" /Reports_Guasap_Forensic"
+		self.lblDirectory.setText(texto)
 		self.btnStart.clicked.connect(self.ejecucion)
 
 	def updateConsole(self, text):
@@ -576,6 +568,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
+		option=1
 		try:
 			#si el adb no esta instalado se va al except porque este comando dara error
 			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
@@ -641,15 +634,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				if option == 1:
 					info_root_f(self)
 				elif option == 2:
-					whatsapp_root(app)
+					whatsapp_root(self)
 				elif option == 3:
-					whatsapp_mm(app)
+					whatsapp_mm(self)
 				elif option == 4:
-					whatsapp_db_f(app)
+					whatsapp_db_f(self)
 				elif option == 5:
-					whatsapp_db_root(app)
+					whatsapp_db_root(self)
 				elif option == 6:
-					whatsapp_log_f(app)
+					whatsapp_log_f(self)
 				option+=1
 
 

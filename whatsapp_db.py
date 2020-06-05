@@ -5,7 +5,7 @@ import modules.config, modules.functions, parser_db, sqlite3, GuasApp_Forensic
 # from Tkinter import *
 from tkinter import *
 
-def extract_db():
+def extract_db(root):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
@@ -14,10 +14,7 @@ def extract_db():
 	#Extract dbs names
 	dbs = modules.functions.count_dbs()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
-	popup = GuasApp_Forensic.Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_deb)
 	for db in dbs:
 		print ("-------*-------")
 		if db=="":
@@ -37,7 +34,7 @@ def extract_db():
 			count+=1
 	return dbs_list
 
-def extract_db_root():
+def extract_db_root(root):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
@@ -46,10 +43,8 @@ def extract_db_root():
 	#Extract dbs names
 	dbs = modules.functions.count_dbs_root()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
-	popup = GuasApp_Forensic.Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_deb)
+	
 	for db in dbs:
 		print ("-------*-------")
 		if db=="":
@@ -70,12 +65,9 @@ def extract_db_root():
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 
-def count_messages():
+def count_messages(root):
 	mensaje_num = "Calculando..."
-	popup = GuasApp_Forensic.Popup(mensaje_num)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_num)
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')	
 	total_msg = 0
 	byConversation_messages = {}
