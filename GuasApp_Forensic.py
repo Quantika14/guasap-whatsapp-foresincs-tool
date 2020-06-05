@@ -73,7 +73,7 @@ def info_root_f(root):
 	global popup_a
 	mensaje_deb = "Comprobando dispositivo..."
 	root.updateConsole(mensaje_deb)
-	info_root,roote=check_root.check_root()
+	info_root,roote=check_root.check_root(root)
 	root_posibility=roote
 	popup_a=True
 
@@ -122,9 +122,6 @@ def whatsapp_root(root):
 	version, marca = check_data()
 	mensaje_total = ""
 	
-	pop_roote = Popup()
-	pop_roote.title("Information to Root device")
-	pop_rootepopup.setGeometry(100, 200, 445, 220)
 	mensaje = "Version: "+version
 	mensaje_total += mensaje
 	mensaje_2 = "Mobile brand: "+marca
@@ -152,9 +149,7 @@ def whatsapp_root(root):
 		mensaje_4 = "OBSERVATIONS:\n"+option["observaciones"]
 		mensaje_total += mensaje4
 	
-	pop_roote.texto=mensaje_total
-	pop_roote.show()
-	pop_roote.exec_()
+	root.updateConsole(mensaje_total)
 	
 
 
@@ -226,58 +221,40 @@ def check_data():
 
 def whatsapp_mm(root):
 	mensaje_deb = "Extrayendo archivos multimedia..."
-	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_deb)
 	md5_cloned,md5_original=hashdeep.extract_mm()
 	add_report((md5_cloned,md5_original),6)
 	label_root=True
-	reloadd(root)
 
 def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
 	mensaje_deb = "Extrayendo/analizando logs..."
-	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
-	whatsapp_log=whatsapp_log_forensic.extract_log()
+	root.updateConsole(mensaje_deb)
+	whatsapp_log=whatsapp_log_forensic.extract_log(root)
 	add_report(info_root, 1)
 	label_root = True
-	reloadd(root)
 
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
 	mensaje_deb = "Extrayendo base de datos cifrada..."
-	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_deb)
 	list_dbs=whatsapp_db.extract_db()
 	add_report(list_dbs, 2)
 	label_root = True
-	reloadd(root)
 
 def whatsapp_db_root(root):
 	global list_dbs
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
 	mensaje_deb = "Extrayendo base de datos descifrada..."
-	popup = Popup(mensaje_deb)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_deb)
 	list_dbs,rows=whatsapp_db.extract_db_root()
 # end "for offline development"
 	# Adding last Trello tasks
 	mensaje_num = "Obteniendo estadísticas de mensajes..."
-	popup = Popup(mensaje_num)
-	popup.setGeometry(100, 200, 400, 200)
-	popup.show()
-	popup.exec_()
+	root.updateConsole(mensaje_num)
 	list_dbs,rows=whatsapp_db.extract_db_root()
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages()
 	removed_id = whatsapp_db.detect_breakID(total_messages)
@@ -292,7 +269,6 @@ def whatsapp_db_root(root):
 	# add_report(rows, 5)
 # end "for message analytics"
 	label_root = True
-	reloadd(root)
 
 def add_report(data, option):
 	global info_root
@@ -595,8 +571,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.btnStart.clicked.connect(self.ejecucion)
 
 	def updateConsole(self, text):
-		self.lblConsole.setText(text)
-		self.lblConsole.show()
+		texto = self.lblConsole.text() + '\n' + text
+		self.lblConsole.setText(texto)
+		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
 		try:
@@ -647,7 +624,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				popup.setGeometry(100, 200, 400, 200)
 				popup.show()
 				popup.exec_()
-				option = 0
+				option = 1
 			while option < 7:
 				if option == 1:
 					info_root_f(self)
@@ -661,8 +638,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 					whatsapp_db_root(app)
 				elif option == 6:
 					whatsapp_log_f(app)
-				elif option == 0:
-					reloadd(app) 
 				option+=1
 
 

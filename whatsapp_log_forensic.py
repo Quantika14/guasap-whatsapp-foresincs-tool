@@ -5,7 +5,7 @@ import modules.config, modules.functions, GuasApp_Forensic
 # from Tkinter import *
 from tkinter import *
 
-def extract_log():
+def extract_log(root):
 	#Create directory
 	modules.functions.create_dir_log()
 	#Extract logs names
@@ -17,10 +17,7 @@ def extract_log():
 		else:
 			#Extract logs
 			mensaje_deb = "Logs extraidos, analizando..."
-			popup = GuasApp_Forensic.Popup(mensaje_deb)
-			popup.setGeometry(100, 200, 400, 200)
-			popup.show()
-			popup.exec_()
+			root.updateConsole(mensaje_deb)
 			log = modules.functions.get_whatsappLog(log)
 			#Decompress gz
 			if ".gz" in log:

@@ -12,17 +12,14 @@ from tkinter import *
 root_posibility=False
 
 #A partir de esta línea comenzamos a verificar si el dispositivo está rooteado.
-def check_root():
+def check_root(window):
 	root=check_su()
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
 		mensaje_deb = "Buscando aplicaciones que requieren de Root..."
-		popup = GuasApp_Forensic.Popup(mensaje_deb)
-		popup.setGeometry(100, 200, 400, 200)
-		popup.show()
-		popup.exec_()
+		window.updateConsole(mensaje_deb)
 		for directory in modules.config.directory:
 			a = modules.config.adb_comm+" shell ls "+directory+"Download/"
 			a = os.popen(a).read()
