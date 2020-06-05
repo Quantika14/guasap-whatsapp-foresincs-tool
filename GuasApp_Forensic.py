@@ -72,9 +72,7 @@ def info_root_f(root):
 	global root_posibility
 	global popup_a
 	mensaje_deb = "Comprobando dispositivo..."
-	window = root.show_dialog(mensaje_deb)
-	print(window)
-	reloadd(window)
+	root.updateConsole(mensaje_deb)
 	info_root,roote=check_root.check_root()
 	root_posibility=roote
 	popup_a=True
@@ -596,13 +594,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.setupUi(self)
 		self.btnStart.clicked.connect(self.ejecucion)
 
-	def show_dialog(self, texto):
-		window = QMessageBox()
-		window.setWindowTitle('info')
-		window.setText(texto)
-		window.setStandardButtons(window.NoButton)
-		window.show()
-		return window
+	def updateConsole(self, text):
+		self.lblConsole.setText(text)
+		self.lblConsole.show()
 
 	def ejecucion(self):
 		try:
@@ -670,12 +664,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				elif option == 0:
 					reloadd(app) 
 				option+=1
-
-class Popup(QtWidgets.QMainWindow, Ui_MainWindow):
-	def __init__(self, *args, **kwargs):
-		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
-		self.setupUi(self)
-		self.lblText.setText("self.texto")
 
 
 if __name__ == '__main__':
