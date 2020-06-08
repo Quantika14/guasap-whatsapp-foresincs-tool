@@ -75,32 +75,10 @@ def info_root_f(root):
 	root.updateConsole(mensaje_deb)
 	info_root,roote=check_root.check_root(root)
 	root_posibility=roote
-	popup_a=True
-
-def popup(root):
-	print("llama a la funcion pop up")
-	global info_root
-	global label_root
-	global root_posibility
-
-	print("este es info root")
-	print(type(info_root))
-	print("longitud")
-	print(len(info_root))
-	
-	if info_root[0]=="No adb installed":
-		mensaje ="No se ha detectado adb por favor reintente despues de instalar"
-		root.updataConsole(mensaje)
-		
-	elif info_root[0]=="No debugging actve":
-		mensaje ="No se han detectado permisos de depuración usb,\n por favor revise el telefono"
-		root.updataConsole(mensaje)
-	else:
-		mensaje ="Ningún dispositivo conectado"
-		root.updataConsole(mensaje)
 	label_root = True
 	print("llama al add report")
 	add_report(info_root, 0)
+
 
 
 def whatsapp_root(root):
@@ -559,7 +537,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		option=0
+		option=1
 		try:
 			#si el adb no esta instalado se va al except porque este comando dara error
 			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
@@ -622,9 +600,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				time.sleep(1)
 				option = 1
 			while option < 7:
-				if option == 0:
-					print("ejecuta la opcion 0")
-					popup(self)
 				elif option == 1:
 					print("ejecuta la opcion 1")
 					info_root_f(self)
@@ -647,10 +622,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			
 			print("llega a las comprobaciones ultimas")
 
-			if popup_a:
-			popup()
-			popup_a=False
-			
 			if label_root==True:
 				text="Trabajo finalizado."
 				self.updateConsole(text)
