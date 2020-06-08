@@ -77,40 +77,29 @@ def info_root_f(root):
 	root_posibility=roote
 	popup_a=True
 
-def popup():
+def popup(root):
+	print("llama a la funcion pop up")
 	global info_root
 	global label_root
 	global root_posibility
-	pop_root = Toplevel()
-	imgicon = PhotoImage(file=os.path.join("images",'ico.gif'))
-	pop_root.tk.call('wm', 'iconphoto', pop_root._w, imgicon)
-	pop_root.title("Comprobar root")
-	pop_root.configure(width=450, height=450)
-	pop_root.resizable(width=False, height=False)
-	if info_root[0]=="Root Device":
-		imagen = PhotoImage(file="images/SI-ROOT.PPM")
-		widget = Label(pop_root, image=imagen)
-		widget.image = imagen
-		widget.place(x=20,y=20)
 
-	elif info_root[0]=="No root device":
-		imagen = PhotoImage(file="images/NO-ROOT.PPM")
-		widget = Label(pop_root, image=imagen)
-		widget.image = imagen
-		widget.place(x=20,y=20)
-	elif info_root[0]=="No adb installed":
-		mensaje = Label(pop_root, text="No se ha detectado adb por favor reintente despues de instalar")
-		mensaje.place(x=40,y=40)
-		mensaje.configure(foreground="red")
+	print("este es info root")
+	print(type(info_root))
+	print("longitud")
+	print(len(info_root))
+	
+	if info_root[0]=="No adb installed":
+		mensaje ="No se ha detectado adb por favor reintente despues de instalar"
+		root.updataConsole(mensaje)
+		
 	elif info_root[0]=="No debugging actve":
-		mensaje = Label(pop_root, text="No se han detectado permisos de depuración usb,\n por favor revise el telefono")
-		mensaje.place(x=40,y=40)
-		mensaje.configure(foreground="red")
+		mensaje ="No se han detectado permisos de depuración usb,\n por favor revise el telefono"
+		root.updataConsole(mensaje)
 	else:
-		mensaje = Label(pop_root, text="Ningún dispositivo conectado")
-		mensaje.place(x=40,y=40)
-		mensaje.configure(foreground="red")
+		mensaje ="Ningún dispositivo conectado"
+		root.updataConsole(mensaje)
 	label_root = True
+	print("llama al add report")
 	add_report(info_root, 0)
 
 
@@ -346,6 +335,8 @@ def add_report(data, option):
 		
 		packages,err=Popen(commandd, stdout=PIPE, stderr=PIPE).communicate()
 		packages=packages.decode("utf-8")
+		print("estos son los paquetes que debe coger")
+		print("paquetes")
 		packages = packages.split("\n")
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
@@ -568,7 +559,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		option=1
+		option=0
 		try:
 			#si el adb no esta instalado se va al except porque este comando dara error
 			process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
@@ -631,19 +622,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				time.sleep(1)
 				option = 1
 			while option < 7:
-				if option == 1:
+				if option == 0:
+					print("ejecuta la opcion 0")
+					popup(self)
+				elif option == 1:
+					print("ejecuta la opcion 1")
 					info_root_f(self)
 				elif option == 2:
+					print("ejecuta la opcion 2")
 					whatsapp_root(self)
 				elif option == 3:
+					print("ejecuta la opcion 3")
 					whatsapp_mm(self)
 				elif option == 4:
+					print("ejecuta la opcion 4")
 					whatsapp_db_f(self)
 				elif option == 5:
+					print("ejecuta la opcion 5")
 					whatsapp_db_root(self)
 				elif option == 6:
+					print("ejecuta la opcion 6")
 					whatsapp_log_f(self)
 				option+=1
+			
+			print("llega a las comprobaciones ultimas")
+
+			if popup_a:
+			popup()
+			popup_a=False
+			
+			if label_root==True:
+				text="Trabajo finalizado."
+				self.updateConsole(text)
+				label_root==False
 
 
 if __name__ == '__main__':
