@@ -600,7 +600,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				time.sleep(1)
 				option = 1
 			while option < 7:
-				elif option == 1:
+				if option == 1:
 					print("ejecuta la opcion 1")
 					info_root_f(self)
 				elif option == 2:
