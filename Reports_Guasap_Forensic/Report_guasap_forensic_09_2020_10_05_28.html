@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Guasap Forensic Report</title>
+<style>
+body {
+	background-color: #F4F4F4;
+	font-family: sans-serif;
+}
+h1 {
+	color: black;
+	font-family: sans-serif;
+	font-size: 300%;
+	text-align: center;
+	border-bottom: 2px solid black;
+}
+h2 {
+	color: black;
+	font-family: sans-serif;
+	font-size: 150%;
+	text-align: center;
+	border-bottom: 2px solid black;
+	width:10%;
+	margin-left:45%;
+}
+h3 {
+	color: black;
+	font-family: sans-serif;
+}
+p {
+	color: black;
+	font-size: 100%;
+	line-height: 100%;
+
+}
+
+p.cabecera{
+border-bottom: 1px solid #000000; /**Línea inferior**/
+margin-top:5%;
+
+padding:0 0 2px; 
+font-size:160%; /**Tamaño del texto**/
+line-height:1.9em; /**Altura del recuadro**/
+}
+p.cabecera{
+color: #000000; /**Color del título**/
+text-align: center; /**centrar título**/
+}
+p.subcabecera{
+border-bottom: 1px solid #000000; /**Línea inferior**/
+margin-top:5%;
+padding:0 0 2px; 
+font-size:100%; /**Tamaño del texto**/
+line-height:1.9em; /**Altura del recuadro**/
+}
+p.subcabecera{
+color: #000000; /**Color del título**/
+text-align: center; /**centrar título**/
+}
+
+hr { 
+   border: 2px solid #5c3566; 
+   border-radius: 200px /8px; 
+   height: 0px; 
+   text-align: center; 
+   margin: 3%
+ } 
+
+p.aversion {
+	color: black;
+}
+
+p.hash {
+	color: #555753;
+	line-height: 130%;
+}
+
+p.messages {
+	color: #2e3436;
+}
+#list{
+	display: none;
+}
+#list_media{
+	display: none;
+}
+#list_dbs{
+	display: none;
+}
+#list_dbs_root{
+	display: none;
+}
+.botonlog{
+            text-decoration: none !important;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff !important;
+            background-color: #7d70af;
+            border-radius: 6px;
+            border: 2px solid #746ead;
+            margin-bottom: 5%;
+}
+.botonlog:hover{
+	background-color: #8F86B1;
+}
+#boton_ {
+            text-decoration: none !important;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff !important;
+            background-color: #7d70af;
+            border-radius: 6px;
+            border: 2px solid #746ead;
+            margin-bottom: 5%;
+          }
+#boton_:hover{
+	background-color: #8F86B1;
+}
+#boton_media {
+            text-decoration: none !important;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff !important;
+            background-color: #7d70af;
+            border-radius: 6px;
+            border: 2px solid #746ead;
+            margin-bottom: 5%;
+          }
+#boton_media:hover{
+	background-color: #8F86B1;
+}
+#boton_dbs {
+            text-decoration: none !important;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff !important;
+            background-color: #7d70af;
+            border-radius: 6px;
+            border: 2px solid #746ead;
+            margin-bottom: 5%;
+          }
+#boton_dbs:hover{
+	background-color: #8F86B1;
+}
+#boton_dbs_root {
+            text-decoration: none !important;
+            padding: 7px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #ffffff !important;
+            background-color: #7d70af;
+            border-radius: 6px;
+            border: 2px solid #746ead;
+            margin-bottom: 5%;
+          }
+#boton_dbs_root:hover{
+	background-color: #8F86B1;
+}
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+<script>
+function listar(){
+        if ($("#list").css("display")=="none"){
+          $("#list").show();
+          $(boton_).text('Show less');
+        }
+        else{
+          $("#list").hide();
+          $(boton_).text('Show all');
+
+            }
+      };
+function listar_media(){
+        if ($("#list_media").css("display")=="none"){
+          $("#list_media").show();
+          $(boton_media).text('Show less');
+        }
+        else{
+          $("#list_media").hide();
+          $(boton_media).text('Show all');
+            }
+      };
+function listar_dbs(){
+        if ($("#list_dbs").css("display")=="none"){
+          $("#list_dbs").show();
+          $(boton_dbs).text('Show less');
+        }
+        else{
+          $("#list_dbs").hide();
+          $(boton_dbs).text('Show all');
+            }
+      };
+function listar_dbs_root(){
+        if ($("#list_dbs_root").css("display")=="none"){
+          $("#list_dbs_root").show();
+          $(boton_dbs_root).text('Show less');
+        }
+        else{
+          $("#list_dbs_root").hide();
+          $(boton_dbs_root).text('Show all');
+            }
+      };
+</script>
+</head>
+
+<body><h1>Guasap Forensic Report</h1><h2>QK14</h2><p class='cabecera'><b>Root check</b></p><h3> Date of system: Tuesday June, 09 2020 10:06:00</h3>Device Not found 
+
+<p class='aversion'><b>Android version</b>: 10
+</p><p><b>Mobile brand</b>: Xiaomi
+</p><p class='rootinfo'><b>Root Device</b>: Yes</p><br></div></p><p class='subcabecera'>Installed packages:</p><p>package:/data/app/org.jitsi.meet-MAvmmEdwk5RL-C9-zZtg2Q==/base.apk=org.jitsi.meet</p><p>package:/data/app/com.skype.raider-T2AtD-ywBpeT3ucUPYBZrQ==/base.apk=com.skype.raider</p><p>package:/system/priv-app/CtsShimPrivPrebuilt/CtsShimPrivPrebuilt.apk=com.android.cts.priv.ctsshim</p><div id='list'><p>package:/vendor/app/SSGTelemetryService/SSGTelemetryService.apk=com.qualcomm.qti.qms.service.telemetry</p><p>package:/data/app/com.Dani.Balls-CpUxW_pBrP3aoNdKNP03GA==/base.apk=com.Dani.Balls</p><p>package:/data/app/com.google.android.youtube-tUV2TZJwn1qervz32RGSSw==/base.apk=com.google.android.youtube</p><p>package:/product/overlay/DisplayCutoutEmulationCorner/DisplayCutoutEmulationCornerOverlay.apk=com.android.internal.display.cutout.emulation.corner</p><p>package:/system/priv-app/GoogleExtServicesPrebuilt/GoogleExtServicesPrebuilt.apk=com.google.android.ext.services</p><p>package:/product/overlay/DisplayCutoutEmulationDouble/DisplayCutoutEmulationDoubleOverlay.apk=com.android.internal.display.cutout.emulation.double</p><p>package:/system/priv-app/TelephonyProvider/TelephonyProvider.apk=com.android.providers.telephony</p><p>package:/data/app/com.fiverr.fiverr-gSBECI2twUrE-ewYITkKlg==/base.apk=com.fiverr.fiverr</p><p>package:/system/priv-app/DynamicSystemInstallationService/DynamicSystemInstallationService.apk=com.android.dynsystem</p><p>package:/system/app/GFManager/GFManager.apk=com.goodix.fingerprint</p><p>package:/data/app/com.google.android.googlequicksearchbox-TzY994kPH4T9ILv7ipatHw==/base.apk=com.google.android.googlequicksearchbox</p><p>package:/system/priv-app/CalendarProvider/CalendarProvider.apk=com.android.providers.calendar</p><p>package:/data/app/org.telegram.messenger-DHiI-m2dExi6Gz5gsbcjhg==/base.apk=org.telegram.messenger</p><p>package:/system/priv-app/MediaProvider/MediaProvider.apk=com.android.providers.media</p><p>package:/system/product/app/colorservice/colorservice.apk=com.qti.service.colorservice</p><p>package:/product/overlay/IconShapeSquare/IconShapeSquareOverlay.apk=com.android.theme.icon.square</p><p>package:/system/product/priv-app/GoogleOneTimeInitializer/GoogleOneTimeInitializer.apk=com.google.android.onetimeinitializer</p><p>package:/system/app/GoogleExtShared/GoogleExtShared.apk=com.google.android.ext.shared</p><p>package:/data/app/com.shazam.android-VI_mHdERgN9wRwcYO17nqw==/base.apk=com.shazam.android</p><p>package:/product/overlay/NavigationBarModeGesturalWideBack/NavigationBarModeGesturalOverlayWideBack.apk=com.android.internal.systemui.navbar.gestural_wide_back</p><p>package:/system/product/priv-app/WallpaperCropper/WallpaperCropper.apk=com.android.wallpapercropper</p><p>package:/product/overlay/AccentColorCinnamon/AccentColorCinnamonOverlay.apk=com.android.theme.color.cinnamon</p><p>package:/data/app/pl.mw.playmagnus-XPt_D-XfrFRc1OZolBScaQ==/base.apk=pl.mw.playmagnus</p><p>package:/system/app/Protips/Protips.apk=com.android.protips</p><p>package:/product/overlay/IconPackRoundedSystemUI/IconPackRoundedSystemUIOverlay.apk=com.android.theme.icon_pack.rounded.systemui</p><p>package:/system/priv-app/DocumentsUI/DocumentsUI.apk=com.android.documentsui</p><p>package:/data/app/jitdesign.icsimport-dMIgxoPcJJsYSxT3zsvdhw==/base.apk=jitdesign.icsimport</p><p>package:/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk=com.android.externalstorage</p><p>package:/system/product/app/uimremoteclient/uimremoteclient.apk=com.qualcomm.uimremoteclient</p><p>package:/system/app/HTMLViewer/HTMLViewer.apk=com.android.htmlviewer</p><p>package:/data/app/com.whatsapp-8txEg8cIybbUvxaCbPZbXA==/base.apk=com.whatsapp</p><p>package:/system/product/app/uceShimService/uceShimService.apk=com.qualcomm.qti.uceShimService</p><p>package:/system/app/CompanionDeviceManager/CompanionDeviceManager.apk=com.android.companiondevicemanager</p><p>package:/data/app/com.google.android.apps.navlite-4SLlZXaxb6Yr5fcumwpE6g==/base.apk=com.google.android.apps.navlite</p><p>package:/system/priv-app/MmsService/MmsService.apk=com.android.mms.service</p><p>package:/vendor/app/ConnectionSecurityService/ConnectionSecurityService.apk=com.qualcomm.qti.qms.service.connectionsecurity</p><p>package:/system/priv-app/DownloadProvider/DownloadProvider.apk=com.android.providers.downloads</p><p>package:/data/app/aib.ibank.android-IIMgH9x4G1Z25RlGo8peRQ==/base.apk=aib.ibank.android</p><p>package:/system/app/mid_test/mid_test.apk=com.longcheertel.midtest</p><p>package:/data/app/com.google.android.apps.messaging-JJVs0mt7OwkAXwjZs4HHkA==/base.apk=com.google.android.apps.messaging</p><p>package:/system/priv-app/InProcessNetworkStack/InProcessNetworkStack.apk=com.android.networkstack.inprocess</p><p>package:/data/app/alior.bankingapp.android-GfCtFW3YULrSneWTWQYKLA==/base.apk=alior.bankingapp.android</p><p>package:/product/overlay/IconPackRoundedAndroid/IconPackRoundedAndroidOverlay.apk=com.android.theme.icon_pack.rounded.android</p><p>package:/vendor/app/CACertService/CACertService.apk=vendor.qti.hardware.cacert.server</p><p>package:/system/product/priv-app/CallEnhancement/CallEnhancement.apk=com.qualcomm.qti.callenhancement</p><p>package:/data/app/com.discord-LV6NyP_C1w9UWQtb6yPNXA==/base.apk=com.discord</p><p>package:/system/product/app/QtiTelephonyService/QtiTelephonyService.apk=com.qualcomm.qti.telephonyservice</p><p>package:/data/app/com.miui.videoplayer-_q7yUr3g3L8hFpuPfvseDQ==/base.apk=com.miui.videoplayer</p><p>package:/data/app/com.ryanair.cheapflights-k4lh2i1CVJ8bdczZL-7ujQ==/base.apk=com.ryanair.cheapflights</p><p>package:/product/overlay/IconPackCircularThemePicker/IconPackCircularThemePickerOverlay.apk=com.android.theme.icon_pack.circular.themepicker</p><p>package:/product/overlay/GmsGsaConfigOverlay.apk=com.google.android.overlay.gmsgsaconfig</p><p>package:/vendor/app/IWlanService/IWlanService.apk=vendor.qti.iwlan</p><p>package:/system/product/priv-app/ConfigUpdater/ConfigUpdater.apk=com.google.android.configupdater</p><p>package:/vendor/overlay/OptInAppOverlay/OptInAppOverlay.apk=com.qualcomm.qti.optinoverlay</p><p>package:/product/overlay/GooglePermissionControllerOverlay.apk=com.google.android.overlay.modules.permissioncontroller</p><p>package:/system/product/app/uimremoteserver/uimremoteserver.apk=com.qualcomm.uimremoteserver</p><p>package:/system/product/app/ConfURIDialer/ConfURIDialer.apk=com.qti.confuridialer</p><p>package:/data/app/com.mapswithme.maps.pro-JlqCwFsbxhITLlRLl8wgMA==/base.apk=com.mapswithme.maps.pro</p><p>package:/system/app/ModemLog/ModemLog.apk=com.longcheertel.modemlog</p><p>package:/data/app/com.google.ar.lens-PPlIN34jvaIU9hoTo0EQXg==/base.apk=com.google.ar.lens</p><p>package:/data/app/com.getsomeheadspace.android-pLsylvonjw-G4xY_SKo6BQ==/base.apk=com.getsomeheadspace.android</p><p>package:/system/priv-app/DownloadProviderUi/DownloadProviderUi.apk=com.android.providers.downloads.ui</p><p>package:/data/app/com.android.vending-qarYC6KnWePJveInJERMKg==/base.apk=com.android.vending</p><p>package:/system/app/PacProcessor/PacProcessor.apk=com.android.pacprocessor</p><p>package:/system/app/SimAppDialog/SimAppDialog.apk=com.android.simappdialog</p><p>package:/product/overlay/DisplayCutoutEmulationTall/DisplayCutoutEmulationTallOverlay.apk=com.android.internal.display.cutout.emulation.tall</p><p>package:/data/app/com.hostelworld.app-CgTk-BH5hqoI69uVIVE9gg==/base.apk=com.hostelworld.app</p><p>package:/system/app/CertInstaller/CertInstaller.apk=com.android.certinstaller</p><p>package:/product/overlay/AccentColorBlack/AccentColorBlackOverlay.apk=com.android.theme.color.black</p><p>package:/system/product/priv-app/CarrierConfig/CarrierConfig.apk=com.android.carrierconfig</p><p>package:/data/app/com.google.android.marvin.talkback-VLTyU1EHYD51_75zIT-TEA==/base.apk=com.google.android.marvin.talkback</p><p>package:/product/overlay/AccentColorGreen/AccentColorGreenOverlay.apk=com.android.theme.color.green</p><p>package:/product/overlay/AccentColorOcean/AccentColorOceanOverlay.apk=com.android.theme.color.ocean</p><p>package:/product/overlay/AccentColorSpace/AccentColorSpaceOverlay.apk=com.android.theme.color.space</p><p>package:/system/app/WapiCertManage/WapiCertManage.apk=com.wapi.wapicertmanage</p><p>package:/product/overlay/NavigationBarMode3Button/NavigationBarMode3ButtonOverlay.apk=com.android.internal.systemui.navbar.threebutton</p><p>package:/system/product/priv-app/OobConfig/OobConfig.apk=com.google.android.apps.work.oobconfig</p><p>package:/system/product/app/datastatusnotification/datastatusnotification.apk=com.qti.qualcomm.datastatusnotification</p><p>package:/system/framework/framework-res.apk=android</p><p>package:/system/product/app/CallFeaturesSetting/CallFeaturesSetting.apk=com.qualcomm.qti.callfeaturessetting</p><p>package:/system/priv-app/WfdService/WfdService.apk=com.qualcomm.wfd.service</p><p>package:/product/overlay/IconPackRoundedLauncher/IconPackRoundedLauncherOverlay.apk=com.android.theme.icon_pack.rounded.launcher</p><p>package:/system/product/app/DeviceInfo/DeviceInfo.apk=com.qti.qualcomm.deviceinfo</p><p>package:/data/app/android.autoinstalls.config.Xiaomi.jasmine-diUW6xq1k-jUn9i71FtJnA==/base.apk=android.autoinstalls.config.Xiaomi.jasmine</p><p>package:/data/app/com.contextlogic.wish-sn1iN1brDzg5YiiFzr_uNA==/base.apk=com.contextlogic.wish</p><p>package:/system/app/EasterEgg/EasterEgg.apk=com.android.egg</p><p>package:/system/priv-app/MtpDocumentsProvider/MtpDocumentsProvider.apk=com.android.mtp</p><p>package:/system/priv-app/ONS/ONS.apk=com.android.ons</p><p>package:/system/app/Stk/Stk.apk=com.android.stk</p><p>package:/system/product/priv-app/SearchLauncherQRef/SearchLauncherQRef.apk=com.android.launcher3</p><p>package:/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk=com.android.backupconfirm</p><p>package:/data/app/com.instagram.android-wH4cZf1pst3lf86Vsw0O7Q==/base.apk=com.instagram.android</p><p>package:/system/app/GFTest/GFTest.apk=com.goodix.gftest</p><p>package:/data/app/com.catalinagroup.callrecorder-_7i7EiziT0OXI6lfAaBO_w==/base.apk=com.catalinagroup.callrecorder</p><p>package:/data/app/com.google.android.deskclock-xw7awpSCN-gfT9bVHrDqOQ==/base.apk=com.google.android.deskclock</p><p>package:/product/overlay/NavigationBarMode2Button/NavigationBarMode2ButtonOverlay.apk=com.android.internal.systemui.navbar.twobutton</p><p>package:/system/product/priv-app/ims/ims.apk=org.codeaurora.ims</p><p>package:/system/priv-app/StatementService/StatementService.apk=com.android.statementservice</p><p>package:/system/app/OsuLogin/OsuLogin.apk=com.android.hotspot2</p><p>package:/data/app/com.google.android.as-xakXU9bnA1LevPpaAf0f4A==/base.apk=com.google.android.as</p><p>package:/data/app/com.google.android.gm-BYoC1NsXTzGv40diqVrS0w==/base.apk=com.google.android.gm</p><p>package:/product/overlay/FrameworksResTarget.apk=android.overlay.target</p><p>package:/data/app/com.google.android.apps.tachyon-zl-4OYPRJhovsrSBWY4Rxg==/base.apk=com.google.android.apps.tachyon</p><p>package:/system/product/priv-app/SettingsIntelligence/SettingsIntelligence.apk=com.android.settings.intelligence</p><p>package:/product/overlay/NavigationBarModeGesturalExtraWideBack/NavigationBarModeGesturalOverlayExtraWideBack.apk=com.android.internal.systemui.navbar.gestural_extra_wide_back</p><p>package:/system/priv-app/GooglePermissionControllerPrebuilt/GooglePermissionControllerPrebuilt.apk=com.google.android.permissioncontroller</p><p>package:/system/product/priv-app/SetupWizard/SetupWizard.apk=com.google.android.setupwizard</p><p>package:/system/product/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk=com.qualcomm.qcrilmsgtunnel</p><p>package:/system/priv-app/SettingsProvider/SettingsProvider.apk=com.android.providers.settings</p><p>package:/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk=com.android.sharedstoragebackup</p><p>package:/data/app/com.google.android.music--EikYJjHZOoEQ-MzYg7KMQ==/base.apk=com.google.android.music</p><p>package:/system/app/PrintSpooler/PrintSpooler.apk=com.android.printspooler</p><p>package:/product/overlay/IconPackFilledSettings/IconPackFilledSettingsOverlay.apk=com.android.theme.icon_pack.filled.settings</p><p>package:/system/app/BasicDreams/BasicDreams.apk=com.android.dreams.basic</p><p>package:/product/overlay/GoogleExtServicesConfigOverlay.apk=com.google.android.overlay.modules.ext.services</p><p>package:/data/app/com.duokan.phone.remotecontroller-a_An8dxd2d9zkHLAYH0_ww==/base.apk=com.duokan.phone.remotecontroller</p><p>package:/system/app/MiuiBugReport/MiuiBugReport.apk=com.miui.bugreport</p><p>package:/system/app/SecureElement/SecureElement.apk=com.android.se</p><p>package:/system/priv-app/InputDevices/InputDevices.apk=com.android.inputdevices</p><p>package:/vendor/app/QFingerprintService/QFingerprintService.apk=com.qualcomm.qti.biometrics.fingerprint.service</p><p>package:/data/app/com.google.android.apps.wellbeing-9LDtvFswfuvfVKk36mse_g==/base.apk=com.google.android.apps.wellbeing</p><p>package:/data/app/com.google.android.dialer-RrI9Ml4zbrQQQxDLDSLVPQ==/base.apk=com.google.android.dialer</p><p>package:/system/app/BuiltInPrintService/BuiltInPrintService.apk=com.android.bips</p><p>package:/system/product/priv-app/dpmserviceapp/dpmserviceapp.apk=com.qti.dpmserviceapp</p><p>package:/data/app/com.google.android.apps.nbu.files-iFN_5MpfLJJ292kMXkRpxQ==/base.apk=com.google.android.apps.nbu.files</p><p>package:/product/overlay/IconPackCircularSettings/IconPackCircularSettingsOverlay.apk=com.android.theme.icon_pack.circular.settings</p><p>package:/data/app/com.dropbox.android-C3HubjmTZnQVcCWLO44IPg==/base.apk=com.dropbox.android</p><p>package:/vendor/app/FingerprintExtensionService/FingerprintExtensionService.apk=com.fingerprints.extension.service</p><p>package:/system/product/app/xdivert/xdivert.apk=com.qti.xdivert</p><p>package:/system/priv-app/MusicFX/MusicFX.apk=com.android.musicfx</p><p>package:/data/app/com.resultadosfutbol.mobile-jmUoagokDLcn-xq1n6mYuw==/base.apk=com.resultadosfutbol.mobile</p><p>package:/product/overlay/GmsConfigOverlay.apk=com.google.android.overlay.gmsconfig</p><p>package:/data/app/com.google.android.apps.docs-aIF_qbuYq8lO03s7PfDPag==/base.apk=com.google.android.apps.docs</p><p>package:/data/app/com.google.android.apps.maps-q4tL58yo7LnFfOClMz1rDQ==/base.apk=com.google.android.apps.maps</p><p>package:/data/app/com.google.android.modulemetadata-xNKf4fpBWVLWtHnTsUWLNQ==/base.apk=com.google.android.modulemetadata</p><p>package:/data/app/com.ubercab.eats-4LgzapJuLHgsYZxppXE3Iw==/base.apk=com.ubercab.eats</p><p>package:/data/app/com.endomondo.android--x6fNwE0QP3-IzFgrtBSRQ==/base.apk=com.endomondo.android</p><p>package:/system/priv-app/CellBroadcastReceiver/CellBroadcastReceiver.apk=com.android.cellbroadcastreceiver</p><p>package:/data/app/com.google.android.webview-huZ9vSPbkqYm3dZM-bDO5A==/base.apk=com.google.android.webview</p><p>package:/product/overlay/IconShapeTeardrop/IconShapeTeardropOverlay.apk=com.android.theme.icon.teardrop</p><p>package:/system/product/app/SimSettings/SimSettings.apk=com.qualcomm.qti.simsettings</p><p>package:/data/app/com.google.android.contacts-UGOZDGUIWmw-DUSrMYCTTQ==/base.apk=com.google.android.contacts</p><p>package:/system/priv-app/Telecom/Telecom.apk=com.android.server.telecom</p><p>package:/system/product/app/GoogleContactsSyncAdapter/GoogleContactsSyncAdapter.apk=com.google.android.syncadapters.contacts</p><p>package:/system/app/KeyChain/KeyChain.apk=com.android.keychain</p><p>package:/system/priv-app/MiuiCamera/MiuiCamera.apk=com.android.camera</p><p>package:/data/app/com.google.android.calculator-TA2nlKXWZjj5E5HFeajwFQ==/base.apk=com.google.android.calculator</p><p>package:/data/app/com.android.chrome--Zh0Q5sAIh-BSFK74bK7ow==/base.apk=com.android.chrome</p><p>package:/product/overlay/IconPackFilledSystemUI/IconPackFilledSystemUIOverlay.apk=com.android.theme.icon_pack.filled.systemui</p><p>package:/system/priv-app/GooglePackageInstaller/GooglePackageInstaller.apk=com.google.android.packageinstaller</p><p>package:/data/app/com.google.android.gms-HWxB8_PAO8O2eR5x6jbtKw==/base.apk=com.google.android.gms</p><p>package:/system/product/priv-app/GoogleServicesFramework/GoogleServicesFramework.apk=com.google.android.gsf</p><p>package:/data/app/com.google.android.ims-3DTX1DOugxe0JyZgNPQ5XA==/base.apk=com.google.android.ims</p><p>package:/system/priv-app/TagGoogle/TagGoogle.apk=com.google.android.tag</p><p>package:/data/app/com.google.android.tts-SJMaN-Wf0mC4x1xJu4zHXg==/base.apk=com.google.android.tts</p><p>package:/system/product/app/GmsSampleIntegration/GmsSampleIntegration.apk=com.google.android.gmsintegration</p><p>package:/system/product/app/QtiSystemService/QtiSystemService.apk=com.qualcomm.qti.qtisystemservice</p><p>package:/system/priv-app/CallLogBackup/CallLogBackup.apk=com.android.calllogbackup</p><p>package:/system/product/priv-app/GooglePartnerSetup/GooglePartnerSetup.apk=com.google.android.partnersetup</p><p>package:/system/priv-app/LocalTransport/LocalTransport.apk=com.android.localtransport</p><p>package:/data/app/com.google.android.videos-0AHgGaFFgTppYaRqeb9Jzg==/base.apk=com.google.android.videos</p><p>package:/system/app/CarrierDefaultApp/CarrierDefaultApp.apk=com.android.carrierdefaultapp</p><p>package:/system/app/AntHalService/AntHalService.apk=com.dsi.ant.server</p><p>package:/system/product/app/remoteSimLockAuthentication/remoteSimLockAuthentication.apk=com.qualcomm.qti.remoteSimlockAuth</p><p>package:/product/overlay/FontNotoSerifSource/FontNotoSerifSourceOverlay.apk=com.android.theme.font.notoserifsource</p><p>package:/product/overlay/IconPackFilledAndroid/IconPackFilledAndroidOverlay.apk=com.android.theme.icon_pack.filled.android</p><p>package:/system/priv-app/ProxyHandler/ProxyHandler.apk=com.android.proxyhandler</p><p>package:/data/app/com.tranzmate-xNnnwzoFiq-y-EUedVopEA==/base.apk=com.tranzmate</p><p>package:/system/app/workloadclassifier/workloadclassifier.apk=com.qualcomm.qti.workloadclassifier</p><p>package:/data/app/games.onebutton.golfbattle-tiK31g0xdDPb99gYiF5uIg==/base.apk=games.onebutton.golfbattle</p><p>package:/product/overlay/IconPackCircularSystemUI/IconPackCircularSystemUIOverlay.apk=com.android.theme.icon_pack.circular.systemui</p><p>package:/data/app/com.mi.android.globalFileexplorer-29j9WGKIuP2W-IUJu_zriw==/base.apk=com.mi.android.globalFileexplorer</p><p>package:/system/app/Spock/Spock.apk=com.miui.spock</p><p>package:/product/overlay/GooglePermissionControllerFrameworkOverlay.apk=com.google.android.overlay.modules.permissioncontroller.forframework</p><p>package:/data/app/es.univia.unicajamovil-MVbr64iw4osYWULItaP7aA==/base.apk=es.univia.unicajamovil</p><p>package:/system/product/priv-app/GoogleFeedback/GoogleFeedback.apk=com.google.android.feedback</p><p>package:/system/app/GooglePrintRecommendationService/GooglePrintRecommendationService.apk=com.google.android.printservice.recommendation</p><p>package:/data/app/com.xiaomi.midrop-MJO8pN_nrS5s0W8DewioFA==/base.apk=com.xiaomi.midrop</p><p>package:/data/app/com.google.android.apps.photos-wHfdBJSDaCPx0jQAQ6rY9g==/base.apk=com.google.android.apps.photos</p><p>package:/data/app/com.google.android.calendar-3z8U3hQx1sMDAqBooYujvw==/base.apk=com.google.android.calendar</p><p>package:/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk=com.android.managedprovisioning</p><p>package:/data/app/com.spotify.music-vdk-v6s4hj-W1MqhGuzKBA==/base.apk=com.spotify.music</p><p>package:/data/app/com.splendapps.vox-ZXZSGFLNaoetcRrTVVkPfw==/base.apk=com.splendapps.vox</p><p>package:/system/app/SensorTestTool/SensorTestTool.apk=com.fingerprints.sensortesttool</p><p>package:/system/product/app/PhotoTable/PhotoTable.apk=com.android.dreams.phototable</p><p>package:/data/app/com.facebook.katana-2uGSKlwoacvdlB7H6uTPxg==/base.apk=com.facebook.katana</p><p>package:/data/app/com.miniclip.soccerstars-QPPb5ulvMz07VwpG5lyOaA==/base.apk=com.miniclip.soccerstars</p><p>package:/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk=com.android.providers.partnerbookmarks</p><p>package:/system/app/WAPPushManager/WAPPushManager.apk=com.android.smspush</p><p>package:/data/app/com.miui.calculator-0NHzlliJrsClZKqFAKcAjw==/base.apk=com.miui.calculator</p><p>package:/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk=com.android.wallpaper.livepicker</p><p>package:/data/app/com.airbnb.android-ZskTLssIuCmyjYFUhx20Mw==/base.apk=com.airbnb.android</p><p>package:/data/app/com.facebook.orca-j6iAgz768avalopXUrhZ0A==/base.apk=com.facebook.orca</p><p>package:/data/app/com.chess-AkwdOGwpRCIQuGP_f1P89w==/base.apk=com.chess</p><p>package:/product/overlay/IconShapeSquircle/IconShapeSquircleOverlay.apk=com.android.theme.icon.squircle</p><p>package:/system/app/AutoTest/AutoTest.apk=com.longcheertel.AutoTest</p><p>package:/system/product/priv-app/StorageManager/StorageManager.apk=com.android.storagemanager</p><p>package:/data/app/nl.deckeron.apps.innerfire-hQZv6KTE8EtcoJtG9CnDog==/base.apk=nl.deckeron.apps.innerfire</p><p>package:/data/app/com.wallapop-U_3Gq7lQxpFuTITpWBD24g==/base.apk=com.wallapop</p><p>package:/system/app/BookmarkProvider/BookmarkProvider.apk=com.android.bookmarkprovider</p><p>package:/data/app/com.linkedin.android-d51BRHhKt8qKGgSoiLctpA==/base.apk=com.linkedin.android</p><p>package:/system/product/priv-app/Settings/Settings.apk=com.android.settings</p><p>package:/vendor/app/CneApp/CneApp.apk=com.qualcomm.qti.cne</p><p>package:/system/product/app/imssettings/imssettings.apk=com.qualcomm.qti.ims</p><p>package:/vendor/app/QDMA-UI/QDMA-UI.apk=com.qualcomm.qti.smq</p><p>package:/product/overlay/IconPackFilledLauncher/IconPackFilledLauncherOverlay.apk=com.android.theme.icon_pack.filled.launcher</p><p>package:/system/priv-app/PlatformNetworkPermissionConfig/PlatformNetworkPermissionConfig.apk=com.android.networkstack.permissionconfig</p><p>package:/data/app/com.tinder-sHIQO0FZyQq49v4dTt_TlQ==/base.apk=com.tinder</p><p>package:/data/app/com.google.android.projection.gearhead-1-aQ0aejiwTi_wXQTgqQgQ==/base.apk=com.google.android.projection.gearhead</p><p>package:/system/priv-app/com.qualcomm.location/com.qualcomm.location.apk=com.qualcomm.location</p><p>package:/data/app/com.google.android.apps.turbo-j62_eGCQcbhN3n_DB_IcvA==/base.apk=com.google.android.apps.turbo</p><p>package:/system/app/CtsShimPrebuilt/CtsShimPrebuilt.apk=com.android.cts.ctsshim</p><p>package:/product/overlay/IconPackCircularLauncher/IconPackCircularLauncherOverlay.apk=com.android.theme.icon_pack.circular.launcher</p><p>package:/system/product/app/com.qualcomm.qti.services.secureui/com.qualcomm.qti.services.secureui.apk=com.qualcomm.qti.services.secureui</p><p>package:/system/priv-app/VpnDialogs/VpnDialogs.apk=com.android.vpndialogs</p><p>package:/system/app/cit/cit.apk=com.longcheertel.cit</p><p>package:/data/app/com.google.android.keep-8RjqDSgtOBTwKsncDEyCwQ==/base.apk=com.google.android.keep</p><p>package:/data/app/com.google.android.talk-sEznESC0tkL_1YfmwrSXHQ==/base.apk=com.google.android.talk</p><p>package:/system/priv-app/TeleService/TeleService.apk=com.android.phone</p><p>package:/system/priv-app/Shell/Shell.apk=com.android.shell</p><p>package:/product/overlay/IconPackFilledThemePicker/IconPackFilledThemePickerOverlay.apk=com.android.theme.icon_pack.filled.themepicker</p><p>package:/system/app/WallpaperBackup/WallpaperBackup.apk=com.android.wallpaperbackup</p><p>package:/system/priv-app/BlockedNumberProvider/BlockedNumberProvider.apk=com.android.providers.blockednumber</p><p>package:/system/priv-app/UserDictionaryProvider/UserDictionaryProvider.apk=com.android.providers.userdictionary</p><p>package:/system/product/priv-app/EmergencyInfo/EmergencyInfo.apk=com.android.emergency</p><p>package:/system/product/priv-app/seccamservice/seccamservice.apk=com.qualcomm.qti.seccamservice</p><p>package:/system/app/Qmmi/Qmmi.apk=com.qualcomm.qti.qmmi</p><p>package:/system/product/app/GoogleLocationHistory/GoogleLocationHistory.apk=com.google.android.gms.location.history</p><p>package:/product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk=com.android.internal.systemui.navbar.gestural</p><p>package:/system/priv-app/FusedLocation/FusedLocation.apk=com.android.location.fused</p><p>package:/product/overlay/AccentColorOrchid/AccentColorOrchidOverlay.apk=com.android.theme.color.orchid</p><p>package:/system/product/priv-app/SystemUI/SystemUI.apk=com.android.systemui</p><p>package:/product/overlay/AccentColorPurple/AccentColorPurpleOverlay.apk=com.android.theme.color.purple</p><p>package:/system/app/BluetoothMidiService/BluetoothMidiService.apk=com.android.bluetoothmidiservice</p><p>package:/system/product/app/ConferenceDialer/ConferenceDialer.apk=com.qualcomm.qti.confdialer</p><p>package:/system/product/app/PowerOffAlarm/PowerOffAlarm.apk=com.qualcomm.qti.poweroffalarm</p><p>package:/system/product/app/NetworkSetting/NetworkSetting.apk=com.qualcomm.qti.networksetting</p><p>package:/system/app/Traceur/Traceur.apk=com.android.traceur</p><p>package:/system/priv-app/AppPredictionService/AppPredictionService.apk=com.android.apppredictionservice</p><p>package:/vendor/app/TrustZoneAccessService/TrustZoneAccessService.apk=com.qualcomm.qti.qms.service.trustzoneaccess</p><p>package:/data/app/com.google.android.play.games-oVD_XMRA3kqsu6BPOHJzcg==/base.apk=com.google.android.play.games</p><p>package:/system/product/app/GoogleNews/GoogleNews.apk=com.google.android.apps.magazines</p><p>package:/system/app/Bluetooth/Bluetooth.apk=com.android.bluetooth</p><p>package:/vendor/app/TimeService/TimeService.apk=com.qualcomm.timeservice</p><p>package:/system/product/app/atfwd/atfwd.apk=com.qualcomm.atfwd</p><p>package:/system/app/WallpaperPicker/WallpaperPicker.apk=com.android.wallpaperpicker</p><p>package:/system/priv-app/ContactsProvider/ContactsProvider.apk=com.android.providers.contacts</p><p>package:/system/app/PlatformCaptivePortalLogin/PlatformCaptivePortalLogin.apk=com.android.captiveportallogin</p><p>package:/product/overlay/IconShapeRoundedRect/IconShapeRoundedRectOverlay.apk=com.android.theme.icon.roundedrect</p><p>package:/product/overlay/ModuleMetadataGoogleConfigOverlay.apk=com.google.android.overlay.modules.modulemetadata</p><p>package:/product/overlay/NavigationBarModeGesturalNarrowBack/NavigationBarModeGesturalOverlayNarrowBack.apk=com.android.internal.systemui.navbar.gestural_narrow_back</p><p>package:/data/app/com.google.earth-rty4jXQjaHjf8mNpscBRxA==/base.apk=com.google.earth</p><p>package:/product/overlay/IconPackRoundedSettings/IconPackRoundedSettingsOverlay.apk=com.android.theme.icon_pack.rounded.settings</p><p>package:/data/app/com.snapchat.android-G6qCjYF_lJREfhd-rKszMw==/base.apk=com.snapchat.android</p><p>package:/data/app/com.google.android.inputmethod.latin-O0b13Wf2nWdkgT-fxFhL-Q==/base.apk=com.google.android.inputmethod.latin</p><p>package:/product/overlay/IconPackCircularAndroid/IconPackCircularAndroidOverlay.apk=com.android.theme.icon_pack.circular.android</p><p>package:/system/product/priv-app/GoogleRestore/GoogleRestore.apk=com.google.android.apps.restore</p><p>package:/product/overlay/SearchLauncherConfigOverlay.apk=com.google.android.overlay.searchlauncherconfig</p><p></p></div><a id="boton_" href="#" onclick="javascript:listar();return false">Show all</a><p class='cabecera'><b>Encrypt DB check</b></p><h3> Date of system: Tuesday June, 09 2020 10:06:43</h3>Device Not found 
+
+<p class='aversion'><b>Android version</b>: 10
+</p><p><b>Mobile brand</b>: Xiaomi
+</p><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] a526f5eb1771d6cb1e721a1bbdc052f5<br>Path [>] /sdcard/msgstore-2020-06-02.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] a526f5eb1771d6cb1e721a1bbdc052f5<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-02.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 36d1caef9cc501d378397f2231ff9091<br>Path [>] /sdcard/msgstore-2020-06-07.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] 36d1caef9cc501d378397f2231ff9091<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-07.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] a6c7d6d43cda6fb644589eed64af851d<br>Path [>] /sdcard/msgstore-2020-06-03.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] a6c7d6d43cda6fb644589eed64af851d<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-03.1.db.crypt12
+<br><div id='list_dbs'><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 195ae32221ae2e6c20441ae363c3d51c<br>Path [>] /sdcard/msgstore-2020-06-08.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] 195ae32221ae2e6c20441ae363c3d51c<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-08.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 5dcc8c7a3e59062af076a68c9e4611bf<br>Path [>] /sdcard/msgstore-2020-06-04.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] 5dcc8c7a3e59062af076a68c9e4611bf<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-04.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] da70d67233d58813074038afb5d049bb<br>Path [>] /sdcard/msgstore-2020-06-09.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] da70d67233d58813074038afb5d049bb<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-09.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 0d491ca496f42487e455ad4f4d2396b6<br>Path [>] /sdcard/msgstore-2020-06-05.1.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] 0d491ca496f42487e455ad4f4d2396b6<br>Path [>] /sdcard/WhatsApp/Databases/msgstore-2020-06-05.1.db.crypt12
+<br><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 4a6a6b138532adf02510ca5022a4279c<br>Path [>] /sdcard/msgstore.db.crypt12
+<br>--------<b>Original</b>-------<br>MD5 [>] 4a6a6b138532adf02510ca5022a4279c<br>Path [>] /sdcard/WhatsApp/Databases/msgstore.db.crypt12
+<br></div><a id="boton_dbs" href="#" onclick="javascript:listar_dbs();return false">Show all</a>

@@ -105,31 +105,30 @@ def check_su():
 	command = modules.config.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
 	#p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
 	#output = p.stdout.read()
-	process = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
-	output, error = process.communicate()
-	out = output.decode('utf-8')
-	err = error.decode('utf-8')
-
-	#en, output, error=os.popen3(command)
-
-	#err = error.read()
-	#out = output.read()
-
+	process = Popen(command, stdout=PIPE, stderr=PIPE)
+	err = process.communicate()[0].decode('utf-8')
 #Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
-	if "sh: 1: adb:" in err or "no se reconoce como un comando" in err:
+	if "inaccessible or not found" in err:
+		print("capturamos este error")
+		root_posibility=False
+		return "Inaccessible or not found device"
+
+	elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err or "no se reconoce como un comando" in out : 
 		print ("No adb installed")
 		root_posibility=False
-		return ("No adb installed")
+		return "No adb installed"
 #Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
-	elif "device unauthorized" in err:
+	elif "device unauthorized" in err :
 		print ("No debugging active")
 		root_posibility=False
-		return ("No debugging active")
+		return "No debugging active"
 #Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
 	elif "error: device" in err:
 		print ("No such device...")
 		root_posibility=False
 		return "No such device"
+
+
 	else:
 #Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
 		if "su: not found" in out:
@@ -141,3 +140,4 @@ def check_su():
 			print ("Root Device detect...")
 			root_posibility=True
 			return "Root Device"
+

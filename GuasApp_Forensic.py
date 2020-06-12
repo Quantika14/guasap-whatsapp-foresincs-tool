@@ -249,14 +249,6 @@ def add_report(data, option):
 	marca,err=Popen(command2, stdout=PIPE, stderr=PIPE).communicate()
 	marca=marca.decode("utf-8")
 
-	print("esta es el android v")
-	print(android_v)
-
-	
-	if(len(err)>0 and err != "b''"):
-		print("este es el posible error")
-		print(err)
-
 	if android_v!="" and android_v!="\r\n":
 		if option == 0:
 			text_final+="<p class='cabecera'><b>Root check</b></p>"
@@ -313,8 +305,6 @@ def add_report(data, option):
 		
 		packages,err=Popen(commandd, stdout=PIPE, stderr=PIPE).communicate()
 		packages=packages.decode("utf-8")
-		print("estos son los paquetes que debe coger")
-		print("paquetes")
 		packages = packages.split("\n")
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
@@ -545,12 +535,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			adb_instalado = True
 			out = out.decode('utf-8')
 			err = err.decode('utf-8')
-			print("se ha comprobado el adb de forma correcta")
-			#comprobamos que el adb se encuentre en el sistema el fichero que contiene adb
-			print("este es el resultado")
-			print(out)
-			print("este es el error")
-			print(err)
 			
 			#esto es si el adb esta instalado el el ordenador pero no hay dispositivo conectado
 			if "error: no devices/emulators found" in err:
@@ -564,15 +548,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			mensaje_deb2 = "No se ha encontrado dispotivo, redirigiendo al menu..."
 			self.updateConsole(mensaje_deb2)
 			sleep(5)
-			print("no se ha encontrado el archivo adb en el sistema")
-			print("por favor instalo para que podamos continuar")
 
-		if adb_instalado == True and "error: no devices/emulators found" not in err:
-			print("hemos encontrado el fichero adb asi que continuamos")
-				
+		if adb_instalado == True and "error: no devices/emulators found" not in err:			
 			#WIN LIN
 			if "Permission denied" in err:
-				print ("Error de permiso")
 				subprocess.call(modules.config.adb_comm+" kill-server")
 				subprocess.call(modules.config.adb_comm+" start-server")
 				print ("Please connect your Android device with USB Debugging enabled:")
@@ -583,8 +562,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				mensaje_deb.place(x=20,y=60)
 				pop_wait.update()"""
 				subprocess.call(modules.config.adb_comm+" wait-for-device")
-				#mensaje_deb.destroy()
-				print("hasta aqui va")
 			#WIN LIN
 			elif "error: device" in err:
 				print ("No such device, please check the conection and restart app")
@@ -601,26 +578,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				option = 1
 			while option < 7:
 				if option == 1:
-					print("ejecuta la opcion 1")
 					info_root_f(self)
 				elif option == 2:
-					print("ejecuta la opcion 2")
 					whatsapp_root(self)
 				elif option == 3:
-					print("ejecuta la opcion 3")
 					whatsapp_mm(self)
 				elif option == 4:
-					print("ejecuta la opcion 4")
 					whatsapp_db_f(self)
 				elif option == 5:
-					print("ejecuta la opcion 5")
 					whatsapp_db_root(self)
 				elif option == 6:
-					print("ejecuta la opcion 6")
 					whatsapp_log_f(self)
 				option+=1
 			
-			print("llega a las comprobaciones ultimas")
 
 			if label_root==True:
 				text="Trabajo finalizado."

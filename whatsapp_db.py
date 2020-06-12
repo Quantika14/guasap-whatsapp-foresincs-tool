@@ -15,6 +15,8 @@ def extract_db(root):
 	dbs = modules.functions.count_dbs()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
 	root.updateConsole(mensaje_deb)
+	print("NUMERO DE BASES DE DATOS EXTRAIDAS")
+	print(len(dbs))
 	for db in dbs:
 		print ("-------*-------")
 		if db=="":

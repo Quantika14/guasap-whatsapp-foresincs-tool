@@ -192,6 +192,8 @@ def get_whatsappDB(db):
 			a = config.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
 			Extract = config.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
 			command = os.popen(a)
+			print("Esto es la base de datos ######")
+			print(command)
 			command=command.read().replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
 	#			os.system(a)
@@ -245,7 +247,8 @@ def count_dbs_root():
 def count_dbs():
 	dbs_=list()
 	for directory in config.directory:
-		command = config.adb_comm+" shell ls "+directory+"WhatsApp/Databases/"
+		#command = config.adb_comm+" shell ls "+directory+"WhatsApp/Databases/"
+		command = config.adb_comm + " shell ls " + "/data/data/com.whatsapp/databases/"
 		dbs = os.popen(command).read()
 		if "No such file or directory" in dbs:
 			continue
@@ -291,8 +294,13 @@ def create_dir_media():
 
 def get_hash_root(data, option):
 	if option == "origin":
-		command = config.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+data
+		print("////////////////////////////////////////////////")
+		#command = config.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+data
+		command = config.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/wa.db"
+		#objeto_version = Popen(command, stdout=PIPE, stderr=PIPE).communicate()
 		hash_ = os.popen(command).read()
+		print("este es el hash")
+		print(hash_)
 		if "/sh" in hash_:
 			md5 = modules.config.adb_comm+" shell su 0 md5sum /data/data/com.whatsapp/databases/"+data
 			hash_ = os.popen(md5).read()
@@ -341,9 +349,11 @@ def get_hash(data, option):
 					return hash_2
 	elif option == "clone":
 		for directory in config.directory:
-			command = config.adb_comm+" shell md5 "+directory+data
+			command = config.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/wa.db"
+			#command = config.adb_comm+" shell md5 "+directory+data
 			hash_ = os.popen(command).read()
-			md5 = modules.config.adb_comm+" shell md5sum "+directory+data
+			#md5 = modules.config.adb_comm+" shell md5sum "+directory+data
+			md5 = modules.config.adb_comm+ " shell su 0 md5 /data/data/com.whatsapp/databases/wa.db"
 			hash_2 = os.popen(md5).read()
 			if "No such file" in hash_:
 				pass
