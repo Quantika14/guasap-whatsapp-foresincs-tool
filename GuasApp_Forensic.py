@@ -49,7 +49,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 	def ejecucion(self):
 		directory = hashdeep.check_directory()
-		print(type(directory))
 		if directory is not None:
 			hashdeep.pull_media(directory)
 			mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
