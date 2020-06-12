@@ -14,7 +14,7 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #VERSION: 1.1
 #********************************************
 
-import parser_db, whatsapp_log_forensic, modules.functions, whatsapp_db, check_root, hashdeep, modules.config, modules.dependencies
+import modules.functions, hashdeep, modules.utils
 
 #importamos subprocess para cambiarlo por el os
 import subprocess
@@ -48,27 +48,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		
+		directory = hashdeep.check_directory()
+		print(type(directory))
+		if directory is not None:
+			hashdeep.pull_media(directory)
+			mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
+			self.updateConsole(mensaje_deb)
 
 
 if __name__ == '__main__':
-	print (modules.config.banner)
-	print ("///////////////////////////////////////////////////////////////////////////////// ")
-	print ("*********************************************************************************")
-	print ("-- APP NAME: GUASAP FORENSIC                                                   --")
-	print ("-- Description: WhatsApp Forensic App                                          --")
-	print ("-- Created by QuantiKa14 Team                                                  --")
-	print ("-- Licencia GNU V.3                      Quantika14 Servicios Integrales S.L.  --")
-	print ("-- Authors: Jorge Coronado A.K.A @JorgeWebsec  / Ramon Bajona                  --")
-	print ("-- Date: 10-05-2018 | 19/12/2018                                               --")
-	print ("-- Email contact: info@quantika14.com                                          --")
-	print ("*********************************************************************************")
-	print ("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
-	print ("*********************************************************************************")
-
 	t=time.strftime('%A %B, %d %Y %H:%M:%S')
-
-	create_report_f(t)
 
 	#TO DOComprobamos que las dependencias están instaladas
 	#modules.dependencies.check_dependencies()
