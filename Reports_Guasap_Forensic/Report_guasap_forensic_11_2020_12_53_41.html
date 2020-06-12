@@ -1,225 +1,0 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Guasap Forensic Report</title>
-<style>
-body {
-	background-color: #F4F4F4;
-	font-family: sans-serif;
-}
-h1 {
-	color: black;
-	font-family: sans-serif;
-	font-size: 300%;
-	text-align: center;
-	border-bottom: 2px solid black;
-}
-h2 {
-	color: black;
-	font-family: sans-serif;
-	font-size: 150%;
-	text-align: center;
-	border-bottom: 2px solid black;
-	width:10%;
-	margin-left:45%;
-}
-h3 {
-	color: black;
-	font-family: sans-serif;
-}
-p {
-	color: black;
-	font-size: 100%;
-	line-height: 100%;
-
-}
-
-p.cabecera{
-border-bottom: 1px solid #000000; /**Línea inferior**/
-margin-top:5%;
-
-padding:0 0 2px; 
-font-size:160%; /**Tamaño del texto**/
-line-height:1.9em; /**Altura del recuadro**/
-}
-p.cabecera{
-color: #000000; /**Color del título**/
-text-align: center; /**centrar título**/
-}
-p.subcabecera{
-border-bottom: 1px solid #000000; /**Línea inferior**/
-margin-top:5%;
-padding:0 0 2px; 
-font-size:100%; /**Tamaño del texto**/
-line-height:1.9em; /**Altura del recuadro**/
-}
-p.subcabecera{
-color: #000000; /**Color del título**/
-text-align: center; /**centrar título**/
-}
-
-hr { 
-   border: 2px solid #5c3566; 
-   border-radius: 200px /8px; 
-   height: 0px; 
-   text-align: center; 
-   margin: 3%
- } 
-
-p.aversion {
-	color: black;
-}
-
-p.hash {
-	color: #555753;
-	line-height: 130%;
-}
-
-p.messages {
-	color: #2e3436;
-}
-#list{
-	display: none;
-}
-#list_media{
-	display: none;
-}
-#list_dbs{
-	display: none;
-}
-#list_dbs_root{
-	display: none;
-}
-.botonlog{
-            text-decoration: none !important;
-            padding: 7px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #ffffff !important;
-            background-color: #7d70af;
-            border-radius: 6px;
-            border: 2px solid #746ead;
-            margin-bottom: 5%;
-}
-.botonlog:hover{
-	background-color: #8F86B1;
-}
-#boton_ {
-            text-decoration: none !important;
-            padding: 7px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #ffffff !important;
-            background-color: #7d70af;
-            border-radius: 6px;
-            border: 2px solid #746ead;
-            margin-bottom: 5%;
-          }
-#boton_:hover{
-	background-color: #8F86B1;
-}
-#boton_media {
-            text-decoration: none !important;
-            padding: 7px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #ffffff !important;
-            background-color: #7d70af;
-            border-radius: 6px;
-            border: 2px solid #746ead;
-            margin-bottom: 5%;
-          }
-#boton_media:hover{
-	background-color: #8F86B1;
-}
-#boton_dbs {
-            text-decoration: none !important;
-            padding: 7px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #ffffff !important;
-            background-color: #7d70af;
-            border-radius: 6px;
-            border: 2px solid #746ead;
-            margin-bottom: 5%;
-          }
-#boton_dbs:hover{
-	background-color: #8F86B1;
-}
-#boton_dbs_root {
-            text-decoration: none !important;
-            padding: 7px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #ffffff !important;
-            background-color: #7d70af;
-            border-radius: 6px;
-            border: 2px solid #746ead;
-            margin-bottom: 5%;
-          }
-#boton_dbs_root:hover{
-	background-color: #8F86B1;
-}
-
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-</script>
-<script>
-function listar(){
-        if ($("#list").css("display")=="none"){
-          $("#list").show();
-          $(boton_).text('Show less');
-        }
-        else{
-          $("#list").hide();
-          $(boton_).text('Show all');
-
-            }
-      };
-function listar_media(){
-        if ($("#list_media").css("display")=="none"){
-          $("#list_media").show();
-          $(boton_media).text('Show less');
-        }
-        else{
-          $("#list_media").hide();
-          $(boton_media).text('Show all');
-            }
-      };
-function listar_dbs(){
-        if ($("#list_dbs").css("display")=="none"){
-          $("#list_dbs").show();
-          $(boton_dbs).text('Show less');
-        }
-        else{
-          $("#list_dbs").hide();
-          $(boton_dbs).text('Show all');
-            }
-      };
-function listar_dbs_root(){
-        if ($("#list_dbs_root").css("display")=="none"){
-          $("#list_dbs_root").show();
-          $(boton_dbs_root).text('Show less');
-        }
-        else{
-          $("#list_dbs_root").hide();
-          $(boton_dbs_root).text('Show all');
-            }
-      };
-</script>
-</head>
-
-<body><h1>Guasap Forensic Report</h1><h2>QK14</h2><p class='cabecera'><b>Root check</b></p><h3> Date of system: Thursday June, 11 2020 12:54:43</h3>Device Not found 
-
-<p class='aversion'><b>Android version</b>: 7.0
-</p><p><b>Mobile brand</b>: samsung
-</p><p class='rootinfo'><b>Root Device</b>: Yes</p><br></div></p><p class='subcabecera'>Installed packages:</p><p>package:/system/app/FilterProvider/FilterProvider.apk=com.samsung.android.provider.filterprovider</p><p>package:/system/app/RoseEUKor/RoseEUKor.apk=com.monotype.android.font.rosemary</p><p>package:/system/priv-app/AutomationTest_FB/AutomationTest_FB.apk=com.sec.android.app.DataCreate</p><div id='list'><p>package:/data/app/com.skype.raider-2/base.apk=com.skype.raider</p><p>package:/system/priv-app/CtsShimPrivPrebuilt/CtsShimPrivPrebuilt.apk=com.android.cts.priv.ctsshim</p><p>package:/system/app/RootPA/RootPA.apk=com.gd.mobicore.pa</p><p>package:/system/priv-app/GalaxyAppsWidget_Phone_Hero/GalaxyAppsWidget_Phone_Hero.apk=com.sec.android.widgetapp.samsungapps</p><p>package:/data/app/com.google.android.youtube-1/base.apk=com.google.android.youtube</p><p>package:/system/priv-app/Finder_v7/Finder_v7.apk=com.samsung.android.app.galaxyfinder</p><p>package:/data/app/com.zwift.android.prod-2/base.apk=com.zwift.android.prod</p><p>package:/system/priv-app/SamsungThemes/SamsungThemes.apk=com.samsung.android.themestore</p><p>package:/system/app/ChromeCustomizations/ChromeCustomizations.apk=com.sec.android.app.chromecustomizations</p><p>package:/system/priv-app/GoogleExtServices/GoogleExtServices.apk=com.google.android.ext.services</p><p>package:/system/priv-app/SecTelephonyProvider_Epic/SecTelephonyProvider_Epic.apk=com.android.providers.telephony</p><p>package:/system/app/DRParser/DRParser.apk=com.sec.android.app.parser</p><p>package:/system/priv-app/SVoicePLM/SVoicePLM.apk=com.samsung.svoice.sync</p><p>package:/data/app/com.google.android.googlequicksearchbox-2/base.apk=com.google.android.googlequicksearchbox</p><p>package:/system/app/SamsungCalendar_Stable/SamsungCalendar_Stable.apk=com.samsung.android.calendar</p><p>package:/system/priv-app/SecCalendarProvider_NOTSTICKER/SecCalendarProvider_NOTSTICKER.apk=com.android.providers.calendar</p><p>package:/system/priv-app/SamsungAccount_Dream/SamsungAccount_Dream.apk=com.osp.app.signin</p><p>package:/system/app/ClipboardSaveService/ClipboardSaveService.apk=com.samsung.clipboardsaveservice</p><p>package:/system/app/TetheringAutomation/TetheringAutomation.apk=com.sec.automation</p><p>package:/system/priv-app/SecMediaProvider/SecMediaProvider.apk=com.android.providers.media</p><p>package:/system/priv-app/GoogleOneTimeInitializer/GoogleOneTimeInitializer.apk=com.google.android.onetimeinitializer</p><p>package:/system/app/GoogleExtShared/GoogleExtShared.apk=com.google.android.ext.shared</p><p>package:/system/priv-app/WallpaperCropper/WallpaperCropper.apk=com.android.wallpapercropper</p><p>package:/system/priv-app/ShootingModeProvider2/ShootingModeProvider2.apk=com.samsung.android.provider.shootingmodeprovider</p><p>package:/system/priv-app/SendHelpMessage/SendHelpMessage.apk=com.sec.android.app.safetyassurance</p><p>package:/system/priv-app/SamsungInCallUI/SamsungInCallUI.apk=com.samsung.android.incallui</p><p>package:/system/app/FactoryCameraFB/FactoryCameraFB.apk=com.sec.factory.camera</p><p>package:/system/app/SmartcardService/SmartcardService.apk=org.simalliance.openmobileapi.service</p><p>package:/system/app/USBSettings/USBSettings.apk=com.sec.usbsettings</p><p>package:/system/priv-app/EasySetup/EasySetup.apk=com.samsung.android.easysetup</p><p>package:/system/priv-app/DocumentsUI/DocumentsUI.apk=com.android.documentsui</p><p>package:/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk=com.android.externalstorage</p><p>package:/system/priv-app/DeviceTest/DeviceTest.apk=com.sec.factory</p><p>package:/data/app/com.RoadGrandTours.RGTControl-2/base.apk=com.RoadGrandTours.RGTControl</p><p>package:/system/app/SecHTMLViewer/SecHTMLViewer.apk=com.android.htmlviewer</p><p>package:/data/app/com.whatsapp-1/base.apk=com.whatsapp</p><p>package:/system/priv-app/MmsService/MmsService.apk=com.android.mms.service</p><p>package:/system/priv-app/WallpaperCropper2/WallpaperCropper2.apk=com.sec.android.wallpapercropper2</p><p>package:/system/priv-app/SecDownloadProvider/SecDownloadProvider.apk=com.android.providers.downloads</p><p>package:/system/app/SmartSwitchAgent/SmartSwitchAgent.apk=com.sec.android.easyMover.Agent</p><p>package:/system/app/bootagent/bootagent.apk=com.samsung.ucs.agent.boot</p><p>package:/system/priv-app/OmaCP/OmaCP.apk=com.wsomacp</p><p>package:/system/priv-app/VoiceNote_5.0/VoiceNote_5.0.apk=com.sec.android.app.voicenote</p><p>package:/system/priv-app/EasyLauncher2_Zero/EasyLauncher2_Zero.apk=com.sec.android.app.easylauncher</p><p>package:/system/app/KnoxRemoteContentsProvider/KnoxRemoteContentsProvider.apk=com.samsung.knox.rcp.components</p><p>package:/system/app/Foundation/Foundation.apk=com.monotype.android.font.foundation</p><p>package:/system/app/EasymodeContactsWidget/EasymodeContactsWidget.apk=com.sec.android.widgetapp.easymodecontactswidget</p><p>package:/system/priv-app/SecEmail_N/SecEmail_N.apk=com.samsung.android.email.provider</p><p>package:/system/priv-app/intelligenceservice2/intelligenceservice2.apk=com.samsung.android.intelligenceservice2</p><p>package:/system/priv-app/MtpApplication/MtpApplication.apk=com.samsung.android.MtpApplication</p><p>package:/system/priv-app/DeviceKeystring/DeviceKeystring.apk=com.sec.android.app.factorykeystring</p><p>package:/data/app/com.sec.android.app.samsungapps-1/base.apk=com.sec.android.app.samsungapps</p><p>package:/system/app/EmergencyModeService/EmergencyModeService.apk=com.sec.android.emergencymode.service</p><p>package:/system/priv-app/ConfigUpdater/ConfigUpdater.apk=com.google.android.configupdater</p><p>package:/system/app/WlanTest/WlanTest.apk=com.sec.android.app.wlantest</p><p>package:/data/app/com.microsoft.office.excel-2/base.apk=com.microsoft.office.excel</p><p>package:/system/priv-app/SamsungBilling/SamsungBilling.apk=com.sec.android.app.billing</p><p>package:/system/priv-app/SmartEpdgTestApp/SmartEpdgTestApp.apk=com.sec.epdgtestapp</p><p>package:/system/priv-app/GameHome/GameHome.apk=com.samsung.android.game.gamehome</p><p>package:/system/priv-app/DefaultContainerService/DefaultContainerService.apk=com.android.defcontainer</p><p>package:/system/app/WeatherWidget2017_SE/WeatherWidget2017_SE.apk=com.sec.android.daemonapp</p><p>package:/system/priv-app/ImsTelephonyService/ImsTelephonyService.apk=com.sec.ims</p><p>package:/system/app/sveservice/sveservice.apk=com.sec.sve</p><p>package:/system/app/KnoxAttestationAgent/KnoxAttestationAgent.apk=com.sec.enterprise.knox.attestation</p><p>package:/system/app/DownloadProviderUi/DownloadProviderUi.apk=com.android.providers.downloads.ui</p><p>package:/data/app/com.android.vending-2/base.apk=com.android.vending</p><p>package:/system/app/PacProcessor/PacProcessor.apk=com.android.pacprocessor</p><p>package:/data/app/com.joeykrim.rootcheck-1/base.apk=com.joeykrim.rootcheck</p><p>package:/data/app/com.dsi.ant.service.socket-2/base.apk=com.dsi.ant.service.socket</p><p>package:/system/priv-app/AutoPreconfig/AutoPreconfig.apk=com.sec.android.AutoPreconfig</p><p>package:/data/app/com.microsoft.skydrive-1/base.apk=com.microsoft.skydrive</p><p>package:/system/priv-app/SettingsReceiver/SettingsReceiver.apk=com.samsung.android.SettingsReceiver</p><p>package:/system/priv-app/SoundAlive_41_N/SoundAlive_41_N.apk=com.sec.android.app.soundalive</p><p>package:/system/app/SecurityProviderSEC/SecurityProviderSEC.apk=com.sec.android.providers.security</p><p>package:/system/priv-app/BadgeProvider_N/BadgeProvider_N.apk=com.sec.android.provider.badge</p><p>package:/system/app/CertInstaller/CertInstaller.apk=com.android.certinstaller</p><p>package:/data/app/de.axelspringer.yana.zeropage-1/base.apk=de.axelspringer.yana.zeropage</p><p>package:/system/app/SecurityLogAgent/SecurityLogAgent.apk=com.samsung.android.securitylogagent</p><p>package:/system/priv-app/CarrierConfig/CarrierConfig.apk=com.android.carrierconfig</p><p>package:/system/priv-app/AssistantMenu_N/AssistantMenu_N.apk=com.samsung.android.app.assistantmenu</p><p>package:/system/priv-app/MsgCommService/MsgCommService.apk=com.samsung.android.communicationservice</p><p>package:/system/app/SamsungTTS/SamsungTTS.apk=com.samsung.SMT</p><p>package:/system/priv-app/CMHProvider/CMHProvider.apk=com.samsung.cmh</p><p>package:/system/app/RcsSettings/RcsSettings.apk=com.samsung.rcs</p><p>package:/system/priv-app/apt_Vodafone_StartOne_Katniss_v7.1.0_PROD_unsigned/apt_Vodafone_StartOne_Katniss_v7.1.0_PROD_unsigned.apk=com.vodafone.vodafone360updates</p><p>package:/system/app/CarmodeStub/CarmodeStub.apk=com.samsung.android.drivelink.stub</p><p>package:/system/framework/framework-res.apk=android</p><p>package:/system/app/Hs20Provider/Hs20Provider.apk=com.samsung.hs20provider</p><p>package:/system/priv-app/SmartManager_v5_DeviceSecurity/SmartManager_v5_DeviceSecurity.apk=com.samsung.android.sm.devicesecurity</p><p>package:/system/app/ANTPlusTest/ANTPlusTest.apk=com.dsi.ant.sample.acquirechannels</p><p>package:/system/priv-app/smartfaceservice/smartfaceservice.apk=com.samsung.android.smartface</p><p>package:/system/app/EasterEgg/EasterEgg.apk=com.android.egg</p><p>package:/system/priv-app/Messaging_Migration/Messaging_Migration.apk=com.android.mms</p><p>package:/system/priv-app/MtpDocumentsProvider/MtpDocumentsProvider.apk=com.android.mtp</p><p>package:/system/app/NfcNci/NfcNci.apk=com.android.nfc</p><p>package:/system/app/Stk/Stk.apk=com.android.stk</p><p>package:/data/app/com.grill.droidjoy-2/base.apk=com.grill.droidjoy</p><p>package:/system/priv-app/Messaging_Common/Messaging_Common.apk=com.samsung.android.messaging</p><p>package:/system/app/KnoxFolderContainer2/KnoxFolderContainer2.apk=com.sec.knox.foldercontainer</p><p>package:/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk=com.android.backupconfirm</p><p>package:/system/priv-app/KLMSAgent/KLMSAgent.apk=com.samsung.klmsagent</p><p>package:/data/app/com.instagram.android-1/base.apk=com.instagram.android</p><p>package:/system/app/SecMemo3/SecMemo3.apk=com.samsung.android.app.memo</p><p>package:/system/priv-app/SecSetupWizard2015/SecSetupWizard2015.apk=com.sec.android.app.SecSetupWizard</p><p>package:/data/app/com.supercell.clashroyale-2/base.apk=com.supercell.clashroyale</p><p>package:/data/app/com.microsoft.office.onenote-2/base.apk=com.microsoft.office.onenote</p><p>package:/system/priv-app/StatementService/StatementService.apk=com.android.statementservice</p><p>package:/data/app/com.google.android.gm-1/base.apk=com.google.android.gm</p><p>package:/system/priv-app/HwModuleTest/HwModuleTest.apk=com.sec.android.app.hwmoduletest</p><p>package:/system/app/BCService/BCService.apk=com.sec.bcservice</p><p>package:/system/app/FlashAnnotate/FlashAnnotate.apk=com.sec.spen.flashannotate</p><p>package:/system/app/CalendarDataMigrator/CalendarDataMigrator.apk=com.android.calendar</p><p>package:/system/app/SilentLog/SilentLog.apk=com.sec.modem.settings</p><p>package:/system/app/SysScope/SysScope.apk=com.sec.android.app.sysscope</p><p>package:/data/app/com.google.android.instantapps.supervisor-1/base.apk=com.google.android.instantapps.supervisor</p><p>package:/system/priv-app/ContextProvider/ContextProvider.apk=com.samsung.android.providers.context</p><p>package:/system/priv-app/serviceModeApp_FB/serviceModeApp_FB.apk=com.sec.android.app.servicemodeapp</p><p>package:/system/priv-app/PreloadInstaller/PreloadInstaller.apk=com.sec.android.preloadinstaller</p><p>package:/system/priv-app/SetupWizard/SetupWizard.apk=com.google.android.setupwizard</p><p>package:/system/app/SapaMonitor/SapaMonitor.apk=com.samsung.android.sdk.professionalaudio.utility.jammonitor</p><p>package:/system/priv-app/SecGallery2015/SecGallery2015.apk=com.sec.android.gallery3d</p><p>package:/system/priv-app/SecSettingsProvider2/SecSettingsProvider2.apk=com.android.providers.settings</p><p>package:/system/priv-app/imsservice/imsservice.apk=com.sec.imsservice</p><p>package:/system/priv-app/TransmitPowerService/TransmitPowerService.apk=com.sec.app.TransmitPowerService</p><p>package:/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk=com.android.sharedstoragebackup</p><p>package:/system/priv-app/ColorBlind_N/ColorBlind_N.apk=com.samsung.android.app.colorblind</p><p>package:/data/app/com.google.android.music-2/base.apk=com.google.android.music</p><p>package:/system/app/SPrintSpooler7/SPrintSpooler7.apk=com.android.printspooler</p><p>package:/system/priv-app/StoryService/StoryService.apk=com.samsung.storyservice</p><p>package:/system/app/BasicDreams/BasicDreams.apk=com.android.dreams.basic</p><p>package:/data/app/com.sec.android.app.music-2/base.apk=com.sec.android.app.music</p><p>package:/data/app/com.sec.app.samsungprintservice-2/base.apk=com.sec.app.samsungprintservice</p><p>package:/system/app/Omc/Omc.apk=com.sec.android.omc</p><p>package:/system/app/DictDiotek/DictDiotek.apk=com.sec.android.app.dictionary</p><p>package:/system/priv-app/InputDevices/InputDevices.apk=com.android.inputdevices</p><p>package:/data/app/ch.spondeo.holofit-2/base.apk=ch.spondeo.holofit</p><p>package:/system/priv-app/SecureFolderStub/SecureFolderStub.apk=com.samsung.knox.securefolder</p><p>package:/system/app/STalkback/STalkback.apk=com.samsung.android.app.talkback</p><p>package:/system/app/Stk2/Stk2.apk=com.android.stk2</p><p>package:/system/priv-app/GameTools/GameTools.apk=com.samsung.android.game.gametools</p><p>package:/data/app/com.samsung.android.app.simplesharing-1/base.apk=com.samsung.android.app.simplesharing</p><p>package:/system/priv-app/SmartcardManager/SmartcardManager.apk=com.sec.smartcard.manager</p><p>package:/system/app/Preconfig/Preconfig.apk=com.sec.android.Preconfig</p><p>package:/data/app/com.google.android.apps.docs-2/base.apk=com.google.android.apps.docs</p><p>package:/data/app/com.google.android.apps.maps-1/base.apk=com.google.android.apps.maps</p><p>package:/system/app/EdmVpnServices/EdmVpnServices.apk=com.sec.enterprise.mdm.vpn</p><p>package:/system/app/Weather2017_SE/Weather2017_SE.apk=com.samsung.android.weather</p><p>package:/data/app/com.dsi.ant.plugins.antplus-1/base.apk=com.dsi.ant.plugins.antplus</p><p>package:/data/app/com.microsoft.office.word-2/base.apk=com.microsoft.office.word</p><p>package:/system/app/ImsSettings/ImsSettings.apk=com.samsung.advp.imssettings</p><p>package:/system/app/SLocation/SLocation.apk=com.samsung.android.location</p><p>package:/system/app/SamsungIMEv5/SamsungIMEv5.apk=com.sec.android.inputmethod</p><p>package:/system/app/ClockPackage_N_Mass/ClockPackage_N_Mass.apk=com.sec.android.app.clockpackage</p><p>package:/system/priv-app/ModemServiceMode/ModemServiceMode.apk=com.sec.android.RilServiceModeApp</p><p>package:/system/app/WebViewGoogle/WebViewGoogle.apk=com.google.android.webview</p><p>package:/system/app/SimSettingMgr/SimSettingMgr.apk=com.sec.android.app.simsettingmgr</p><p>package:/data/app/com.microsoft.office.powerpoint-2/base.apk=com.microsoft.office.powerpoint</p><p>package:/system/app/MirrorLink/MirrorLink.apk=com.samsung.android.app.mirrorlink</p><p>package:/system/priv-app/Telecom/Telecom.apk=com.android.server.telecom</p><p>package:/system/app/GoogleContactsSyncAdapter/GoogleContactsSyncAdapter.apk=com.google.android.syncadapters.contacts</p><p>package:/system/priv-app/Crane/Crane.apk=com.samsung.crane</p><p>package:/system/priv-app/ImsLogger+/ImsLogger+.apk=com.sec.imslogger</p><p>package:/system/app/ClipboardUIService/ClipboardUIService.apk=com.samsung.android.clipboarduiservice</p><p>package:/system/app/KeyChain/KeyChain.apk=com.android.keychain</p><p>package:/data/app/com.android.chrome-2/base.apk=com.android.chrome</p><p>package:/system/priv-app/ThemeCenter/ThemeCenter.apk=com.samsung.android.themecenter</p><p>package:/system/priv-app/GooglePackageInstaller/GooglePackageInstaller.apk=com.google.android.packageinstaller</p><p>package:/system/priv-app/LegacySmartManager/LegacySmartManager.apk=com.samsung.android.sm</p><p>package:/data/app/com.google.android.gms-1/base.apk=com.google.android.gms</p><p>package:/system/priv-app/GoogleServicesFramework/GoogleServicesFramework.apk=com.google.android.gsf</p><p>package:/data/app/com.google.android.tts-2/base.apk=com.google.android.tts</p><p>package:/system/priv-app/CallLogBackup/CallLogBackup.apk=com.android.calllogbackup</p><p>package:/system/priv-app/GooglePartnerSetup/GooglePartnerSetup.apk=com.google.android.partnersetup</p><p>package:/system/priv-app/DiagMonAgent/DiagMonAgent.apk=com.sec.android.diagmonagent</p><p>package:/data/app/com.google.android.videos-2/base.apk=com.google.android.videos</p><p>package:/data/app/com.sec.spp.push-1/base.apk=com.sec.spp.push</p><p>package:/system/app/AntHalService/AntHalService.apk=com.dsi.ant.server</p><p>package:/data/app/com.sec.android.app.myfiles-1/base.apk=com.sec.android.app.myfiles</p><p>package:/system/priv-app/ProxyHandler/ProxyHandler.apk=com.android.proxyhandler</p><p>package:/system/app/AllshareFileShare/AllshareFileShare.apk=com.samsung.android.allshare.service.fileshare</p><p>package:/system/priv-app/PhotoStudio_WQHD_Grace/PhotoStudio_WQHD_Grace.apk=com.sec.android.mimage.photoretouching</p><p>package:/system/priv-app/TouchWizHome_2016C/TouchWizHome_2016C.apk=com.sec.android.app.launcher</p><p>package:/system/app/UniversalSwitch/UniversalSwitch.apk=com.samsung.android.universalswitch</p><p>package:/system/app/FlipboardBriefing/FlipboardBriefing.apk=flipboard.boxer.app</p><p>package:/system/priv-app/GoogleFeedback/GoogleFeedback.apk=com.google.android.feedback</p><p>package:/system/app/GooglePrintRecommendationService/GooglePrintRecommendationService.apk=com.google.android.printservice.recommendation</p><p>package:/data/app/com.google.android.apps.photos-2/base.apk=com.google.android.apps.photos</p><p>package:/system/app/GoogleCalendarSyncAdapter/GoogleCalendarSyncAdapter.apk=com.google.android.syncadapters.calendar</p><p>package:/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk=com.android.managedprovisioning</p><p>package:/system/app/FilterInstaller/FilterInstaller.apk=com.samsung.android.app.filterinstaller</p><p>package:/data/app/com.vodafone.accesorystore-1/base.apk=com.vodafone.accesorystore</p><p>package:/system/app/TasksProvider/TasksProvider.apk=com.sec.android.providers.tasks</p><p>package:/data/app/com.sec.android.app.sbrowser-1/base.apk=com.sec.android.app.sbrowser</p><p>package:/system/app/ChocoEUKor/ChocoEUKor.apk=com.monotype.android.font.chococooky</p><p>package:/system/app/PhotoTable/PhotoTable.apk=com.android.dreams.phototable</p><p>package:/system/priv-app/HealthService/HealthService.apk=com.sec.android.service.health</p><p>package:/system/app/SafetyInformation/SafetyInformation.apk=com.samsung.safetyinformation</p><p>package:/data/app/com.facebook.katana-1/base.apk=com.facebook.katana</p><p>package:/system/priv-app/ringtoneBR/ringtoneBR.apk=com.sec.android.app.ringtoneBR</p><p>package:/system/priv-app/TzDataUpdater/TzDataUpdater.apk=com.samsung.android.tzdata.update</p><p>package:/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk=com.android.providers.partnerbookmarks</p><p>package:/system/priv-app/GoogleLoginService/GoogleLoginService.apk=com.google.android.gsf.login</p><p>package:/system/priv-app/KeyguardWallpaperUpdator/KeyguardWallpaperUpdator.apk=com.samsung.android.keyguardwallpaperupdator</p><p>package:/system/priv-app/AccessControl_N/AccessControl_N.apk=com.samsung.android.app.accesscontrol</p><p>package:/system/priv-app/SecLiveWallpapersPicker/SecLiveWallpapersPicker.apk=com.android.wallpaper.livepicker</p><p>package:/system/priv-app/BeaconManager/BeaconManager.apk=com.samsung.android.beaconmanager</p><p>package:/system/app/EdmSimPinService/EdmSimPinService.apk=com.sec.enterprise.mdm.services.simpin</p><p>package:/system/priv-app/Tag/Tag.apk=com.android.apps.tag</p><p>package:/data/app/com.facebook.system-1/base.apk=com.facebook.system</p><p>package:/system/app/QuickConnect/QuickConnect.apk=com.samsung.android.oneconnect</p><p>package:/system/priv-app/SecCalculator_N/SecCalculator_N.apk=com.sec.android.app.popupcalculator</p><p>package:/system/priv-app/SOAgent/SOAgent.apk=com.sec.android.soagent</p><p>package:/system/priv-app/Fmm/Fmm.apk=com.samsung.android.fmm</p><p>package:/system/app/MDMApp/MDMApp.apk=com.samsung.android.mdm</p><p>package:/system/priv-app/UltraDataSaving/UltraDataSaving.apk=com.samsung.android.uds</p><p>package:/data/app/com.sec.android.app.shealth-2/base.apk=com.sec.android.app.shealth</p><p>package:/system/app/SecFactoryPhoneTest/SecFactoryPhoneTest.apk=com.sec.phone</p><p>package:/system/app/mldapchecker/mldapchecker.apk=com.sec.mldapchecker</p><p>package:/system/app/ScrollCapture/ScrollCapture.apk=com.samsung.android.app.scrollcapture</p><p>package:/system/framework/samsung-framework-res/samsung-framework-res.apk=com.samsung.android.framework.res</p><p>package:/system/app/KnoxAppsUpdateAgent/KnoxAppsUpdateAgent.apk=com.samsung.knox.appsupdateagent</p><p>package:/system/priv-app/GoogleBackupTransport/GoogleBackupTransport.apk=com.google.android.backuptransport</p><p>package:/system/app/KnoxSetupWizardClient/KnoxSetupWizardClient.apk=com.sec.knox.knoxsetupwizardclient</p><p>package:/data/app/lifegoal.helpinghands.kalilinux-2/base.apk=lifegoal.helpinghands.kalilinux</p><p>package:/system/priv-app/SamsungCloud/SamsungCloud.apk=com.samsung.android.scloud</p><p>package:/system/priv-app/SMusicPicker/SMusicPicker.apk=com.samsung.android.app.soundpicker</p><p>package:/system/priv-app/PhoneErrService/PhoneErrService.apk=com.sec.app.RilErrorNotifier</p><p>package:/system/app/BookmarkProvider/BookmarkProvider.apk=com.android.bookmarkprovider</p><p>package:/system/priv-app/SecSettings2/SecSettings2.apk=com.android.settings</p><p>package:/system/app/VideoTrimmer_Dream/VideoTrimmer_Dream.apk=com.samsung.app.newtrim</p><p>package:/data/app/com.samsung.android.lool-2/base.apk=com.samsung.android.lool</p><p>package:/system/app/BluetoothTest/BluetoothTest.apk=com.sec.android.app.bluetoothtest</p><p>package:/system/app/EmergencyLauncher/EmergencyLauncher.apk=com.sec.android.emergencylauncher</p><p>package:/system/priv-app/Hearingdro_V52_N/Hearingdro_V52_N.apk=com.sec.hearingadjust</p><p>package:/system/app/SamsungDLPService/SamsungDLPService.apk=com.samsung.android.dlp.service</p><p>package:/system/app/BBCAgent/BBCAgent.apk=com.samsung.android.bbc.bbcagent</p><p>package:/data/app/io.github.routerkeygen-1/base.apk=io.github.routerkeygen</p><p>package:/system/priv-app/VoiceWakeUp/VoiceWakeUp.apk=com.samsung.android.voicewakeup</p><p>package:/system/app/CtsShimPrebuilt/CtsShimPrebuilt.apk=com.android.cts.ctsshim</p><p>package:/system/app/SplitSoundService/SplitSoundService.apk=com.sec.android.splitsound</p><p>package:/system/priv-app/wssyncmlnps2/wssyncmlnps2.apk=com.wssnps</p><p>package:/system/app/GearManagerStub/GearManagerStub.apk=com.samsung.android.app.watchmanagerstub</p><p>package:/data/app/com.vodafone.sn.vpn-1/base.apk=com.vodafone.sn.vpn</p><p>package:/system/priv-app/SVCAgent/SVCAgent.apk=com.samsung.android.svcagent</p><p>package:/system/priv-app/SPDClient/SPDClient.apk=com.policydm</p><p>package:/system/app/SapaAudioConnectionService/SapaAudioConnectionService.apk=com.samsung.android.sdk.professionalaudio.app.audioconnectionservice</p><p>package:/system/priv-app/NetworkDiagnostic/NetworkDiagnostic.apk=com.samsung.android.networkdiagnostic</p><p>package:/system/app/GameOptimizer/GameOptimizer.apk=com.enhance.gameservice</p><p>package:/system/priv-app/VpnDialogs/VpnDialogs.apk=com.android.vpndialogs</p><p>package:/data/app/com.google.android.talk-2/base.apk=com.google.android.talk</p><p>package:/data/app/eu.chainfire.supersu-1/base.apk=eu.chainfire.supersu</p><p>package:/system/priv-app/DCMService/DCMService.apk=com.samsung.dcmservice</p><p>package:/system/priv-app/TeleService/TeleService.apk=com.android.phone</p><p>package:/system/priv-app/Shell/Shell.apk=com.android.shell</p><p>package:/system/app/WallpaperBackup/WallpaperBackup.apk=com.android.wallpaperbackup</p><p>package:/system/priv-app/BlockedNumberProvider/BlockedNumberProvider.apk=com.android.providers.blockednumber</p><p>package:/system/app/UserDictionaryProvider/UserDictionaryProvider.apk=com.android.providers.userdictionary</p><p>package:/system/app/UniversalMDMClient/UniversalMDMClient.apk=com.sec.enterprise.knox.cloudmdm.smdms</p><p>package:/system/priv-app/EmergencyInfo/EmergencyInfo.apk=com.android.emergency</p><p>package:/system/priv-app/SVoiceLang_GermanPack_DE_1.0/SVoiceLang_GermanPack_DE_1.0.apk=com.sec.svoice.lang.de_DE</p><p>package:/system/priv-app/SVoiceLang_EnglishPack_GB_1.0/SVoiceLang_EnglishPack_GB_1.0.apk=com.sec.svoice.lang.en_GB</p><p>package:/system/priv-app/SVoiceLang_EnglishPack_US_1.0/SVoiceLang_EnglishPack_US_1.0.apk=com.sec.svoice.lang.en_US</p><p>package:/system/priv-app/SVoiceLang_SpanishPack_ES_1.0/SVoiceLang_SpanishPack_ES_1.0.apk=com.sec.svoice.lang.es_ES</p><p>package:/system/priv-app/SVoiceLang_FrenchPack_1.0/SVoiceLang_FrenchPack_1.0.apk=com.sec.svoice.lang.fr_FR</p><p>package:/system/priv-app/SVoiceLang_ItalianPack_IT_1.0/SVoiceLang_ItalianPack_IT_1.0.apk=com.sec.svoice.lang.it_IT</p><p>package:/system/priv-app/FotaAgent/FotaAgent.apk=com.wssyncmldm</p><p>package:/system/priv-app/SVoiceLang_RussianPack_RU_1.0/SVoiceLang_RussianPack_RU_1.0.apk=com.sec.svoice.lang.ru_RU</p><p>package:/system/priv-app/FusedLocation/FusedLocation.apk=com.android.location.fused</p><p>package:/system/priv-app/LegacySmartManagerProvider/LegacySmartManagerProvider.apk=com.samsung.android.sm.provider</p><p>package:/system/app/EpdgService/EpdgService.apk=com.sec.epdg</p><p>package:/system/priv-app/SystemUI/SystemUI.apk=com.android.systemui</p><p>package:/system/app/Personalization/Personalization.apk=com.sec.android.app.personalization</p><p>package:/system/app/CoolEUKor/CoolEUKor.apk=com.monotype.android.font.cooljazz</p><p>package:/system/app/BluetoothMidiService/BluetoothMidiService.apk=com.android.bluetoothmidiservice</p><p>package:/system/app/HandwritingService/HandwritingService.apk=com.samsung.android.sdk.handwriting</p><p>package:/data/app/com.facebook.appmanager-1/base.apk=com.facebook.appmanager</p><p>package:/system/priv-app/SVoice/SVoice.apk=com.samsung.voiceserviceplatform</p><p>package:/system/app/AASAservice/AASAservice.apk=com.samsung.aasaservice</p><p>package:/data/app/com.appseleration.android.selfcare-1/base.apk=com.appseleration.android.selfcare</p><p>package:/system/app/AllshareMediaShare/AllshareMediaShare.apk=com.samsung.android.allshare.service.mediashare</p><p>package:/system/priv-app/HybridRadio_N/HybridRadio_N.apk=com.sec.android.app.fm</p><p>package:/system/app/EmergencyProvider/EmergencyProvider.apk=com.sec.android.provider.emergencymode</p><p>package:/data/app/com.google.android.play.games-2/base.apk=com.google.android.play.games</p><p>package:/system/app/AppLinker/AppLinker.apk=com.sec.android.app.applinker</p><p>package:/system/app/KnoxSwitcher/KnoxSwitcher.apk=com.sec.knox.switcher</p><p>package:/system/priv-app/SamsungCamera6/SamsungCamera6.apk=com.sec.android.app.camera</p><p>package:/system/app/Bluetooth/Bluetooth.apk=com.android.bluetooth</p><p>package:/system/priv-app/SamsungContacts80/SamsungContacts80.apk=com.samsung.android.contacts</p><p>package:/system/priv-app/AppUpdater/AppUpdater.apk=com.samsung.android.app.appupdater</p><p>package:/system/priv-app/SecContactsProvider/SecContactsProvider.apk=com.android.providers.contacts</p><p>package:/system/priv-app/SamsungMagnifier3/SamsungMagnifier3.apk=com.sec.android.app.magnifier</p><p>package:/system/app/WebManual/WebManual.apk=com.sec.android.widgetapp.webmanual</p><p>package:/system/priv-app/CSC/CSC.apk=com.samsung.sec.android.application.csc</p><p>package:/system/app/CaptivePortalLogin/CaptivePortalLogin.apk=com.android.captiveportallogin</p><p>package:/system/app/UPSMTheme/UPSMTheme.apk=com.samsung.upsmtheme</p><p>package:/system/app/CoreApps_SDK/CoreApps_SDK.apk=com.samsung.android.coreapps</p><p>package:/data/app/com.samsung.android.videolist-2/base.apk=com.samsung.android.videolist</p><p>package:/data/app/com.myousoftware.nalo_device-1/base.apk=com.myousoftware.nalo_device</p><p>package:/system/priv-app/SamsungVideoPlayer2016/SamsungVideoPlayer2016.apk=com.samsung.android.video</p><p></p></div><a id="boton_" href="#" onclick="javascript:listar();return false">Show all</a><p class='cabecera'><b>Encrypt DB check</b></p><h3> Date of system: Thursday June, 11 2020 12:54:51</h3>Device Not found 
-
-<p class='aversion'><b>Android version</b>: 7.0
-</p><p><b>Mobile brand</b>: samsung
-</p><p class='aversion'><b> Encrypt DB version</b>: crypt12</p><p class='hash'>------------------------<br>-------  <b>Cloned</b>  ------<br>MD5 [>] 36d1caef9cc501d378397f2231ff9091<br>Path [>] /sdcard/msgstore.db.crypt12
-<br>--------<b>Original</b>-------<br>MD5 [>] 36d1caef9cc501d378397f2231ff9091<br>Path [>] /sdcard/WhatsApp/Databases/msgstore.db.crypt12
-<br>
