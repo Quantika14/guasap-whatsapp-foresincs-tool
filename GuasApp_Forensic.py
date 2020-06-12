@@ -32,6 +32,10 @@ from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMessageBox, QVBoxLayout
 
+if os.name == 'nt':
+	modules.config.adb_comm=modules.config.adb_w
+else:
+	modules.config.adb_comm=modules.config.adb_l
 # Funcionalidades graficas
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
