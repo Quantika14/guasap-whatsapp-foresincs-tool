@@ -32,7 +32,29 @@ from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMessageBox, QVBoxLayout
 
+info_root = ()
+label_root = False
+root_posibility = None
+popup_a = False
+
 # Funcionalidades graficas
+def extract_mm(directory, root):
+	directory = hashdeep.check_directory()
+	if directory is not None:
+		hashdeep.pull_media(directory)
+		mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
+		self.updateConsole(mensaje_deb)
+
+def info_root_f(root):
+	global info_root
+	global label_root
+	global root_posibility
+	global popup_a
+	mensaje_deb = "Comprobando dispositivo..."
+	root.updateConsole(mensaje_deb)
+	info_root,roote=modules.functions.check_root(root)
+	root_posibility=roote
+	label_root = True
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 	def __init__(self, *args, **kwargs):
@@ -48,12 +70,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		directory = hashdeep.check_directory()
-		print(type(directory))
-		if directory is not None:
-			hashdeep.pull_media(directory)
-			mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
-			self.updateConsole(mensaje_deb)
+		info_root_f(self)
 
 
 if __name__ == '__main__':

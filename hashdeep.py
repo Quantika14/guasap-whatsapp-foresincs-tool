@@ -20,7 +20,7 @@ def check_directory():
 
 def pull_media(directory):
 	pull = "c:\\adb\\adb pull " + directory + "WhatsApp/Media Whatsapp_Extracted_Media/"
-	a = Popen(modules.config.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
+	a = Popen(modules.utils.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
 	a = process.communicate()[0]
 	print (pull)
 	#a = os.popen(pull)
