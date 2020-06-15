@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import modules.utils, modules.functions, os, GuasApp_Forensic
+import subprocess
+from subprocess import Popen, PIPE, STDOUT
 
 root_posibility=False
-
+#MagiskManager-v7.5.1.apk es nuestra aplicacion 
 def check_root(window):
 	root=check_su()
 	mensaje_deb=check_su()+"\n"
@@ -15,7 +17,9 @@ def check_root(window):
 		window.updateConsole(mensaje_deb)
 		for directory in modules.utils.directory:
 			a = modules.utils.adb_comm+" shell ls "+directory+"Download/"
+			
 			a = os.popen(a).read()
+
 			if "No such file" not in a and "sh: 1: adb:" not in a:
 				a = a.replace("\r","").split("\n")
 				for apk in a:
@@ -27,13 +31,12 @@ def check_root(window):
 								continue
 							else:
 								if lin in apk:
+									print("SE HA ENCONTRADO UNA APLICACION DE ROOTEO")
 									#A partir de esta línea nos indica que se ha localizado una aplicación  en la carpeta de Descargas que permite realizar un rooteo.
 									name_d="dict_"+str(count)
 									name_d={"App":line[0].title(), "file":apk, "directory":directory}
 									list_root_info.append(name_d)
 									count+=1
-			#A partir de esta línea comienza a buscar en todo el dispositivo alguna aplicación que permita realizar el rooteo.
-			#si encuentra por que sigue buscando?
 			for line in open("modules/apks_to_root.txt", "r"):
 				line = line.split("||")
 				for lin in line:
@@ -65,10 +68,16 @@ def check_root(window):
 	return list_root_info, root_posibility
 
 def check_magisk():
-	a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
-	a = os.popen(a).read()
-	b = modules.utils.adb_comm+" shell cd data/adb && ls"
-	b = os.popen(a).read()
+	#no puede utilizar la aplicacion en windows por error de permiso
+	if modules.utils.adb_comm == "c:\\adb\\adb":
+		a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
+		b = modules.utils.adb_comm+" shell cd data/adb && dir"
+	else:
+		a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
+		b = modules.utils.adb_comm+" shell cd data/adb && ls"
+	a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
+	b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
+	
 	if "magisk" in a or "magisk" in b:
 		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
 	else:
@@ -78,9 +87,7 @@ def check_magisk():
 def check_su():
 	global root_posibility
 	command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
-	#p = Popen(command, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
-	#output = p.stdout.read()
-	process = Popen(command, stdout=PIPE, stderr=PIPE)
+	process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
 	err = process.communicate()[0].decode('utf-8')
 #Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
 	if "inaccessible or not found" in err:

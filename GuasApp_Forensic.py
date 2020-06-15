@@ -38,19 +38,18 @@ root_posibility = None
 popup_a = False
 
 if os.name == 'nt':
-	modules.config.adb_comm=modules.config.adb_w
+	modules.utils.adb_comm=modules.utils.adb_w
 else:
-	modules.config.adb_comm=modules.config.adb_l
+	modules.utils.adb_comm=modules.utils.adb_l
 
 # Funcionalidades graficas
-
 def extract_mm(directory, root):
 	directory = hashdeep.check_directory()
 	if directory is not None:
 		hashdeep.pull_media(directory)
 		mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
 		self.updateConsole(mensaje_deb)
-
+#TODO comprobar por que no encuentra la aplicacion de rooteo MagiskManager-v7.5.1.apk
 def info_root_f(root):
 	global info_root
 	global label_root
@@ -59,6 +58,8 @@ def info_root_f(root):
 	mensaje_deb = "Comprobando dispositivo..."
 	root.updateConsole(mensaje_deb)
 	info_root,roote=modules.functions.check_root(root)
+	print(info_root)
+	print(roote)
 	root_posibility=roote
 	label_root = True
 
