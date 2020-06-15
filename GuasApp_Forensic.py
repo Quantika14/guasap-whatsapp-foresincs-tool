@@ -37,7 +37,13 @@ label_root = False
 root_posibility = None
 popup_a = False
 
+if os.name == 'nt':
+	modules.config.adb_comm=modules.config.adb_w
+else:
+	modules.config.adb_comm=modules.config.adb_l
+
 # Funcionalidades graficas
+
 def extract_mm(directory, root):
 	directory = hashdeep.check_directory()
 	if directory is not None:

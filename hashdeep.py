@@ -7,21 +7,16 @@ from subprocess import Popen, PIPE
 
 def check_directory():
 	for directory in modules.utils.directory:
-		direct = "c:\\adb\\adb shell ls "+directory+"WhatsApp/Media/"
+		direct = modules.utils.adb_comm +" shell ls "+directory+"WhatsApp/Media/"
 		b,c = Popen(direct, stdout=PIPE, stderr=PIPE).communicate()
 		b=b.decode('utf-8').split("\r\n")[0]
 		c=c.decode('utf-8').split("\r\n")[0]
 		if "No such file or directory" in b or "No such file or directory" in c:
-			print("no se ha encontrado el directorio de Whatsapp en esta ubicacion")
 			continue
 		else:
-			print("se ha encontrado el directorio")
 			return directory
 
+#extrae los archivos multimetidas de WhatsApp
 def pull_media(directory):
-	pull = "c:\\adb\\adb pull " + directory + "WhatsApp/Media Whatsapp_Extracted_Media/"
-	a = Popen(modules.utils.adb_comm + " shell ls data", stdout=PIPE, stderr=PIPE)
-	a = process.communicate()[0]
-	print (pull)
-	#a = os.popen(pull)
-	#print (a.read())
+	pull = subprocess.call(modules.utils.adb_comm + " pull "  + directory + "WhatsApp/Media Whatsapp_Extracted_Media/")
+	
