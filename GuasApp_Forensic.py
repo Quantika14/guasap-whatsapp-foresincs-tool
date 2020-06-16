@@ -51,6 +51,19 @@ def extract_mm(directory, root):
 		root.updateConsole(mensaje_deb)
 #TODO comprobar por que no encuentra la aplicacion de rooteo MagiskManager-v7.5.1.apk
 
+def whatsapp_mm(root):
+	mensaje_deb = "Extrayendo archivos multimedia..."
+	root.updateConsole(mensaje_deb)
+	try:
+		md5_cloned,md5_original=hashdeep.extract_mm(root)
+		#add_report((md5_cloned,md5_original),6)
+		label_root=True
+		root.updateConsole("el directorio de WhatsApp se ha encontrado de forma correcta \n")
+	
+	except:
+		mensaje_deb = "No se ha encontrado el directorio de WhatsApp"
+		root.updateConsole(mensaje_deb)
+
 def info_root_f(root):
 	global info_root
 	global label_root
@@ -151,8 +164,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		info_root_f(self)
 		whatsapp_root(self)
 		#extract_mm(modules.utils.directory,self)
-		
-
+		whatsapp_mm(self)
 
 if __name__ == '__main__':
 	t=time.strftime('%A %B, %d %Y %H:%M:%S')

@@ -112,3 +112,11 @@ def check_su():
 		else:
 			root_posibility=True
 			return "Root Device"
+
+
+def create_dir_media():
+	try:
+		os.mkdir("Whatsapp_Extracted_Media")
+		print ('The directory was created correctly')
+	except:
+		print ('Verify that the Media directory is created')
