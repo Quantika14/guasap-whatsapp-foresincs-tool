@@ -17,8 +17,6 @@ def check_root(window):
 		window.updateConsole(mensaje_deb)
 		for directory in modules.utils.directory:
 			a = modules.utils.adb_comm+" shell ls "+directory+"Download/"
-			
-			a = os.popen(a).read()
 
 			if "No such file" not in a and "sh: 1: adb:" not in a:
 				a = a.replace("\r","").split("\n")
@@ -43,7 +41,6 @@ def check_root(window):
 					if "|" in lin:
 						lin = lin.split("|")
 						b = modules.utils.adb_comm+" shell ls "+directory
-						b = os.popen(b).read()
 						b = b.replace("\r","").split("\n")
 						for bpk in b:
 							for li in lin:
@@ -54,7 +51,6 @@ def check_root(window):
 									count+=1
 					else:
 						b = modules.utils.adb_comm+" shell ls "+directory
-						b = os.popen(b).read()
 						b = b.replace("\r","").split("\n")
 						for bpk in b:
 							if lin in bpk:
