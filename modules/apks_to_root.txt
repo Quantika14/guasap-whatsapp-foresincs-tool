@@ -1,4 +1,4 @@
-magismanage|| none || MagiskManager-v7.5.1.apk
+magismanager|| none || MagiskManager-v7.5.1.apk
 Vroot||none ||iRoot vRoot Super 1 click_v2.8.apk
 kingoroot|| none ||KingoRoot.apk 
 srsroot|| none ||mobile9_4307081.apk

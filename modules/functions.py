@@ -1,10 +1,147 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-import modules.utils as utils, modules.functions, os, GuasApp_Forensic
+import modules.utils as utils, modules.functions, os, GuasApp_Forensic,gzip
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
+import getpass
 
-root_posibility=False
+#FORENSIC FUNCTIONS
+
+def extract_deleted_messages():
+	try:
+		log_list=list()
+		print (utils.analyze_logs)
+		for log in utils.analyze_logs:
+			texts=list()
+			count = 0
+			count_n = 0
+			count_dict = 0
+			con_list=list()
+			times=list()
+			list_groups=list()
+			f = open("WhatsappLOG/"+log, "r")
+			lines = f.readlines()
+			for line in lines:
+				users=list()
+				c_messages = 0
+				if "msgstore/deletemessages" in line:
+					message_delete = line.split(" ")
+					l = len(message_delete)
+					date = message_delete[0]
+					hour = message_delete[1]
+					c_messages = int(message_delete[l-1].replace("\n", ""))
+					tel_list = [lines[count -1],lines[count -2],lines[count -3],lines[count -4],lines[count -5],lines[count -6],lines
+[count -7],lines[count -8],lines[count -9],lines[count -10]]
+					for tel in tel_list:
+						if "getMediaMessagesTailCursor" in tel:
+							num=True
+							count_n=0
+							tel = tel.split("getMediaMessagesTailCursor:")[1].split("@")[0]
+							for n in tel:
+								if n.isdigit():
+									if count_n == 10 and num != False:
+										tel_d = tel
+									count_n+=1
+									continue
+								else:
+									num=False
+							if tel_d and num:
+								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
+								if text not in texts:
+									texts.append(text)
+						elif "stanzaKey" in tel:
+							num=True
+							count_n=0
+							tel = tel.split("StanzaKey")[1].split("@")[0].split("=")[1]
+							for n in tel:
+								if n.isdigit():
+									if count_n == 10 and num != False:
+										tel_d = tel
+									count_n+=1
+									continue
+								else:
+									num=False
+							if tel_d and num:
+								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
+								print (text)
+								if text not in texts:
+									texts.append(text)
+						else:
+							if line not in texts:
+								texts.append(line)
+
+				if "msgstore/backupdb\n" in line:
+					time_backup = line.split(" ")
+					time_backup = time_backup[0]+" "+time_backup[1]
+					print ("Backup DBs on time [>] "+time_backup)
+					times.append(time_backup)
+				if "onGroupInfoFromList/gjid" in line:
+					group_info = line.split(" ")
+					group_info = group_info.split("/")
+					num_creator = group_info[3].split(":")[1].split("@")[0]
+					date_creation = group_info[4].split(":")[1]
+					if len(date_creation)>10:
+						date_creation = date_creation[:len(date_creation)-3]
+					date_creation=datetime.datetime.fromtimestamp(int(date_creation)).strftime('%Y-%m-%d %H:%M:%S')
+					#1521624826948
+					subject_owner = group_info[5].split(":")[1].split("@")[0]
+					subject = group_info[6].split(":")[1]
+					subject_time = group_info[7].split(":")[1]
+					if len(subject_time)>10:
+						subject_time = subject_time[:len(subject_time)-3]
+					subject_time=datetime.datetime.fromtimestamp(int(subject_time)).strftime('%Y-%m-%d %H:%M:%S')
+					line_users=lines[count -1]
+					if "onGroupInfoFromList/{" in line_users:
+						line_users=line_users.split("{")[1][:len(line_users)-1].split(",")
+						for user in line_users:
+							user_num = user.split("@")[0]
+							users.append(user_num)
+					group = {"creator":num_creator,"date_creation":date_creation,"subject_owner":subject_owner,"subject":subject,"subject_time":subject_time,"users":users}
+					print ("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
+					list_groups.append(group)
+
+				if "network/info" in line:
+					con = [lines[count +1],lines[count +2]]
+					time_con = line.split(" ")
+					time_con = time_con[0]+" "+time_con[1]
+					pri_con = con[0].split(",")
+					sec_con = con[1].split(",")
+					type_pri = pri_con[0].split(":")[1]
+					state_pri = pri_con[1].split(":")[1]
+					extra_pri = pri_con[3].split(":")[1]
+					type_sec = sec_con[0].split(":")[1]
+					state_sec = sec_con[1].split(":")[1]
+					extra_sec = sec_con[3].split(":")[1]
+
+					print ("Time of change network [>] "+time_con)
+					print ("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
+					print ("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec) 
+					con_dict={"time":time_con,"first_change":{"state":state_pri, "name":extra_pri},"second_change":{"state":state_sec, "name":extra_sec}}
+					if con_dict not in con_list:
+						con_list.append(con_dict)
+				count += 1
+
+			if int(c_messages)>=0 or len(times)>0 or len(con_list)>0 or len(list_groups)>0:
+				if log[len(log)-4:]==".txt":
+					log=log[:len(log)-4]
+				for directory in utils.directory:
+					hash_origen_c=utils.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/files/Logs/"+log
+					hash_clonado_c=utils.adb_comm+" shell su 0 md5 "+directory+log
+					hash_origen=os.popen(hash_origen_c).read()
+					hash_clonado=os.popen(hash_clonado_c).read()
+					if "directory" in hash_origen or "directory" in hash_clonado:
+						continue
+					else:
+						dict_final={"deleted_msg":texts,"dates_backup":times, "group_w":list_groups, "cons":con_list,"hash_origen":hash_origen, "hash_clonado":hash_clonado, "log":log}
+						if dict_final not in log_list:
+							log_list.append(dict_final)
+						count_dict+=1
+						break
+		return log_list
+	except:
+		print (utils.error_alert[0])
+
+
 #MagiskManager-v7.5.1.apk es nuestra aplicacion 
 def check_root(window):
 	root=check_su()
@@ -71,8 +208,8 @@ def check_magisk():
 	else:
 		a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
 		b = modules.utils.adb_comm+" shell cd data/adb && ls"
-	a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
-	b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('utf-8')
+	a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
+	b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
 	
 	if "magisk" in a or "magisk" in b:
 		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
@@ -114,30 +251,50 @@ def check_su():
 			return "Root Device"
 
 def get_whatsappDB(db):
+	try:
+		for directory in utils.directory:
+			a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
+			extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
+			print("extracion")
+			print(extract)
+			#command = os.popen(a)
+			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 
-	for directory in utils.directory:
-		a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
-		extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
-		#command = os.popen(a)
-		command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			print("Esto es la base de datos ######")
+			print(command)
+			command=command.replace("\r","").replace("\n","")
+			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
+	#			os.system(a)
+				print ('USB debbuging active...')
+				os.system(extract)
+				print ('extract whatsapp db...')
+				return db 
+			print ('Change directory...')
+	except :
+		return utils.error_alert[0]
 
-		print("Esto es la base de datos ######")
-		print(command)
-		command=command.replace("\r","").replace("\n","")
-		if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
-#			os.system(a)
-			print ('USB debbuging active...')
-			os.system(extract)
-			print ('Extract whatsapp db...')
-			return db 
-		print ('Change directory...')
-"""except :
-	print (utils.error_alert[0])"""
+
+def get_whatsappDB_root(db):
+	print("entra en get_whatsappDB_root")
+	try:
+		for directory in utils.directory:
+			print("entra aqui")
+			a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/databases/"+db+"' of='"+directory+db+"' bs=1000"
+			extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
+			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			command=command.replace("\r","").replace("\n","")
+			if "file or directory" != command[len(command)-17:len(command)]:
+				subprocess.call(extract)
+				print ('extract whatsapp db...')
+				return db 
+			print ('Change directory...')
+	except :
+		print (utils.error_alert[0]) 
 
 
 def create_dir_media():
 	try:
-		os.mkdir("Whatsapp_Extracted_Media")
+		os.mkdir("Whatsapp_extracted_Media")
 		print ('The directory was created correctly')
 	except:
 		print ('Verify that the Media directory is created')
@@ -148,7 +305,44 @@ def create_dir_db():
 		print ('The directory was created correctly')
 	except:
 		print ('Verify that the WhatsappDB directory is created')
+	
+def create_dir_log():
+	try:
+		os.mkdir("WhatsappLOG")
+		print ('The directory was created correctly')
+	except:
+		print ('Verify that the WhatsappLOG directory is created')
 
+def decompress(filename):
+	comprimido=gzip.open(filename, "r")
+	descomprimido=comprimido.read().decode("utf-8")
+	txt = open(filename+".txt", "w")
+	txt.write(descomprimido)
+	txt.close()
+
+def get_whatsappLog(log):
+	try:
+		for directory in utils.directory:
+			a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/files/Logs/"+log+"' of='"+directory+log+"' bs=1000"
+			extract = utils.adb_comm+" pull "+directory+log+" WhatsappLOG/"+log
+			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			if "directory" not in command:
+				print ('USB debbuging active...')
+				subprocess.call(extract)
+				print('extract whatsapp log...')
+				return log
+			print ('Change directory...')
+	except :
+		print (utils.error_alert[0])
+
+
+def set_permission_log(filenames):
+	username=getpass.getuser()
+	if utils.adb_comm=="c:\\adb\\adb":
+		command = "Icacls WhatsappLOG/"+ filenames+" /grant "+ username +":f"
+	else:
+		command = "chmod 777 WhatsappLOG/"+filenames
+	subprocess.call(command)
 
 def count_dbs():
 	dbs_=list()
@@ -170,6 +364,14 @@ def count_dbs():
 				else:
 					dbs_.append(db)
 			return dbs_
+
+def count_logs():
+	command = utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp/files/Logs/"
+	logs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+	logs = logs.replace("\r","").split("\n")
+	
+	return logs
+
 
 def get_hash(data, option):
 	if option == "origin":
@@ -214,3 +416,45 @@ def get_hash(data, option):
 				else:
 					return hash_2
 	return hash_
+
+def get_hash_root(data, option):
+	if option == "origin":
+		command = utils.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+ data
+		hash_ = subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+		print("este es el hash")
+		print(hash_)
+		if "/sh" in hash_:
+			md5 = modules.utils.adb_comm+" shell su 0 md5sum /data/data/com.whatsapp/databases/"+ data
+			hash_= subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+
+	elif option == "clone":
+		for directory in utils.directory:
+			print(utils.adb_comm)
+			print(directory)
+			print(data)
+			command = utils.adb_comm+" shell md5 "+ directory + data
+			hash_ = subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			md5 = utils.adb_comm+" shell md5sum "+directory + data
+			hash_2 = subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			if "No such file" in hash_:
+				pass
+			else:
+				if "not found" in hash_:
+					pass
+				else:
+					break
+			if "No such file" in hash_2:
+				continue
+			else:
+				if "not found" in hash_2:
+					continue
+				else:
+					return hash_2
+	return hash_
+
+def count_dbs_root():
+	command = utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp/databases"
+	dbs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+	dbs = dbs.replace("\r","").split("\n")
+	print(dbs)
+	return dbs

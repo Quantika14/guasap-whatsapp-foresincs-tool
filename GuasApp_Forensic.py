@@ -14,7 +14,7 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #VERSION: 1.1
 #********************************************
 
-import modules.functions, hashdeep, modules.utils,whatsapp_db
+import modules.functions, hashdeep, modules.utils,whatsapp_db, whatsapp_log_forensic
 
 
 #importamos subprocess para cambiarlo por el os
@@ -41,14 +41,6 @@ else:
 	modules.utils.adb_comm=modules.utils.adb_l
 
 # Funcionalidades graficas
-
-"""def extract_mm(directory, root):
-	directory = hashdeep.check_directory()
-	if directory is not None:
-		hashdeep.pull_media(directory)
-		mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
-		root.updateConsole(mensaje_deb)
-#TODO comprobar por que no encuentra la aplicacion de rooteo MagiskManager-v7.5.1.apk """
 
 def whatsapp_mm(root):
 	mensaje_deb = "Extrayendo archivos multimedia..."
@@ -141,7 +133,42 @@ def whatsapp_root(root):
 
 	except:
 		pass
+
+def whatsapp_db_root(root):
+	global list_dbs
+	global label_root
+# Begin comments for offline development (using db files from another device (require one for root checker)):
+	mensaje_deb = "Extrayendo base de datos descifrada..."
+	root.updateConsole(mensaje_deb)
+	list_dbs,rows=whatsapp_db.extract_db_root(root)
+# end "for offline development"
+	# Adding last Trello tasks
+	mensaje_num = "Obteniendo estadísticas de mensajes..."
+	root.updateConsole(mensaje_num)
+	list_dbs,rows=whatsapp_db.extract_db_root(root)
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages()
+	removed_id = whatsapp_db.detect_breakID(total_messages)
+	msg_analytics = []
+	# Appending the msg analytics of each extraction for in a future will be able
+	# to do a comparison among Whatsapp backup DBs and create knowledge from the 
+	# differences between these 
+	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
+	add_report(msg_analytics, 5)
+	# end Trello tasks
+# Begin comments for message analytics report while the final workflow is under construction:
+	# add_report(rows, 5)
+# end "for message analytics"
+	label_root = True
 	
+def whatsapp_log_f(root):
+	global whatsapp_log
+	global label_root
+	mensaje_deb = "Extrayendo/analizando logs..."
+	root.updateConsole(mensaje_deb)
+	whatsapp_log=whatsapp_log_forensic.extract_log(root)
+	add_report(info_root, 1)
+	label_root = True
+
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
@@ -168,11 +195,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		info_root_f(self)
-		whatsapp_root(self)
-		extract_mm(modules.utils.directory,self)
-		whatsapp_mm(self)
-		whatsapp_db_f(self)
+		#info_root_f(self)
+		#whatsapp_root(self)
+		#whatsapp_mm(self)
+		#whatsapp_db_f(self)
+		#whatsapp_db_root(self)
+		whatsapp_log_f(self)
 
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@
 import modules.utils, modules.functions,sqlite3, GuasApp_Forensic
 import subprocess
 from subprocess import Popen, PIPE
+import parser_db
 
 def extract_db(root):
 	count=1
@@ -54,15 +55,16 @@ def extract_db_root(root):
 			#Extract db
 			hash_origen = modules.functions.get_hash_root(db, "origin")
 			db = modules.functions.get_whatsappDB_root(db)
-			hash_clonado = modules.functions.get_hash_root(db, "clone")
-			#Save data in dict
-			name_d="dict_"+str(count)
-			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
-			dbs_list.append(name_d)
-			print ("DB extract sucesfully [>] "+str(db))
-			print ("Original hash file[>] "+str(hash_origen))
-			print ("Cloned file hash [>] "+str(hash_clonado))
-			count+=1
+			if db !="" and db is not None:
+				hash_clonado = modules.functions.get_hash_root(db, "clone")
+				#Save data in dict
+				name_d="dict_"+str(count)
+				name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
+				dbs_list.append(name_d)
+				print ("DB extract sucesfully [>] "+str(db))
+				print ("Original hash file[>] "+str(hash_origen))
+				print ("Cloned file hash [>] "+str(hash_clonado))
+				count+=1
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 
