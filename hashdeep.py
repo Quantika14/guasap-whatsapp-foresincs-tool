@@ -51,9 +51,8 @@ def get_mdinfo(path, i):
 		name = name.replace(" ", "\\\\ ")
 	md5 = modules.utils.adb_comm+" shell md5sum "+name 
 	hash_ = subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode('latin-1').replace("\r\n","")
-	print(hash_)
 	if "/sh" not in hash_:
-		return name, hash_.split(" ")
+		return name, hash_.split(" ")[0]
 	else:
 		md5 = modules.utils.adb_comm+" shell md5sum "+name
 		hash_ = subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode('latin-1').replace("\r\n","")

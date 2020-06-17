@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-import modules.utils, modules.functions, os, GuasApp_Forensic
+import modules.utils as utils, modules.functions, os, GuasApp_Forensic
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
 
@@ -113,6 +113,27 @@ def check_su():
 			root_posibility=True
 			return "Root Device"
 
+def get_whatsappDB(db):
+
+	for directory in utils.directory:
+		a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
+		extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
+		#command = os.popen(a)
+		command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+
+		print("Esto es la base de datos ######")
+		print(command)
+		command=command.replace("\r","").replace("\n","")
+		if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
+#			os.system(a)
+			print ('USB debbuging active...')
+			os.system(extract)
+			print ('Extract whatsapp db...')
+			return db 
+		print ('Change directory...')
+"""except :
+	print (utils.error_alert[0])"""
+
 
 def create_dir_media():
 	try:
@@ -120,3 +141,76 @@ def create_dir_media():
 		print ('The directory was created correctly')
 	except:
 		print ('Verify that the Media directory is created')
+
+def create_dir_db():
+	try:
+		os.mkdir("WhatsappDB")
+		print ('The directory was created correctly')
+	except:
+		print ('Verify that the WhatsappDB directory is created')
+
+
+def count_dbs():
+	dbs_=list()
+	for directory in utils.directory:
+		command = utils.adb_comm+" shell ls "+directory+"WhatsApp/Databases/"
+		#command = utils.adb_comm + " shell ls " + "/data/data/com.whatsapp/databases/"
+		#dbs = os.popen(command).read()
+		dbs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+
+		if "No such file or directory" in dbs:
+			continue
+		else:
+			dbs = dbs.replace("\r","").split("\n")
+			for db in dbs:
+				if " " in db:
+					db = db.split(" ")
+					for d in db:
+						dbs_.append(d)
+				else:
+					dbs_.append(db)
+			return dbs_
+
+def get_hash(data, option):
+	if option == "origin":
+		for directory in utils.directory:
+			command = utils.adb_comm+" shell md5 "+directory+"WhatsApp/Databases/"+data
+			md5 = modules.utils.adb_comm+" shell md5sum "+directory+"WhatsApp/Databases/"+data
+			hash_=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			hash_2=subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			if "No such file" in hash_:
+				pass
+			else:
+				if "not found" in hash_:
+					pass
+				else:
+					break
+			if "No such file" in hash_2:
+				continue
+			else:
+				if "not found" in hash_2:
+					continue
+				else:
+					return hash_2
+	elif option == "clone":
+		for directory in utils.directory:
+			command = utils.adb_comm+" shell md5 "+directory+data
+			md5 = modules.utils.adb_comm+" shell md5sum "+directory+data
+			hash_=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			hash_2=subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
+			
+			if "No such file" in hash_:
+				pass
+			else:
+				if "not found" in hash_:
+					pass
+				else:
+					break
+			if "No such file" in hash_2:
+				continue
+			else:
+				if "not found" in hash_2:
+					continue
+				else:
+					return hash_2
+	return hash_

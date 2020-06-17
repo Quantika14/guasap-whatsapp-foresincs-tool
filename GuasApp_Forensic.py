@@ -14,14 +14,12 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #VERSION: 1.1
 #********************************************
 
-import modules.functions, hashdeep, modules.utils
+import modules.functions, hashdeep, modules.utils,whatsapp_db
+
 
 #importamos subprocess para cambiarlo por el os
 import subprocess
 from subprocess import Popen, PIPE
-
-# poner como un try y except
-# from Tkinter import *
 import os, time, socket, requests
 from time import sleep
 from distutils.version import LooseVersion
@@ -30,7 +28,7 @@ from distutils.version import LooseVersion
 from diseño_interfaz.model_ui import *
 from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QMessageBox, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication
 
 info_root = ()
 label_root = False
@@ -43,13 +41,14 @@ else:
 	modules.utils.adb_comm=modules.utils.adb_l
 
 # Funcionalidades graficas
-def extract_mm(directory, root):
+
+"""def extract_mm(directory, root):
 	directory = hashdeep.check_directory()
 	if directory is not None:
 		hashdeep.pull_media(directory)
 		mensaje_deb = "Creando hash y comparando... \n Este proceso varia su duracion en base a los archivos multimedia"
 		root.updateConsole(mensaje_deb)
-#TODO comprobar por que no encuentra la aplicacion de rooteo MagiskManager-v7.5.1.apk
+#TODO comprobar por que no encuentra la aplicacion de rooteo MagiskManager-v7.5.1.apk """
 
 def whatsapp_mm(root):
 	mensaje_deb = "Extrayendo archivos multimedia..."
@@ -142,7 +141,15 @@ def whatsapp_root(root):
 
 	except:
 		pass
-
+	
+def whatsapp_db_f(root):
+	global list_dbs
+	global label_root
+	mensaje_deb = "Extrayendo base de datos cifrada..."
+	root.updateConsole(mensaje_deb)
+	list_dbs=whatsapp_db.extract_db(root)
+	#add_report(list_dbs, 2)
+	label_root = True
 	
 
 
@@ -163,8 +170,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 	def ejecucion(self):
 		info_root_f(self)
 		whatsapp_root(self)
-		#extract_mm(modules.utils.directory,self)
+		extract_mm(modules.utils.directory,self)
 		whatsapp_mm(self)
+		whatsapp_db_f(self)
+
 
 if __name__ == '__main__':
 	t=time.strftime('%A %B, %d %Y %H:%M:%S')
