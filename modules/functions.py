@@ -11,7 +11,6 @@ import sqlite3
 def extract_deleted_messages():
 	try:
 		log_list=list()
-		print (utils.analyze_logs)
 		for log in utils.analyze_logs:
 			texts=list()
 			count = 0
@@ -64,7 +63,6 @@ def extract_deleted_messages():
 									num=False
 							if tel_d and num:
 								text = "Found " + str(c_messages) + " deleted messages [" + str(date) + "] [" + str(hour) + "]" + "-> " + str(tel_d) + " of file ->" + log 
-								print (text)
 								if text not in texts:
 									texts.append(text)
 						else:
@@ -167,7 +165,6 @@ def check_root(window):
 								continue
 							else:
 								if lin in apk:
-									print("SE HA ENCONTRADO UNA APLICACION DE ROOTEO")
 									#A partir de esta línea nos indica que se ha localizado una aplicación  en la carpeta de Descargas que permite realizar un rooteo.
 									name_d="dict_"+str(count)
 									name_d={"App":line[0].title(), "file":apk, "directory":directory}
@@ -256,13 +253,8 @@ def get_whatsappDB(db):
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
 			extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
-			print("extracion")
-			print(extract)
 			#command = os.popen(a)
 			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
-
-			print("Esto es la base de datos ######")
-			print(command)
 			command=command.replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
 	#			os.system(a)
@@ -459,7 +451,7 @@ def get_hash_root(data, option):
 	if option == "origin":
 		command = utils.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+ data
 		hash_ = subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
-		if "/sh" in hash_:
+		if "not found" in hash_:
 			md5 = modules.utils.adb_comm+" shell su 0 md5sum /data/data/com.whatsapp/databases/"+ data
 			hash_= subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 
@@ -490,5 +482,4 @@ def count_dbs_root():
 	command = utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp/databases"
 	dbs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 	dbs = dbs.replace("\r","").split("\n")
-	print(dbs)
 	return dbs
