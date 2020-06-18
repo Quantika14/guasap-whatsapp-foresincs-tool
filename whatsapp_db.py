@@ -62,7 +62,7 @@ def extract_db_root(root):
 					name_d="dict_"+str(count)
 					name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
 					dbs_list.append(name_d)
-					print ("DB extract sucesfully [>] "+str(db))
+					print ("DB extract sucesfully [>] "+str(d))
 					print ("Original hash file[>] "+str(hash_origen))
 					print ("Cloned file hash [>] "+str(hash_clonado))
 					count+=1
@@ -101,7 +101,7 @@ def count_messages(root):
 		else:
 			byConversation_messages[peer] = 1
 	conn.close()
-	modules.functions.db_head_parser('WhatsappDB/msgstore.db')
+	modules.functions.db_head_parser('WhatsappDB/msgstore.db',root)
 	return total_msg, byConversation_messages, groups_members
 
 def detect_breakID(total_msg):

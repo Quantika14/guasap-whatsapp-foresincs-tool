@@ -153,7 +153,7 @@ def whatsapp_db_root(root):
 	# to do a comparison among Whatsapp backup DBs and create knowledge from the 
 	# differences between these 
 	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
-	add_report(msg_analytics, 5)
+	#add_report(msg_analytics, 5)
 	# end Trello tasks
 # Begin comments for message analytics report while the final workflow is under construction:
 	# add_report(rows, 5)
@@ -200,6 +200,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		#whatsapp_mm(self)
 		#whatsapp_db_f(self)
 		whatsapp_db_root(self)
+		print("ejecucion completa")
 		#whatsapp_log_f(self)
 
 

@@ -4,6 +4,7 @@ import modules.utils as utils, modules.functions, os, GuasApp_Forensic,gzip
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
 import getpass
+import sqlite3
 
 #FORENSIC FUNCTIONS
 
@@ -366,6 +367,48 @@ def count_logs():
 	logs = logs.replace("\r","").split("\n")
 	
 	return logs
+
+# To know the members that belong to a group, this function receives the identified "gjid" of the group
+def get_members(group):
+	conn = sqlite3.connect('WhatsappDB/msgstore.db')
+	group_members_raw = [member[0] for member in conn.execute('SELECT jid FROM group_participants WHERE gjid=?', (group[0],))]
+	conn.close()
+	# Once retrieved all group members in raw format "34697XXXXXX@s.whatsapp.net" each one must be cleaned
+	group_members = [clean_user(member) for member in group_members_raw]
+	return group_members
+
+# A simple function for remove preffix and suffix added by Whatsapp to the user "jid"
+def clean_user(peer):
+	user = str(peer[2:]).replace("@s.whatsapp.net","")
+	return user
+
+# Parsing important data from msgstore.db structure header (first 100 bytes of *.db file) to try restore deleted messages
+def db_head_parser(db,root):
+	# In the SQLite official site the are stored the specifications doc 
+	# with the offset in the header of sqlite file about the data stored and lenght (offset - n bytes)
+	db_info = []
+	db_dump = open(db, "rb")
+	db_dump.seek(16)
+	page_size_raw = db_dump.read(2)
+	db_dump.seek(28)
+	number_pages_raw = db_dump.read(4)
+	db_dump.seek(32)
+	first_trunk_page_raw = db_dump.read(4)
+	db_dump.seek(96)
+	db_ver_raw = db_dump.read(4)
+	# Converting hex to decimal
+	first_trunk_page=first_trunk_page_raw.hex()
+	#first_trunk_page = int(first_trunk_page_raw.encode("hex"), 16)
+	db_ver = db_ver_raw.hex()
+	#db_ver = int(db_ver_raw.encode("hex"), 16)
+	#page_size = page_size_raw.encode("hex"), 16)
+	page_size = page_size_raw.hex()
+	number_pages = number_pages_raw.hex()
+
+	#number_pages = int(number_pages_raw.encode("hex"), 16)
+	db_info.extend((page_size, number_pages, first_trunk_page, db_ver))
+
+	
 
 
 def get_hash(data, option):
