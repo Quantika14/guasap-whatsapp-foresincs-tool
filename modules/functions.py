@@ -275,19 +275,14 @@ def get_whatsappDB(db):
 
 
 def get_whatsappDB_root(db):
-	print("entra en get_whatsappDB_root")
+	
 	try:
-		for directory in utils.directory:
-			print("entra aqui")
-			a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/databases/"+db+"' of='"+directory+db+"' bs=1000"
-			extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
-			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
-			command=command.replace("\r","").replace("\n","")
-			if "file or directory" != command[len(command)-17:len(command)]:
-				subprocess.call(extract)
-				print ('extract whatsapp db...')
-				return db 
-			print ('Change directory...')
+		copy=utils.adb_comm+" shell su 0 cp '/data/data/com.whatsapp/databases/"+db+"' '/sdcard/"+db+"'"
+		#a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/databases/"+db+"' of='"+directory+db+"' bs=1000"
+		extract = utils.adb_comm+" pull /sdcard/"+db+" WhatsappDB/"+db
+		subprocess.call(copy)
+		subprocess.call(extract)	
+		return db 
 	except :
 		print (utils.error_alert[0]) 
 
@@ -421,17 +416,12 @@ def get_hash_root(data, option):
 	if option == "origin":
 		command = utils.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+ data
 		hash_ = subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
-		print("este es el hash")
-		print(hash_)
 		if "/sh" in hash_:
 			md5 = modules.utils.adb_comm+" shell su 0 md5sum /data/data/com.whatsapp/databases/"+ data
 			hash_= subprocess.Popen(md5, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 
 	elif option == "clone":
 		for directory in utils.directory:
-			print(utils.adb_comm)
-			print(directory)
-			print(data)
 			command = utils.adb_comm+" shell md5 "+ directory + data
 			hash_ = subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 			md5 = utils.adb_comm+" shell md5sum "+directory + data
@@ -449,7 +439,8 @@ def get_hash_root(data, option):
 				if "not found" in hash_2:
 					continue
 				else:
-					return hash_2
+
+					return hash_2				
 	return hash_
 
 def count_dbs_root():

@@ -48,23 +48,24 @@ def extract_db_root(root):
 	root.updateConsole(mensaje_deb)
 	
 	for db in dbs:
-		print ("-------*-------")
-		if db=="":
-			pass
-		else:
-			#Extract db
-			hash_origen = modules.functions.get_hash_root(db, "origin")
-			db = modules.functions.get_whatsappDB_root(db)
-			if db !="" and db is not None:
-				hash_clonado = modules.functions.get_hash_root(db, "clone")
-				#Save data in dict
-				name_d="dict_"+str(count)
-				name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
-				dbs_list.append(name_d)
-				print ("DB extract sucesfully [>] "+str(db))
-				print ("Original hash file[>] "+str(hash_origen))
-				print ("Cloned file hash [>] "+str(hash_clonado))
-				count+=1
+		db=db.split(" ")
+		for d in db:
+			if d=="":
+				pass
+			else:
+				#Extract db 
+				hash_origen = modules.functions.get_hash_root(d, "origin")
+				d = modules.functions.get_whatsappDB_root(d)
+				if d !="" and d is not None:
+					hash_clonado = modules.functions.get_hash_root(d, "clone")
+					#Save data in dict
+					name_d="dict_"+str(count)
+					name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
+					dbs_list.append(name_d)
+					print ("DB extract sucesfully [>] "+str(db))
+					print ("Original hash file[>] "+str(hash_origen))
+					print ("Cloned file hash [>] "+str(hash_clonado))
+					count+=1
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 

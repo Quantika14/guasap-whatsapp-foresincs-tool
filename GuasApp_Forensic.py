@@ -146,7 +146,7 @@ def whatsapp_db_root(root):
 	mensaje_num = "Obteniendo estadísticas de mensajes..."
 	root.updateConsole(mensaje_num)
 	list_dbs,rows=whatsapp_db.extract_db_root(root)
-	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages()
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
 	# Appending the msg analytics of each extraction for in a future will be able
@@ -199,8 +199,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		#whatsapp_root(self)
 		#whatsapp_mm(self)
 		#whatsapp_db_f(self)
-		#whatsapp_db_root(self)
-		whatsapp_log_f(self)
+		whatsapp_db_root(self)
+		#whatsapp_log_f(self)
 
 
 if __name__ == '__main__':
