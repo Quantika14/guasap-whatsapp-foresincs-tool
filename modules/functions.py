@@ -293,6 +293,13 @@ def create_dir_db():
 		print ('The directory was created correctly')
 	except:
 		print ('Verify that the WhatsappDB directory is created')
+
+def create_dir_report():
+	try:
+		os.mkdir("Reports_Guasap_Forensic")
+		print ('The directory was created correctly')
+	except:
+		print ('Verify that the Reports directory is created')
 	
 def create_dir_log():
 	try:
@@ -300,6 +307,8 @@ def create_dir_log():
 		print ('The directory was created correctly')
 	except:
 		print ('Verify that the WhatsappLOG directory is created')
+
+
 
 def decompress(filename):
 	comprimido=gzip.open(filename, "r")
