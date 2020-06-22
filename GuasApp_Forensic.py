@@ -446,6 +446,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 	def __init__(self, *args, **kwargs):
 		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
 		self.setupUi(self)
+		self.setWindowTitle("Guasap Forensic 2.0")
+		self.lblConsole.setStyleSheet("QLabel {background-color: black; color:white; padding:0px 0px 10px 10px}")
 		texto=self.lblDirectory.text()+" /Reports_Guasap_Forensic"
 		self.lblDirectory.setText(texto)
 		self.btnStart.clicked.connect(self.ejecucion)

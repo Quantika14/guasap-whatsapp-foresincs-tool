@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'new_modelo.ui'
+# Form implementation generated from reading ui file '.\new_modelo.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -30,15 +30,27 @@ class Ui_MainWindow(object):
         self.lblFooter.setGeometry(QtCore.QRect(0, 490, 1091, 20))
         self.lblFooter.setAlignment(QtCore.Qt.AlignCenter)
         self.lblFooter.setObjectName("lblFooter")
-        self.Imagen = QtWidgets.QGraphicsView(self.centralwidget)
-        self.Imagen.setGeometry(QtCore.QRect(580, 120, 481, 351))
-        self.Imagen.setObjectName("Imagen")
         self.lblConsole = QtWidgets.QLabel(self.centralwidget)
         self.lblConsole.setGeometry(QtCore.QRect(30, 20, 521, 451))
+        self.lblConsole.setAutoFillBackground(False)
         self.lblConsole.setText("")
         self.lblConsole.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
         self.lblConsole.setWordWrap(False)
         self.lblConsole.setObjectName("lblConsole")
+        self.lblImage = QtWidgets.QLabel(self.centralwidget)
+        self.lblImage.setGeometry(QtCore.QRect(580, 120, 480, 350))
+        self.lblImage.setText("")
+        self.lblImage.setObjectName("lblImage")
+        self.rbEnglish = QtWidgets.QRadioButton(self.centralwidget)
+        self.rbEnglish.setGeometry(QtCore.QRect(840, 40, 61, 17))
+        self.rbEnglish.setChecked(True)
+        self.rbEnglish.setObjectName("rbEnglish")
+        self.rbSpanish = QtWidgets.QRadioButton(self.centralwidget)
+        self.rbSpanish.setGeometry(QtCore.QRect(840, 60, 61, 17))
+        self.rbSpanish.setObjectName("rbSpanish")
+        self.lblLenguage = QtWidgets.QLabel(self.centralwidget)
+        self.lblLenguage.setGeometry(QtCore.QRect(840, 20, 47, 13))
+        self.lblLenguage.setObjectName("lblLenguage")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -52,6 +64,9 @@ class Ui_MainWindow(object):
         self.btnHelp.setText(_translate("MainWindow", "Help"))
         self.lblDirectory.setText(_translate("MainWindow", "Report directory: "))
         self.lblFooter.setText(_translate("MainWindow", "CONTACT: INFO@QUANTIKA14.COM / +34 954 96 55 51 / WWW.QUANTIKA14.COM"))
+        self.rbEnglish.setText(_translate("MainWindow", "English"))
+        self.rbSpanish.setText(_translate("MainWindow", "Spanish"))
+        self.lblLenguage.setText(_translate("MainWindow", "Lenguage"))
 
 
 if __name__ == "__main__":

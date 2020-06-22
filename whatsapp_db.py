@@ -16,9 +16,11 @@ def extract_db(root):
 	#Extract dbs names
 	dbs = modules.functions.count_dbs()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
+	mensaje_deb2 = ""
+
 	root.updateConsole(mensaje_deb)
 	for db in dbs:
-		print ("-------*-------")
+		mensaje_deb2 += "-------*-------\n"
 		if db=="":
 			pass
 		else:
@@ -30,9 +32,10 @@ def extract_db(root):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			print ("DB extract sucesfully [>] "+str(db))
-			print ("Original hash file[>] "+str(hash_origen))
-			print ("Cloned file hash [>] "+str(hash_clonado))
+			mensaje_deb2 += "DB extract sucesfully [>] "+str(db) +"\n"
+			mensaje_deb2 += "Original hash file[>] "+str(hash_origen) + "\n"
+			mensaje_deb2 += "Cloned file hash [>] "+str(hash_clonado) + "\n"
+			root.updateConsole(mensaje_deb2)
 			count+=1
 	return dbs_list
 

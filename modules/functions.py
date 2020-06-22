@@ -141,7 +141,6 @@ def extract_deleted_messages():
 		print (utils.error_alert[0])
 
 
-#MagiskManager-v7.5.1.apk es nuestra aplicacion 
 def check_root(window):
 	root=check_su()
 	mensaje_deb=check_su()+"\n"
@@ -199,54 +198,58 @@ def check_root(window):
 	return list_root_info, root_posibility
 
 def check_magisk():
-	#no puede utilizar la aplicacion en windows por error de permiso
-	if modules.utils.adb_comm == "c:\\adb\\adb":
-		a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
-		b = modules.utils.adb_comm+" shell cd data/adb && dir"
-	else:
-		a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
-		b = modules.utils.adb_comm+" shell cd data/adb && ls"
-	a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
-	b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
-	
-	if "magisk" in a or "magisk" in b:
-		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
-	else:
+	try:
+		#no puede utilizar la aplicacion en windows por error de permiso
+		if modules.utils.adb_comm == "c:\\adb\\adb":
+			a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
+			b = modules.utils.adb_comm+" shell cd data/adb && dir"
+		else:
+			a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
+			b = modules.utils.adb_comm+" shell cd data/adb && ls"
+		a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
+		b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
+		
+		if "magisk" in a or "magisk" in b:
+			return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
+		else:
+			return False
+	except:
 		return False
 
 #Aquí comprobamos a través de un comando si el dispositivo dispone de permisos de root.
 def check_su():
 	global root_posibility
-	command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
-	process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
-	err = process.communicate()[0].decode('utf-8')
-#Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
-	if "inaccessible or not found" in err:
-		root_posibility=False
-		return "Inaccessible or not found device make sure that your phone is connected and routed"
-
-	elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err: 
+	try:
+		command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
+		process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
+		err = process.communicate()[0].decode('utf-8')
+	#Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
+		if "inaccessible or not found" in err:
+			root_posibility=False
+			return "Inaccessible or not found device make sure that your phone is connected and routed"
+		elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err: 
+			root_posibility=False
+			return "No adb installed"
+	#Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
+		elif "device unauthorized" in err :
+			root_posibility=False
+			return "No debugging active"
+	#Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
+		elif "error: device" in err:
+			root_posibility=False
+			return "No such device"
+		else:
+	#Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
+			if "su: not found" in err:
+				root_posibility=False
+				return "No root device"
+	#Nos devolverá este aviso en caso de que el dispositivo esté rooteado
+			else:
+				root_posibility=True
+				return "Root Device"
+	except IOError:
 		root_posibility=False
 		return "No adb installed"
-#Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
-	elif "device unauthorized" in err :
-		root_posibility=False
-		return "No debugging active"
-#Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
-	elif "error: device" in err:
-		root_posibility=False
-		return "No such device"
-
-
-	else:
-#Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
-		if "su: not found" in err:
-			root_posibility=False
-			return "No root device"
-#Nos devolverá este aviso en caso de que el dispositivo esté rooteado
-		else:
-			root_posibility=True
-			return "Root Device"
 
 def get_whatsappDB(db):
 	try:
