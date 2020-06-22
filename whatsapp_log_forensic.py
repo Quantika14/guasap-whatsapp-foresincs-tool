@@ -4,7 +4,7 @@
 import modules.utils, modules.functions, GuasApp_Forensic
 
 
-def extract_log(root):
+def extract_log(root,idioma):
 	#Create directory
 	modules.functions.create_dir_log()
 	#Extract logs names
@@ -18,7 +18,10 @@ def extract_log(root):
 			for l in log :
 				if l != "":
 					#Extract logs
-					mensaje_deb = "Logs extraidos, analizando..."
+					if idioma=="español":
+						mensaje_deb = "Logs extraidos, analizando..."
+					elif idioma=="ingles":
+						mensaje_deb = "Logs extracted, analyzing..."
 					root.updateConsole(mensaje_deb)
 					l = modules.functions.get_whatsappLog(l)
 

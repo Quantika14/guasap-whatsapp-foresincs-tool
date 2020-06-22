@@ -3,6 +3,7 @@
 import modules.utils as utils, modules.functions, os, GuasApp_Forensic,gzip
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
+from GuasApp_Forensic import idioma
 import getpass
 import sqlite3
 
@@ -72,7 +73,10 @@ def extract_deleted_messages():
 				if "msgstore/backupdb\n" in line:
 					time_backup = line.split(" ")
 					time_backup = time_backup[0]+" "+time_backup[1]
-					print ("Backup DBs on time [>] "+time_backup)
+					if idioma=="español":
+						root.updateConsole("Copia de la base de datos [>] "+time_backup)
+					if idioma=="ingles":
+						root.updateConsole("Backup DBs on time [>] "+time_backup)
 					times.append(time_backup)
 				if "onGroupInfoFromList/gjid" in line:
 					group_info = line.split(" ")
@@ -96,7 +100,11 @@ def extract_deleted_messages():
 							user_num = user.split("@")[0]
 							users.append(user_num)
 					group = {"creator":num_creator,"date_creation":date_creation,"subject_owner":subject_owner,"subject":subject,"subject_time":subject_time,"users":users}
-					print ("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
+					if idioma=="español":
+						root.updateConsole("Grupo [>] "+subject+"\nNum creador [>] "+num_creator+" | Fecha creacion [>] "+str(date_creation)+"\n Propietario [>] "+subject+"| Numero del propietario [>] "+subject_owner+" Hora del usuario [>] "+str(subject_time)+"\n Usuario [>] "+str(users))
+
+					if idioma=="ingles":	
+						root.updateConsole("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
 					list_groups.append(group)
 
 				if "network/info" in line:
@@ -112,9 +120,16 @@ def extract_deleted_messages():
 					state_sec = sec_con[1].split(":")[1]
 					extra_sec = sec_con[3].split(":")[1]
 
-					print ("Time of change network [>] "+time_con)
-					print ("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
-					print ("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec) 
+					if idioma=="español":
+						root.updateConsole("Tiempo del cambio de red [>] "+time_con)
+						root.updateConsole("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
+						root.updateConsole("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec) 
+					
+					if idioma=="ingles":
+						root.updateConsole("Time of change network [>] "+time_con)
+						root.updateConsole("Type: "+type_pri+", State: "+state_pri+", Name: "+extra_pri)
+						root.updateConsole("Type: "+type_sec+", State: "+state_sec+", Name: "+extra_sec) 
+
 					con_dict={"time":time_con,"first_change":{"state":state_pri, "name":extra_pri},"second_change":{"state":state_sec, "name":extra_sec}}
 					if con_dict not in con_list:
 						con_list.append(con_dict)
@@ -140,15 +155,18 @@ def extract_deleted_messages():
 	except:
 		print (utils.error_alert[0])
 
-
-def check_root(window):
+def check_root(window,idioma):
 	root=check_su()
 	mensaje_deb=check_su()+"\n"
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
-		mensaje_deb += "Buscando aplicaciones que requieren de Root..."
+		if idioma=="español":
+			mensaje_deb += "Buscando aplicaciones que requieren de Root..."
+		if idioma=="ingles":
+			mensaje_deb += "Checking apps which Root is required"
+
 		window.updateConsole(mensaje_deb)
 		for directory in modules.utils.directory:
 			a = modules.utils.adb_comm+" shell ls "+directory+"Download/"

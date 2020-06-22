@@ -13,7 +13,7 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #DATE: 10-05-2018
 #VERSION: 1.1
 #********************************************
-
+idioma="ingles"
 import modules.functions, hashdeep, modules.utils,whatsapp_db, whatsapp_log_forensic,io
 
 
@@ -41,6 +41,7 @@ first_add=True
 rute=""
 
 
+
 if os.name == 'nt':
 	modules.utils.adb_comm=modules.utils.adb_w
 else:
@@ -49,16 +50,25 @@ else:
 # Funcionalidades graficas
 
 def whatsapp_mm(root):
-	mensaje_deb = "Extrayendo archivos multimedia..."
+	if idioma=="español":
+		mensaje_deb = "Extrayendo archivos multimedia..."
+	elif idioma=="ingles":
+		mensaje_deb = "Extracting multimedia files..."
 	root.updateConsole(mensaje_deb)
 	try:
 		md5_cloned,md5_original=hashdeep.extract_mm(root)
 		add_report((md5_cloned,md5_original),6)
 		label_root=True
-		root.updateConsole("el directorio de WhatsApp se ha encontrado de forma correcta \n")
+		if idioma=="español":
+			root.updateConsole("el directorio de WhatsApp se ha encontrado de forma correcta \n")
+		elif idioma=="ingles":
+			root.updateConsole("WhatsApp directory has been found correctly \n")
 	
 	except:
-		mensaje_deb = "No se ha encontrado el directorio de WhatsApp"
+		if idioma=="español":
+			mensaje_deb = "No se ha encontrado el directorio de WhatsApp"
+		elif idioma=="ingles":
+			mensaje_deb = "WhatsApp directory not found"
 		root.updateConsole(mensaje_deb)
 
 def info_root_f(root):
@@ -66,9 +76,12 @@ def info_root_f(root):
 	global label_root
 	global root_posibility
 	global popup_a
-	mensaje_deb = "Comprobando dispositivo..."
+	if idioma=="español":
+		mensaje_deb = "Comprobando dispositivo..."
+	elif idioma=="ingles":
+		mensaje_deb = "Checking device..."
 	root.updateConsole(mensaje_deb)
-	info_root,roote=modules.functions.check_root(root)
+	info_root,roote=modules.functions.check_root(root,idioma)
 	root_posibility=roote
 	label_root = True
 	add_report(info_root,0)
@@ -115,41 +128,74 @@ def check_data(root):
 		option = check_how_root(android_v, marca)
 		return option, android_v , marca
 	else:
-		mensaje_deb ="Version not found on device"
+		if idioma=="español":
+			mensaje_deb ="No se ha encontrado la version del dispositivo"
+		elif idioma=="ingles":
+			mensaje_deb ="Version not found on device"
 		root.updateConsole(mensaje_deb)
 
 def whatsapp_root(root):
-	try:
-		option , version, marca = check_data(root)
-		mensaje_deb = " \n Version: "+version
-		mensaje_deb += "\n Mobile brand: "+marca
-		mensaje_deb += "\n App recommended to root: "+option["app"] + "\n"
-		mensaje_deb += option["observaciones"][65:130] + "\n"
-		mensaje_deb += option["observaciones"][130:] +" \n"
-		
-		if len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
-			mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"][:65] + "\n"
+	if idioma=="español":
+		try:
+			option , version, marca = check_data(root)
+			mensaje_deb = " \n Version: "+version
+			mensaje_deb += "\n Marca del móvil: "+marca
+			mensaje_deb += "\n Aplicación recomendada para rotear: "+option["app"] + "\n"
 			mensaje_deb += option["observaciones"][65:130] + "\n"
-			mensaje_deb +=option["observaciones"][130:195] + "\n"
-		elif len(option["observaciones"]) > 60 and len(option["observaciones"]) < 150:
-			mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"][:65]  + "\n"
-			mensaje_deb += option["observaciones"][195:]  + "\n"
-		else:
-			mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"] + "\n"
-		root.updateConsole(mensaje_deb)
+			mensaje_deb += option["observaciones"][130:] +" \n"
+			
+			if len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
+				mensaje_deb += "Observaciones:\n"+option["observaciones"][:65] + "\n"
+				mensaje_deb += option["observaciones"][65:130] + "\n"
+				mensaje_deb +=option["observaciones"][130:195] + "\n"
+			elif len(option["observaciones"]) > 60 and len(option["observaciones"]) < 150:
+				mensaje_deb += "Observaciones:\n"+option["observaciones"][:65]  + "\n"
+				mensaje_deb += option["observaciones"][195:]  + "\n"
+			else:
+				mensaje_deb += "Observaciones:\n"+option["observaciones"] + "\n"	
+			root.updateConsole(mensaje_deb)
 
-	except:
-		pass
+		except:
+			pass
+	
+	elif idioma=="ingles":
+		try:
+			option , version, marca = check_data(root)
+			mensaje_deb = " \n Version: "+version
+			mensaje_deb += "\n Mobile brand: "+marca
+			mensaje_deb += "\n App recommended to root: "+option["app"] + "\n"
+			mensaje_deb += option["observaciones"][65:130] + "\n"
+			mensaje_deb += option["observaciones"][130:] +" \n"
+			
+			if len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
+				mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"][:65] + "\n"
+				mensaje_deb += option["observaciones"][65:130] + "\n"
+				mensaje_deb +=option["observaciones"][130:195] + "\n"
+			elif len(option["observaciones"]) > 60 and len(option["observaciones"]) < 150:
+				mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"][:65]  + "\n"
+				mensaje_deb += option["observaciones"][195:]  + "\n"
+			else:
+				mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"] + "\n"
+			root.updateConsole(mensaje_deb)
+
+		except:
+			pass
 
 def whatsapp_db_root(root):
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
-	mensaje_deb = "Extrayendo base de datos descifrada..."
+	if idioma=="español":
+		mensaje_deb = "Extrayendo base de datos descifrada..."
+	elif idioma=="ingles":
+		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
 	list_dbs,rows=whatsapp_db.extract_db_root(root)
 # end "for offline development"
 	# Adding last Trello tasks
-	mensaje_num = "Obteniendo estadísticas de mensajes..."
+	if idioma=="español":
+		mensaje_num = "Obteniendo estadísticas de mensajes..."
+	elif idioma=="ingles":
+		mensaje_num = " Obtaining message statistics ..."
 	root.updateConsole(mensaje_num)
 	list_dbs,rows=whatsapp_db.extract_db_root(root)
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
@@ -169,18 +215,24 @@ def whatsapp_db_root(root):
 def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
-	mensaje_deb = "Extrayendo/analizando logs..."
+	if idioma == "español":
+		mensaje_deb = "Extrayendo/analizando logs..."
+	elif idioma == "ingles":
+			mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	whatsapp_log=whatsapp_log_forensic.extract_log(root)
+	whatsapp_log=whatsapp_log_forensic.extract_log(root,idioma)
 	add_report(info_root, 1)
 	label_root = True
 
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
-	mensaje_deb = "Extrayendo base de datos cifrada..."
+	if idioma == "español":
+		mensaje_deb = "Extrayendo base de datos cifrada..."
+	elif idioma == "ingles":
+		mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	list_dbs=whatsapp_db.extract_db(root)
+	list_dbs=whatsapp_db.extract_db(root,idioma)
 	add_report(list_dbs, 2)
 	label_root = True
 
@@ -451,6 +503,32 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		texto=self.lblDirectory.text()+" /Reports_Guasap_Forensic"
 		self.lblDirectory.setText(texto)
 		self.btnStart.clicked.connect(self.ejecucion)
+		self.rbEnglish.toggled.connect(lambda : self.english_screen())
+		self.rbSpanish.toggled.connect(lambda : self.spanish_screen())
+		if self.rbEnglish.isChecked():
+			self.english_screen()
+		elif self.rbSpanish.isChecked():
+			self.spanish_screen()
+
+	def spanish_screen(self):
+		self.btnStart.setText("Comienzo")
+		self.btnLicense.setText("Licencia")
+		self.btnHelp.setText("Ayuda")
+		self.lblDirectory.setText("Directorio del informe: /Reports_Guasap_Forensic/")
+		self.lblFooter.setText("CONTACTO: INFO@QUANTIKA14.COM / +34 954 96 55 51 / WWW.QUANTIKA14.COM")
+		self.rbEnglish.setText("Inglés")
+		self.rbSpanish.setText("Español")
+		self.lblLenguage.setText("Lenguaje")
+
+	def english_screen(self):
+		self.btnStart.setText("Start")
+		self.btnLicense.setText("License")
+		self.btnHelp.setText("Help")
+		self.lblDirectory.setText("Report directory: /Reports_Guasap_Forensic/")
+		self.lblFooter.setText("CONTACT: INFO@QUANTIKA14.COM / +34 954 96 55 51 / WWW.QUANTIKA14.COM")
+		self.rbEnglish.setText("English")
+		self.rbSpanish.setText("Spanish")
+		self.lblLenguage.setText("Language")
 
 	def updateConsole(self, text):
 		texto = self.lblConsole.text() + '\n' + text
@@ -458,6 +536,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
+		global idioma
+		if self.rbEnglish.isChecked():
+			idioma="ingles"
+		elif self.rbSpanish.isChecked():
+			idioma="español"
+
 		info_root_f(self)
 		whatsapp_mm(self)
 		if root_posibility:

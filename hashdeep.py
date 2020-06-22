@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
+from GuasApp_Forensic import idioma
 import os
 import os.path as osp
 import hashlib
@@ -76,7 +77,10 @@ def extract_mm(root):
 			md5 = filehash(fpath)
 			name = osp.relpath(fpath, PATH)
 			md5_original.append((name,md5))
-	root.updateConsole("Finish hash cloned...")
+	if idioma=="español":
+		root.updateConsole("Finalizar hash clonado ...")
+	elif idioma=="ingles":
+		root.updateConsole("Finish hash cloned...")
 	ls=get_subdirectoris(directory)
 	ls=ls.replace("\r", "").split("\n")
 

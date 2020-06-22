@@ -6,8 +6,9 @@ import modules.utils, modules.functions,sqlite3, GuasApp_Forensic
 import subprocess
 from subprocess import Popen, PIPE
 import parser_db
+from GuasApp_Forensic import idioma
 
-def extract_db(root):
+def extract_db(root,idioma):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
@@ -32,9 +33,17 @@ def extract_db(root):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			mensaje_deb2 += "DB extract sucesfully [>] "+str(db) +"\n"
-			mensaje_deb2 += "Original hash file[>] "+str(hash_origen) + "\n"
-			mensaje_deb2 += "Cloned file hash [>] "+str(hash_clonado) + "\n"
+
+			if idioma =="español":
+				mensaje_deb2 += "Base de datos extraida con exito [>] "+str(db) +"\n"
+				mensaje_deb2 += "hash original[>] "+str(hash_origen) + "\n"
+				mensaje_deb2 += "hash clonado [>] "+str(hash_clonado) + "\n"
+
+			if idioma=="ingles":
+				mensaje_deb2 += "DB extract sucesfully [>] "+str(db) +"\n"
+				mensaje_deb2 += "Original hash file[>] "+str(hash_origen) + "\n"
+				mensaje_deb2 += "Cloned file hash [>] "+str(hash_clonado) + "\n"
+
 			root.updateConsole(mensaje_deb2)
 			count+=1
 	return dbs_list
