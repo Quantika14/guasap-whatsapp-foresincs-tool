@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-from GuasApp_Forensic import idioma
 import os
 import os.path as osp
 import hashlib
@@ -60,7 +59,7 @@ def get_mdinfo(path, i):
 		return name, hash_.split(" ")[0]
 
 
-def extract_mm(root):
+def extract_mm(root,idioma):
 	md5_original=list()
 	md5_cloned=list()
 	files=list()
@@ -78,7 +77,7 @@ def extract_mm(root):
 			name = osp.relpath(fpath, PATH)
 			md5_original.append((name,md5))
 	if idioma=="español":
-		root.updateConsole("Finalizar hash clonado ...")
+		root.updateConsole("Finalizar clonado de hash...")
 	elif idioma=="ingles":
 		root.updateConsole("Finish hash cloned...")
 	ls=get_subdirectoris(directory)
@@ -107,29 +106,25 @@ def extract_mm(root):
 		else:
 			continue
 	
-	print("/////////////////////////////////////////////////////////////////////////")
 	for directory in subdirectoris:
 		path=directory[len(directory)-1]
-
 		for f in directory:
 			fi=f.split(" ")
-			
 			for fil in fi:
 				name, md5 = get_mdinfo(path, fil)
 				md5_cloned.append((name,md5))
-			
-		
-
 
 	for i in range(len(md5_cloned)):
 		for has in md5_original:
 			if has[1] == md5_cloned[i][1]:
-				print ("-----------------------")
-				print ("-------  Cloned  ------")
-				print ("MD5 [>] "+str(md5_cloned[i][1]))
-				print ("Path [>] "+str(md5_cloned[i][0]))
-				print ("--------Original-------")
-				print ("MD5 [>] "+str(has[1]))
-				print ("Path [>] "+str(has[0]))
+				if idioma=="español":
+					root.updateConsole("Clonado")
+				elif idioma=="ingles":
+					root.updateConsole("Cloned")
+				root.updateConsole("MD5 [>] "+str(md5_cloned[i][1]))
+				root.updateConsole("Path [>] "+str(md5_cloned[i][0]))
+				root.updateConsole("Original")
+				root.updateConsole("MD5 [>] "+str(has[1]))
+				root.updateConsole("Path [>] "+str(has[0]))
 #				time.sleep(1)
 	return md5_cloned, md5_original

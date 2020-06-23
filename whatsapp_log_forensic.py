@@ -4,9 +4,9 @@
 import modules.utils, modules.functions, GuasApp_Forensic
 
 
-def extract_log(root,idioma):
+def extract_log(root):
 	#Create directory
-	modules.functions.create_dir_log()
+	modules.functions.create_dir_log(root)
 	#Extract logs names
 	logs = modules.functions.count_logs()
 	for log in logs:
@@ -18,12 +18,9 @@ def extract_log(root,idioma):
 			for l in log :
 				if l != "":
 					#Extract logs
-					if idioma=="español":
-						mensaje_deb = "Logs extraidos, analizando..."
-					elif idioma=="ingles":
-						mensaje_deb = "Logs extracted, analyzing..."
+					mensaje_deb = "Logs extraidos, analizando..."
 					root.updateConsole(mensaje_deb)
-					l = modules.functions.get_whatsappLog(l)
+					l = modules.functions.get_whatsappLog(l, root)
 
 					#Decompress gz
 					if ".gz" in l:
@@ -35,5 +32,5 @@ def extract_log(root,idioma):
 					#add name of logs for extract deleted messages
 					modules.utils.analyze_logs.append(log_name)
 	#Extract deleted messages
-	log_list=modules.functions.extract_deleted_messages()
+	log_list=modules.functions.extract_deleted_messages(root)
 	return log_list

@@ -6,45 +6,34 @@ import modules.utils, modules.functions,sqlite3, GuasApp_Forensic
 import subprocess
 from subprocess import Popen, PIPE
 import parser_db
-from GuasApp_Forensic import idioma
 
-def extract_db(root,idioma):
+def extract_db(root):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
 	#Create directory to db
-	modules.functions.create_dir_db()
+	modules.functions.create_dir_db(root)
 	#Extract dbs names
 	dbs = modules.functions.count_dbs()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
-	mensaje_deb2 = ""
-
 	root.updateConsole(mensaje_deb)
 	for db in dbs:
-		mensaje_deb2 += "-------*-------\n"
+		print ("-------*-------")
 		if db=="":
 			pass
 		else:
 			#Extract db
 			hash_origen = modules.functions.get_hash(db, "origin")
-			db = modules.functions.get_whatsappDB(db)
+			db = modules.functions.get_whatsappDB(db, root)
 			hash_clonado = modules.functions.get_hash(db, "clone")
 			#Save data in dict
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-
-			if idioma =="español":
-				mensaje_deb2 += "Base de datos extraida con exito [>] "+str(db) +"\n"
-				mensaje_deb2 += "hash original[>] "+str(hash_origen) + "\n"
-				mensaje_deb2 += "hash clonado [>] "+str(hash_clonado) + "\n"
-
-			if idioma=="ingles":
-				mensaje_deb2 += "DB extract sucesfully [>] "+str(db) +"\n"
-				mensaje_deb2 += "Original hash file[>] "+str(hash_origen) + "\n"
-				mensaje_deb2 += "Cloned file hash [>] "+str(hash_clonado) + "\n"
-
-			root.updateConsole(mensaje_deb2)
+			root.updateConsole("DB extract sucesfully [>] "+str(db))
+			root.updateConsole("DB extract sucesfully [>] "+str(db))
+			root.updateConsole("Original hash file[>] "+str(hash_origen))
+			root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
 			count+=1
 	return dbs_list
 
@@ -53,7 +42,7 @@ def extract_db_root(root):
 	#List with dicts with DBS and their hash
 	dbs_list=list()
 	#Create directory to db
-	modules.functions.create_dir_db()
+	modules.functions.create_dir_db(root)
 	#Extract dbs names
 	dbs = modules.functions.count_dbs_root()
 	mensaje_deb = "Encontradas bases de datos, extrayendo..."
@@ -74,9 +63,9 @@ def extract_db_root(root):
 					name_d="dict_"+str(count)
 					name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
 					dbs_list.append(name_d)
-					print ("DB extract sucesfully [>] "+str(d))
-					print ("Original hash file[>] "+str(hash_origen))
-					print ("Cloned file hash [>] "+str(hash_clonado))
+					root.updateConsole("DB extract sucesfully [>] "+str(d))
+					root.updateConsole("Original hash file[>] "+str(hash_origen))
+					root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
 					count+=1
 	rows=parser_db.analyze_db()
 	return dbs_list, rows

@@ -3,13 +3,12 @@
 import modules.utils as utils, modules.functions, os, GuasApp_Forensic,gzip
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
-from GuasApp_Forensic import idioma
 import getpass
 import sqlite3
 
 #FORENSIC FUNCTIONS
 
-def extract_deleted_messages():
+def extract_deleted_messages(root):
 	try:
 		log_list=list()
 		for log in utils.analyze_logs:
@@ -73,10 +72,7 @@ def extract_deleted_messages():
 				if "msgstore/backupdb\n" in line:
 					time_backup = line.split(" ")
 					time_backup = time_backup[0]+" "+time_backup[1]
-					if idioma=="español":
-						root.updateConsole("Copia de la base de datos [>] "+time_backup)
-					if idioma=="ingles":
-						root.updateConsole("Backup DBs on time [>] "+time_backup)
+					root.updateConsole("Backup DBs on time [>] "+time_backup)
 					times.append(time_backup)
 				if "onGroupInfoFromList/gjid" in line:
 					group_info = line.split(" ")
@@ -100,11 +96,7 @@ def extract_deleted_messages():
 							user_num = user.split("@")[0]
 							users.append(user_num)
 					group = {"creator":num_creator,"date_creation":date_creation,"subject_owner":subject_owner,"subject":subject,"subject_time":subject_time,"users":users}
-					if idioma=="español":
-						root.updateConsole("Grupo [>] "+subject+"\nNum creador [>] "+num_creator+" | Fecha creacion [>] "+str(date_creation)+"\n Propietario [>] "+subject+"| Numero del propietario [>] "+subject_owner+" Hora del usuario [>] "+str(subject_time)+"\n Usuario [>] "+str(users))
-
-					if idioma=="ingles":	
-						root.updateConsole("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
+					root.updateConsole("Group [>] "+subject+"\nNum creator [>] "+num_creator+" | Date creation [>] "+str(date_creation)+"\n Subject [>] "+subject+"| Subject owner num [>] "+subject_owner+" Subject time [>] "+str(subject_time)+"\n Users [>] "+str(users))
 					list_groups.append(group)
 
 				if "network/info" in line:
@@ -120,16 +112,9 @@ def extract_deleted_messages():
 					state_sec = sec_con[1].split(":")[1]
 					extra_sec = sec_con[3].split(":")[1]
 
-					if idioma=="español":
-						root.updateConsole("Tiempo del cambio de red [>] "+time_con)
-						root.updateConsole("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
-						root.updateConsole("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec) 
-					
-					if idioma=="ingles":
-						root.updateConsole("Time of change network [>] "+time_con)
-						root.updateConsole("Type: "+type_pri+", State: "+state_pri+", Name: "+extra_pri)
-						root.updateConsole("Type: "+type_sec+", State: "+state_sec+", Name: "+extra_sec) 
-
+					root.updateConsole("Time of change network [>] "+time_con)
+					root.updateConsole("Tipo: "+type_pri+", Estado: "+state_pri+", Nombre: "+extra_pri)
+					root.updateConsole("Tipo: "+type_sec+", Estado: "+state_sec+", Nombre: "+extra_sec) 
 					con_dict={"time":time_con,"first_change":{"state":state_pri, "name":extra_pri},"second_change":{"state":state_sec, "name":extra_sec}}
 					if con_dict not in con_list:
 						con_list.append(con_dict)
@@ -155,17 +140,20 @@ def extract_deleted_messages():
 	except:
 		print (utils.error_alert[0])
 
+
+#MagiskManager-v7.5.1.apk es nuestra aplicacion 
 def check_root(window,idioma):
 	root=check_su()
-	mensaje_deb=check_su()+"\n"
+	mensaje_deb=root+"\n"
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
-		if idioma=="español":
+		if idioma == "español":
 			mensaje_deb += "Buscando aplicaciones que requieren de Root..."
-		if idioma=="ingles":
-			mensaje_deb += "Checking apps which Root is required"
+		elif idioma == "ingles":
+			mensaje_deb += "Looking for applications that require Root..."
+
 
 		window.updateConsole(mensaje_deb)
 		for directory in modules.utils.directory:
@@ -216,60 +204,56 @@ def check_root(window,idioma):
 	return list_root_info, root_posibility
 
 def check_magisk():
-	try:
-		#no puede utilizar la aplicacion en windows por error de permiso
-		if modules.utils.adb_comm == "c:\\adb\\adb":
-			a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
-			b = modules.utils.adb_comm+" shell cd data/adb && dir"
-		else:
-			a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
-			b = modules.utils.adb_comm+" shell cd data/adb && ls"
-		a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
-		b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
-		
-		if "magisk" in a or "magisk" in b:
-			return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
-		else:
-			return False
-	except:
+	#no puede utilizar la aplicacion en windows por error de permiso
+	if modules.utils.adb_comm == "c:\\adb\\adb":
+		a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
+		b = modules.utils.adb_comm+" shell cd data/adb && dir"
+	else:
+		a = modules.utils.adb_comm+" shell cd data/data/adb && ls"
+		b = modules.utils.adb_comm+" shell cd data/adb && ls"
+	a = subprocess.Popen(a, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
+	b = subprocess.Popen(b, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].decode('latin-1')
+	
+	if "magisk" in a or "magisk" in b:
+		return {"directory":"data/adb","App":"Magisk","file":"magisk_debug.log"}
+	else:
 		return False
 
 #Aquí comprobamos a través de un comando si el dispositivo dispone de permisos de root.
 def check_su():
 	global root_posibility
-	try:
-		command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
-		process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
-		err = process.communicate()[0].decode('utf-8')
-	#Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
-		if "inaccessible or not found" in err:
-			root_posibility=False
-			return "Inaccessible or not found device make sure that your phone is connected and routed"
-		elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err: 
-			root_posibility=False
-			return "No adb installed"
-	#Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
-		elif "device unauthorized" in err :
-			root_posibility=False
-			return "No debugging active"
-	#Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
-		elif "error: device" in err:
-			root_posibility=False
-			return "No such device"
-		else:
-	#Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
-			if "su: not found" in err:
-				root_posibility=False
-				return "No root device"
-	#Nos devolverá este aviso en caso de que el dispositivo esté rooteado
-			else:
-				root_posibility=True
-				return "Root Device"
-	except IOError:
+	command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
+	process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
+	err = process.communicate()[0].decode('utf-8')
+#Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
+	if "inaccessible or not found" in err:
+		root_posibility=False
+		return "Inaccessible or not found device make sure that your phone is connected and routed"
+
+	elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err: 
 		root_posibility=False
 		return "No adb installed"
+#Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
+	elif "device unauthorized" in err :
+		root_posibility=False
+		return "No debugging active"
+#Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
+	elif "error: device" in err:
+		root_posibility=False
+		return "No such device"
 
-def get_whatsappDB(db):
+
+	else:
+#Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
+		if "su: not found" in err:
+			root_posibility=False
+			return "No root device"
+#Nos devolverá este aviso en caso de que el dispositivo esté rooteado
+		else:
+			root_posibility=True
+			return "Root Device"
+
+def get_whatsappDB(db, root):
 	try:
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
@@ -279,11 +263,11 @@ def get_whatsappDB(db):
 			command=command.replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
 	#			os.system(a)
-				print ('USB debbuging active...')
+				root.updateConsole('USB debbuging active...')
 				os.system(extract)
-				print ('extract whatsapp db...')
+				root.updateConsole('extract whatsapp db...')
 				return db 
-			print ('Change directory...')
+			root.updateConsole('Change directory...')
 	except :
 		return utils.error_alert[0]
 
@@ -300,34 +284,26 @@ def get_whatsappDB_root(db):
 	except :
 		print (utils.error_alert[0]) 
 
-
-def create_dir_media():
-	try:
-		os.mkdir("Whatsapp_extracted_Media")
-		print ('The directory was created correctly')
-	except:
-		print ('Verify that the Media directory is created')
-
-def create_dir_db():
+def create_dir_db(root):
 	try:
 		os.mkdir("WhatsappDB")
-		print ('The directory was created correctly')
+		root.updateConsole('The directory was created correctly')
 	except:
-		print ('Verify that the WhatsappDB directory is created')
+		root.updateConsole('Verify that the WhatsappDB directory is created')
 
-def create_dir_report():
+def create_dir_report(root):
 	try:
 		os.mkdir("Reports_Guasap_Forensic")
-		print ('The directory was created correctly')
+		root.updateConsole('The directory was created correctly')
 	except:
-		print ('Verify that the Reports directory is created')
+		root.updateConsole('Verify that the Reports directory is created')
 	
-def create_dir_log():
+def create_dir_log(root):
 	try:
 		os.mkdir("WhatsappLOG")
-		print ('The directory was created correctly')
+		root.updateConsole('The directory was created correctly')
 	except:
-		print ('Verify that the WhatsappLOG directory is created')
+		root.updateConsole('Verify that the WhatsappLOG directory is created')
 
 
 
@@ -338,18 +314,18 @@ def decompress(filename):
 	txt.write(descomprimido)
 	txt.close()
 
-def get_whatsappLog(log):
+def get_whatsappLog(log, root):
 	try:
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/files/Logs/"+log+"' of='"+directory+log+"' bs=1000"
 			extract = utils.adb_comm+" pull "+directory+log+" WhatsappLOG/"+log
 			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 			if "directory" not in command:
-				print ('USB debbuging active...')
+				root.updateConsole('USB debbuging active...')
 				subprocess.call(extract)
-				print('extract whatsapp log...')
+				root.updateConsole('extract whatsapp log...')
 				return log
-			print ('Change directory...')
+			root.updateConsole('Change directory...')
 	except :
 		print (utils.error_alert[0])
 

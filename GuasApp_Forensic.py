@@ -41,7 +41,6 @@ first_add=True
 rute=""
 
 
-
 if os.name == 'nt':
 	modules.utils.adb_comm=modules.utils.adb_w
 else:
@@ -56,7 +55,7 @@ def whatsapp_mm(root):
 		mensaje_deb = "Extracting multimedia files..."
 	root.updateConsole(mensaje_deb)
 	try:
-		md5_cloned,md5_original=hashdeep.extract_mm(root)
+		md5_cloned,md5_original=hashdeep.extract_mm(root,idioma)
 		add_report((md5_cloned,md5_original),6)
 		label_root=True
 		if idioma=="español":
@@ -219,7 +218,7 @@ def whatsapp_log_f(root):
 	elif idioma == "ingles":
 			mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	whatsapp_log=whatsapp_log_forensic.extract_log(root,idioma)
+	whatsapp_log=whatsapp_log_forensic.extract_log(root)
 	add_report(info_root, 1)
 	label_root = True
 
@@ -231,7 +230,7 @@ def whatsapp_db_f(root):
 	elif idioma == "ingles":
 		mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	list_dbs=whatsapp_db.extract_db(root,idioma)
+	list_dbs=whatsapp_db.extract_db(root)
 	add_report(list_dbs, 2)
 	label_root = True
 
@@ -452,7 +451,8 @@ function listar_log_"""+str(clase_list)+"""(){
 				text_final+=group+" Members: "
 				for member in members:
 					text_final+="&emsp;"+member+"<br>"
-			text_final+="<b>Deleted messages: </b>"+str(elem[2][0])+"<br>"
+			text_final+="<b>Deleted messages:</b> Jumps in the database may indicate that messages have been deleted.<br>"
+			text_final+="The following list exposes the IDs of the deleted messages:<br>"+str(elem[2][0])+"<br>"
 	elif option == 6:
 		md5_cloned=data[0]
 		md5_original=data[1]
@@ -479,13 +479,11 @@ function listar_log_"""+str(clase_list)+"""(){
 	with io.open(rute, "a", encoding="utf-8") as f:
 		f.write(text_final)
 
-	#f = open (rute,'a')
-	#f.write(text_final)
 	f.close()
 
-def create_report_f(t):
+def create_report_f(t, root):
 	global rute
-	modules.functions.create_dir_report()
+	modules.functions.create_dir_report(root)
 	t = t.split(",")[1].replace(" ","_").replace(":","_")
 	rute = 'Reports_Guasap_Forensic/Report_guasap_forensic'+t+'.html'
 	f = open(rute,'w')
@@ -497,9 +495,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 	def __init__(self, *args, **kwargs):
 		QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
 		self.setupUi(self)
-		self.setWindowTitle("Guasap Forensic 2.0")
-		self.lblConsole.setStyleSheet("QLabel {background-color: black; color:white; padding:0px 0px 10px 10px}")
+		self.setWindowTitle('Guasap Forensic 2.0')
 		texto=self.lblDirectory.text()+" /Reports_Guasap_Forensic"
+		self.lblConsole.setStyleSheet("QLabel { background-color : black; color : white; padding: 0px 0px 10px 10px;}")
 		self.lblDirectory.setText(texto)
 		self.btnStart.clicked.connect(self.ejecucion)
 		self.rbEnglish.toggled.connect(lambda : self.english_screen())
@@ -508,6 +506,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			self.english_screen()
 		elif self.rbSpanish.isChecked():
 			self.spanish_screen()
+
 
 	def spanish_screen(self):
 		self.btnStart.setText("Comienzo")
@@ -548,12 +547,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			whatsapp_db_f(self)
 			whatsapp_db_root(self)
 			whatsapp_log_f(self)
-		print("LA EJECUCION HA COMPLETADO")
+		if idioma=="español":
+			self.updateConsole(" \n La ejecucion se ha completado")
+		elif idioma=="ingles":
+			self.updateConsole("  \n Execution is complete")
+
 	
 if __name__ == '__main__':
-	t=time.strftime('%A %B, %d %Y %H:%M:%S')
-	create_report_f(t)
 	app = QtWidgets.QApplication([])
 	window = MainWindow()
 	window.show()
+	t=time.strftime('%A %B, %d %Y %H:%M:%S')
+	create_report_f(t, window)
 	app.exec_()
