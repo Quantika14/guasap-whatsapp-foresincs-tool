@@ -189,7 +189,6 @@ def whatsapp_db_root(root):
 	elif idioma=="ingles":
 		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
-	list_dbs,rows=whatsapp_db.extract_db_root(root)
 # end "for offline development"
 	# Adding last Trello tasks
 	if idioma=="español":
