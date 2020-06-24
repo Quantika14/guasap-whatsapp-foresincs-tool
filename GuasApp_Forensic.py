@@ -189,7 +189,26 @@ def db_uploaded_file(root):
 	elif idioma=="ingles":
 		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
+	if idioma=="español":
+		mensaje_num = "Obteniendo estadísticas de mensajes..."
+	elif idioma=="ingles":
+		mensaje_num = " Obtaining message statistics ..."
+	root.updateConsole(mensaje_num)
 	rows=whatsapp_db.extract_db_file(root,fileName)
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
+	removed_id = whatsapp_db.detect_breakID(total_messages)
+	msg_analytics = []
+	# Appending the msg analytics of each extraction for in a future will be able
+	# to do a comparison among Whatsapp backup DBs and create knowledge from the 
+	# differences between these 
+	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
+	add_report(msg_analytics, 5)
+	# end Trello tasks
+# Begin comments for message analytics report while the final workflow is under construction:
+	#add_report(rows, 5)
+# end "for message analytics"
+	label_root = True
+
 
 
 
@@ -528,9 +547,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		options = QFileDialog.Options()
 		options |= QFileDialog.DontUseNativeDialog
 		fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","all files(*)", options=options)
-		if fileName:
-			print(fileName)
-
+		file_checker=fileName.split(".")
+		if file_checker[len(file_checker)-1] != "db":
+			self.updateConsole("\n El archivo introducido no es valido o esta cifrado")
+			self.btnStart.setEnabled(False)
+		else:
+			self.btnStart.setEnabled(True)
 
 	def spanish_screen(self):
 		self.btnStart.setText("Comienzo")

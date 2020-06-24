@@ -285,10 +285,9 @@ def get_whatsappDB_root(db):
 
 
 def get_whatsappDB_file(file):
-	print("LLEGA HASTA AQUI //////////////////")
 	file=file.replace("/","\\")
 	try:
-		extract = "COPY "+file+ " WhatsappDB_uploaded"
+		extract = "COPY "+file+ " WhatsappDB\msgstore.db"
 		subprocess.call(extract, shell=True)	
 		return file 
 	except :
@@ -302,14 +301,6 @@ def create_dir_db(root):
 		root.updateConsole('The directory was created correctly')
 	except:
 		root.updateConsole('Verify that the WhatsappDB directory is created')
-
-def create_dir_db_uploaded(root):
-	try:
-		os.mkdir("WhatsappDB_uploaded")
-		root.updateConsole('The directory was created correctly')
-	except:
-		root.updateConsole('Verify that the WhatsappDB directory is created')
-
 
 def create_dir_report(root):
 	try:

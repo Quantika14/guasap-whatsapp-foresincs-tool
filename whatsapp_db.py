@@ -72,7 +72,7 @@ def extract_db_root(root):
 
 def extract_db_file(root,fileName):
 	#create folder for 
-	modules.functions.create_dir_db_uploaded(root)
+	modules.functions.create_dir_db(root)
 	mensaje_deb = "Extrayendo base de datos ..."
 	root.updateConsole(mensaje_deb)
 	#Extract db 
@@ -88,7 +88,7 @@ def extract_db_file(root,fileName):
 		root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
 
 	rows=parser_db.analyze_db_file(fileName)
-	return rows
+	return d,rows
 
     
 
@@ -124,6 +124,8 @@ def count_messages(root):
 	conn.close()
 	modules.functions.db_head_parser('WhatsappDB/msgstore.db',root)
 	return total_msg, byConversation_messages, groups_members
+
+
 
 def detect_breakID(total_msg):
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')
