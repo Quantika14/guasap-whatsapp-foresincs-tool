@@ -28,7 +28,7 @@ from distutils.version import LooseVersion
 from diseño_interfaz.model_ui import *
 from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication
+from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QFileDialog
 
 info_root = ()
 label_root = False
@@ -39,6 +39,8 @@ whatsapp_log=list()
 report=False
 first_add=True
 rute=""
+fileName=None
+
 
 
 if os.name == 'nt':
@@ -180,6 +182,18 @@ def whatsapp_root(root):
 		except:
 			pass
 
+def db_uploaded_file(root):
+	global label_root
+	if idioma=="español":
+		mensaje_deb = "Extrayendo base de datos descifrada..."
+	elif idioma=="ingles":
+		mensaje_deb = "Extracting decrypted database ..."
+	root.updateConsole(mensaje_deb)
+	rows=whatsapp_db.extract_db_file(root,fileName)
+
+
+
+
 def whatsapp_db_root(root):
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
@@ -189,7 +203,6 @@ def whatsapp_db_root(root):
 		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
 # end "for offline development"
-	# Adding last Trello tasks
 	if idioma=="español":
 		mensaje_num = "Obteniendo estadísticas de mensajes..."
 	elif idioma=="ingles":
@@ -500,12 +513,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.lblConsole.setStyleSheet("QLabel { background-color : black; color : white; padding: 0px 0px 10px 10px;}")
 		self.lblDirectory.setText(texto)
 		self.btnStart.clicked.connect(self.ejecucion)
+		self.btnFile.clicked.connect(self.openFileNameDialog)
 		self.rbEnglish.toggled.connect(lambda : self.english_screen())
 		self.rbSpanish.toggled.connect(lambda : self.spanish_screen())
 		if self.rbEnglish.isChecked():
 			self.english_screen()
 		elif self.rbSpanish.isChecked():
 			self.spanish_screen()
+		
+
+
+	def openFileNameDialog(self):
+		global fileName
+		options = QFileDialog.Options()
+		options |= QFileDialog.DontUseNativeDialog
+		fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","all files(*)", options=options)
+		if fileName:
+			print(fileName)
 
 
 	def spanish_screen(self):
@@ -540,17 +564,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		elif self.rbSpanish.isChecked():
 			idioma="español"
 
-		info_root_f(self)
-		whatsapp_mm(self)
-		if root_posibility:
-			whatsapp_root(self)
-			whatsapp_db_f(self)
-			whatsapp_db_root(self)
-			whatsapp_log_f(self)
-		if idioma=="español":
-			self.updateConsole(" \n La ejecucion se ha completado")
-		elif idioma=="ingles":
-			self.updateConsole("  \n Execution is complete")
+		if fileName == None :
+			info_root_f(self)
+			whatsapp_mm(self)
+			if root_posibility:
+				whatsapp_root(self)
+				whatsapp_db_f(self)
+				whatsapp_db_root(self)
+				whatsapp_log_f(self)
+			if idioma=="español":
+				self.updateConsole(" \n La ejecucion se ha completado")
+			elif idioma=="ingles":
+				self.updateConsole("  \n Execution is complete")
+
+		else:
+			db_uploaded_file(self)
+			#whatsapp_db_root(self)
+
 
 	
 if __name__ == '__main__':

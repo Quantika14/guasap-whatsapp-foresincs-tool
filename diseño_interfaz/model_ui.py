@@ -33,6 +33,9 @@ class Ui_MainWindow(object):
         self.lblImage = QtWidgets.QLabel(self.centralwidget)
         self.lblImage.setGeometry(QtCore.QRect(580, 170, 171, 31))
         self.lblImage.setObjectName("lblImage")
+        self.btnFile = QtWidgets.QPushButton(self.centralwidget)
+        self.btnFile.setGeometry(QtCore.QRect(580, 200, 150, 50))
+        self.btnFile.setObjectName("btnFile")
         self.rbEnglish = QtWidgets.QRadioButton(self.centralwidget)
         self.rbEnglish.setGeometry(QtCore.QRect(840, 40, 61, 17))
         self.rbEnglish.setChecked(True)
@@ -69,6 +72,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.btnStart.setText(_translate("MainWindow", "Start"))
+        self.btnFile.setText(_translate("MainWindow", "Add DataBase"))
         self.btnLicense.setText(_translate("MainWindow", "License"))
         self.btnHelp.setText(_translate("MainWindow", "Help"))
         self.lblDirectory.setText(_translate("MainWindow", "Report directory: "))

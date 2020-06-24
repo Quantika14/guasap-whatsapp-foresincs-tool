@@ -273,10 +273,9 @@ def get_whatsappDB(db, root):
 
 
 def get_whatsappDB_root(db):
-	
 	try:
 		copy=utils.adb_comm+" shell su 0 cp '/data/data/com.whatsapp/databases/"+db+"' '/sdcard/"+db+"'"
-		#a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/databases/"+db+"' of='"+directory+db+"' bs=1000"
+
 		extract = utils.adb_comm+" pull /sdcard/"+db+" WhatsappDB/"+db
 		subprocess.call(copy)
 		subprocess.call(extract)	
@@ -284,12 +283,33 @@ def get_whatsappDB_root(db):
 	except :
 		print (utils.error_alert[0]) 
 
+
+def get_whatsappDB_file(file):
+	print("LLEGA HASTA AQUI //////////////////")
+	file=file.replace("/","\\")
+	try:
+		extract = "COPY "+file+ " WhatsappDB_uploaded"
+		subprocess.call(extract, shell=True)	
+		return file 
+	except :
+		print (utils.error_alert[0]) 
+
+
+
 def create_dir_db(root):
 	try:
 		os.mkdir("WhatsappDB")
 		root.updateConsole('The directory was created correctly')
 	except:
 		root.updateConsole('Verify that the WhatsappDB directory is created')
+
+def create_dir_db_uploaded(root):
+	try:
+		os.mkdir("WhatsappDB_uploaded")
+		root.updateConsole('The directory was created correctly')
+	except:
+		root.updateConsole('Verify that the WhatsappDB directory is created')
+
 
 def create_dir_report(root):
 	try:

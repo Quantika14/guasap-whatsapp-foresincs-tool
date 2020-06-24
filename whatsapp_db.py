@@ -70,6 +70,26 @@ def extract_db_root(root):
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 
+def extract_db_file(root,fileName):
+	#create folder for 
+	modules.functions.create_dir_db_uploaded(root)
+	mensaje_deb = "Extrayendo base de datos ..."
+	root.updateConsole(mensaje_deb)
+	#Extract db 
+	hash_origen = modules.functions.get_hash_root(fileName, "origin")
+	d = modules.functions.get_whatsappDB_file(fileName)
+	if d !="" and d is not None:
+		hash_clonado = modules.functions.get_hash_root(d, "clone")
+		#Save data in dict
+		name_d="dict_"
+		name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
+		root.updateConsole("DB extract sucesfully [>] "+str(d))
+		root.updateConsole("Original hash file[>] "+str(hash_origen))
+		root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+
+	rows=parser_db.analyze_db_file(fileName)
+	return rows
+
     
 
 def count_messages(root):
