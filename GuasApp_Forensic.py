@@ -594,14 +594,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 				whatsapp_db_f(self)
 				whatsapp_db_root(self)
 				whatsapp_log_f(self)
-			if idioma=="español":
-				self.updateConsole(" \n La ejecucion se ha completado")
-			elif idioma=="ingles":
-				self.updateConsole("  \n Execution is complete")
-
+		
 		else:
 			db_uploaded_file(self)
 			#whatsapp_db_root(self)
+		if idioma=="español":
+			self.updateConsole(" \n La ejecucion se ha completado")
+		elif idioma=="ingles":
+			self.updateConsole("  \n Execution is complete")
 
 
 	
