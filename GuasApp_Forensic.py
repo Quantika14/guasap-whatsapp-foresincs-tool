@@ -13,9 +13,8 @@ Copyright (C) 2018  QuantiKa14 Servicios Integrales S.L
 #DATE: 10-05-2018
 #VERSION: 1.1
 #********************************************
-idioma="ingles"
+language="english"
 import modules.functions, hashdeep, modules.utils,whatsapp_db, whatsapp_log_forensic,io
-
 
 #importamos subprocess para cambiarlo por el os
 import subprocess
@@ -26,7 +25,6 @@ from distutils.version import LooseVersion
 
 # Importamos el diseño
 from diseño_interfaz.model_ui import *
-from diseño_interfaz.window_model import *
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QFileDialog
 
@@ -51,24 +49,24 @@ else:
 # Funcionalidades graficas
 
 def whatsapp_mm(root):
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_deb = "Extrayendo archivos multimedia..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_deb = "Extracting multimedia files..."
 	root.updateConsole(mensaje_deb)
 	try:
-		md5_cloned,md5_original=hashdeep.extract_mm(root,idioma)
+		md5_cloned,md5_original=hashdeep.extract_mm(root,language)
 		add_report((md5_cloned,md5_original),6)
 		label_root=True
-		if idioma=="español":
+		if language=="spanish":
 			root.updateConsole("el directorio de WhatsApp se ha encontrado de forma correcta \n")
-		elif idioma=="ingles":
+		elif language=="english":
 			root.updateConsole("WhatsApp directory has been found correctly \n")
 	
 	except:
-		if idioma=="español":
+		if language=="spanish":
 			mensaje_deb = "No se ha encontrado el directorio de WhatsApp"
-		elif idioma=="ingles":
+		elif language=="english":
 			mensaje_deb = "WhatsApp directory not found"
 		root.updateConsole(mensaje_deb)
 
@@ -77,12 +75,12 @@ def info_root_f(root):
 	global label_root
 	global root_posibility
 	global popup_a
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_deb = "Comprobando dispositivo..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_deb = "Checking device..."
 	root.updateConsole(mensaje_deb)
-	info_root,roote=modules.functions.check_root(root,idioma)
+	info_root,roote=modules.functions.check_root(root,language)
 	root_posibility=roote
 	label_root = True
 	add_report(info_root,0)
@@ -129,14 +127,14 @@ def check_data(root):
 		option = check_how_root(android_v, marca)
 		return option, android_v , marca
 	else:
-		if idioma=="español":
+		if language=="spanish":
 			mensaje_deb ="No se ha encontrado la version del dispositivo"
-		elif idioma=="ingles":
+		elif language=="english":
 			mensaje_deb ="Version not found on device"
 		root.updateConsole(mensaje_deb)
 
 def whatsapp_root(root):
-	if idioma=="español":
+	if language=="spanish":
 		try:
 			option , version, marca = check_data(root)
 			mensaje_deb = " \n Version: "+version
@@ -159,7 +157,7 @@ def whatsapp_root(root):
 		except:
 			pass
 	
-	elif idioma=="ingles":
+	elif language=="english":
 		try:
 			option , version, marca = check_data(root)
 			mensaje_deb = " \n Version: "+version
@@ -184,17 +182,17 @@ def whatsapp_root(root):
 
 def db_uploaded_file(root):
 	global label_root
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_deb = "Extrayendo base de datos descifrada..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_num = "Obteniendo estadísticas de mensajes..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_num = " Obtaining message statistics ..."
 	root.updateConsole(mensaje_num)
-	rows=whatsapp_db.extract_db_file(root,fileName)
+	rows=whatsapp_db.extract_db_file(root,fileName,language)
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
@@ -210,24 +208,21 @@ def db_uploaded_file(root):
 	label_root = True
 
 
-
-
-
 def whatsapp_db_root(root):
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_deb = "Extrayendo base de datos descifrada..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_deb = "Extracting decrypted database ..."
 	root.updateConsole(mensaje_deb)
 # end "for offline development"
-	if idioma=="español":
+	if language=="spanish":
 		mensaje_num = "Obteniendo estadísticas de mensajes..."
-	elif idioma=="ingles":
+	elif language=="english":
 		mensaje_num = " Obtaining message statistics ..."
 	root.updateConsole(mensaje_num)
-	list_dbs,rows=whatsapp_db.extract_db_root(root)
+	list_dbs,rows=whatsapp_db.extract_db_root(root,language)
 	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
@@ -245,24 +240,24 @@ def whatsapp_db_root(root):
 def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
-	if idioma == "español":
+	if language == "spanish":
 		mensaje_deb = "Extrayendo/analizando logs..."
-	elif idioma == "ingles":
+	elif language == "english":
 			mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	whatsapp_log=whatsapp_log_forensic.extract_log(root)
+	whatsapp_log=whatsapp_log_forensic.extract_log(root,language)
 	add_report(info_root, 1)
 	label_root = True
 
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
-	if idioma == "español":
+	if language == "spanish":
 		mensaje_deb = "Extrayendo base de datos cifrada..."
-	elif idioma == "ingles":
+	elif language == "english":
 		mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
-	list_dbs=whatsapp_db.extract_db(root)
+	list_dbs=whatsapp_db.extract_db(root,language)
 	add_report(list_dbs, 2)
 	label_root = True
 
@@ -515,7 +510,7 @@ function listar_log_"""+str(clase_list)+"""(){
 
 def create_report_f(t, root):
 	global rute
-	modules.functions.create_dir_report(root)
+	modules.functions.create_dir_report(root,language)
 	t = t.split(",")[1].replace(" ","_").replace(":","_")
 	rute = 'Reports_Guasap_Forensic/Report_guasap_forensic'+t+'.html'
 	f = open(rute,'w')
@@ -563,6 +558,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.rbEnglish.setText("Inglés")
 		self.rbSpanish.setText("Español")
 		self.lblLenguage.setText("Lenguaje")
+		self.btnFile.setText("Añadir Base de datos")
+		self.lblImage.setText("Analizar Base de datos")
 
 	def english_screen(self):
 		self.btnStart.setText("Start")
@@ -573,6 +570,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		self.rbEnglish.setText("English")
 		self.rbSpanish.setText("Spanish")
 		self.lblLenguage.setText("Language")
+		self.btnFile.setText("Add DataBase")
+		self.lblImage.setText("Analyze Data Base")
 
 	def updateConsole(self, text):
 		texto = self.lblConsole.text() + '\n' + text
@@ -580,11 +579,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		QtGui.QGuiApplication.processEvents()
 
 	def ejecucion(self):
-		global idioma
+		global language
 		if self.rbEnglish.isChecked():
-			idioma="ingles"
+			language="english"
 		elif self.rbSpanish.isChecked():
-			idioma="español"
+			language="spanish"
 
 		if fileName == None :
 			info_root_f(self)
@@ -598,9 +597,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		else:
 			db_uploaded_file(self)
 			#whatsapp_db_root(self)
-		if idioma=="español":
+		if language=="spanish":
 			self.updateConsole(" \n La ejecucion se ha completado")
-		elif idioma=="ingles":
+		elif language=="english":
 			self.updateConsole("  \n Execution is complete")
 
 

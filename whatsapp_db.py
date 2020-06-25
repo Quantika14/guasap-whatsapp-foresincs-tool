@@ -7,15 +7,18 @@ import subprocess
 from subprocess import Popen, PIPE
 import parser_db
 
-def extract_db(root):
+def extract_db(root,language):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
 	#Create directory to db
-	modules.functions.create_dir_db(root)
+	modules.functions.create_dir_db(root,language)
 	#Extract dbs names
 	dbs = modules.functions.count_dbs()
-	mensaje_deb = "Encontradas bases de datos, extrayendo..."
+	if language=="english":
+		mensaje_deb = "Databases found, extracting"
+	elif language=="spanish":
+		mensaje_deb = "Encontradas bases de datos, extrayendo..."
 	root.updateConsole(mensaje_deb)
 	for db in dbs:
 		print ("-------*-------")
@@ -24,28 +27,36 @@ def extract_db(root):
 		else:
 			#Extract db
 			hash_origen = modules.functions.get_hash(db, "origin")
-			db = modules.functions.get_whatsappDB(db, root)
+			db = modules.functions.get_whatsappDB(db, root, language)
 			hash_clonado = modules.functions.get_hash(db, "clone")
 			#Save data in dict
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			root.updateConsole("DB extract sucesfully [>] "+str(db))
-			root.updateConsole("DB extract sucesfully [>] "+str(db))
-			root.updateConsole("Original hash file[>] "+str(hash_origen))
-			root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+			if language =="english":
+				root.updateConsole("DB extract sucesfully [>] "+str(db))
+				root.updateConsole("Original hash file [>] "+str(hash_origen))
+				root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+			elif language== "spanish":
+				root.updateConsole("Bases de datos extrídas de forma correcta [>] "+str(db))
+				root.updateConsole("Hash original [>] "+str(hash_origen))
+				root.updateConsole("Hash clonado [>] "+str(hash_clonado))
+
 			count+=1
 	return dbs_list
 
-def extract_db_root(root):
+def extract_db_root(root,language):
 	count=1
 	#List with dicts with DBS and their hash
 	dbs_list=list()
 	#Create directory to db
-	modules.functions.create_dir_db(root)
+	modules.functions.create_dir_db(root,language)
 	#Extract dbs names
 	dbs = modules.functions.count_dbs_root()
-	mensaje_deb = "Encontradas bases de datos, extrayendo..."
+	if language == "english":
+		mensaje_deb = "Databases found, extracting..."
+	elif language == "spanish":
+		mensaje_deb = "Encontradas bases de datos, extrayendo..."
 	root.updateConsole(mensaje_deb)
 	
 	for db in dbs:
@@ -63,17 +74,26 @@ def extract_db_root(root):
 					name_d="dict_"+str(count)
 					name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
 					dbs_list.append(name_d)
-					root.updateConsole("DB extract sucesfully [>] "+str(d))
-					root.updateConsole("Original hash file[>] "+str(hash_origen))
-					root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+					if language == "english":
+						root.updateConsole("DB extract sucesfully [>] "+str(d))
+						root.updateConsole("Original hash file [>] "+str(hash_origen))
+						root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+					elif language == "spanish":
+						root.updateConsole("Base de datos extraida de forma correcta [>] "+str(d))
+						root.updateConsole("Hash original [>] "+str(hash_origen))
+						root.updateConsole("Hash clonado [>] "+str(hash_clonado))
 					count+=1
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 
-def extract_db_file(root,fileName):
+def extract_db_file(root,fileName,language):
 	#create folder for 
-	modules.functions.create_dir_db(root)
-	mensaje_deb = "Extrayendo base de datos ..."
+	modules.functions.create_dir_db(root,language)
+	if language=="spanish":
+		mensaje_deb = "Extrayendo base de datos ..."
+	elif language=="english":
+		mensaje_deb = "Extracting databases ..."
+
 	root.updateConsole(mensaje_deb)
 	#Extract db 
 	hash_origen = modules.functions.get_hash_root(fileName, "origin")
@@ -83,9 +103,15 @@ def extract_db_file(root,fileName):
 		#Save data in dict
 		name_d="dict_"
 		name_d={"name":d,"hash_o":hash_origen,"hash_d":hash_clonado}
-		root.updateConsole("DB extract sucesfully [>] "+str(d))
-		root.updateConsole("Original hash file[>] "+str(hash_origen))
-		root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
+		if language=="spanish":
+			root.updateConsole("Base de datos extraida de forma exitosa [>] "+str(d))
+			root.updateConsole("Hash original [>] "+str(hash_origen))
+			root.updateConsole("Hash clonado[>] "+str(hash_clonado))
+		
+		elif language == "english":
+			root.updateConsole("DB extract sucesfully [>] "+str(d))
+			root.updateConsole("Original hash file[>] "+str(hash_origen))
+			root.updateConsole("Cloned file hash [>] "+str(hash_clonado))
 
 	rows=parser_db.analyze_db_file(fileName)
 	return d,rows

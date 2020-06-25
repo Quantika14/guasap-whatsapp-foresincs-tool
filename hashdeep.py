@@ -59,7 +59,7 @@ def get_mdinfo(path, i):
 		return name, hash_.split(" ")[0]
 
 
-def extract_mm(root,idioma):
+def extract_mm(root,language):
 	md5_original=list()
 	md5_cloned=list()
 	files=list()
@@ -76,9 +76,9 @@ def extract_mm(root,idioma):
 			md5 = filehash(fpath)
 			name = osp.relpath(fpath, PATH)
 			md5_original.append((name,md5))
-	if idioma=="español":
+	if language=="spanish":
 		root.updateConsole("Finalizar clonado de hash...")
-	elif idioma=="ingles":
+	elif language=="english":
 		root.updateConsole("Finish hash cloned...")
 	ls=get_subdirectoris(directory)
 	ls=ls.replace("\r", "").split("\n")
@@ -117,9 +117,9 @@ def extract_mm(root,idioma):
 	for i in range(len(md5_cloned)):
 		for has in md5_original:
 			if has[1] == md5_cloned[i][1]:
-				if idioma=="español":
+				if language=="spanish":
 					root.updateConsole("Clonado")
-				elif idioma=="ingles":
+				elif language=="english":
 					root.updateConsole("Cloned")
 				root.updateConsole("MD5 [>] "+str(md5_cloned[i][1]))
 				root.updateConsole("Path [>] "+str(md5_cloned[i][0]))

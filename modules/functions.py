@@ -142,16 +142,16 @@ def extract_deleted_messages(root):
 
 
 #MagiskManager-v7.5.1.apk es nuestra aplicacion 
-def check_root(window,idioma):
+def check_root(window,language):
 	root=check_su()
 	mensaje_deb=root+"\n"
 	count=1
 	list_root_info=list()
 	list_root_info.append(root)
 	if root != "No adb installed":
-		if idioma == "español":
+		if language == "spanish":
 			mensaje_deb += "Buscando aplicaciones que requieren de Root..."
-		elif idioma == "ingles":
+		elif language == "english":
 			mensaje_deb += "Looking for applications that require Root..."
 
 
@@ -253,7 +253,7 @@ def check_su():
 			root_posibility=True
 			return "Root Device"
 
-def get_whatsappDB(db, root):
+def get_whatsappDB(db, root, language):
 	try:
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
@@ -263,11 +263,19 @@ def get_whatsappDB(db, root):
 			command=command.replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
 	#			os.system(a)
-				root.updateConsole('USB debbuging active...')
+				if language == "english":
+					root.updateConsole('USB debbuging active...')
+					root.updateConsole('extract whatsapp db...')
+				elif language == "spanish":
+					root.updateConsole('Modo depurtación activo...')
+					root.updateConsole('Extrayendo base de datos...')
 				os.system(extract)
-				root.updateConsole('extract whatsapp db...')
 				return db 
-			root.updateConsole('Change directory...')
+			if language =="english":
+				root.updateConsole('Change directory...')
+			if language == "spanish":
+				root.updateConsole('Cambiando directorio...')
+
 	except :
 		return utils.error_alert[0]
 
@@ -283,7 +291,6 @@ def get_whatsappDB_root(db):
 	except :
 		print (utils.error_alert[0]) 
 
-
 def get_whatsappDB_file(file):
 	file=file.replace("/","\\")
 	try:
@@ -293,30 +300,44 @@ def get_whatsappDB_file(file):
 	except :
 		print (utils.error_alert[0]) 
 
-
-
-def create_dir_db(root):
+def create_dir_db(root,language):
 	try:
 		os.mkdir("WhatsappDB")
-		root.updateConsole('The directory was created correctly')
+		if language=="spanish":
+			root.updateConsole('El directorio fue creado de forma correcta')
+		elif language=="english":
+			root.updateConsole('The directory was created correctly')
 	except:
-		root.updateConsole('Verify that the WhatsappDB directory is created')
+		if language=="spanish":
+			root.updateConsole('Verifica que el directorio WhatsappDB esta creado')
+		elif language=="english":	
+			root.updateConsole('Verify that the WhatsappDB directory is created')
 
-def create_dir_report(root):
+def create_dir_report(root,language):
 	try:
 		os.mkdir("Reports_Guasap_Forensic")
-		root.updateConsole('The directory was created correctly')
+		if language=="spanish":
+			root.updateConsole('El directorio fue creado de forma correcta')
+		elif language=="english":
+			root.updateConsole('The directory was created correctly')
 	except:
-		root.updateConsole('Verify that the Reports directory is created')
+		if language=="spanish":
+			root.updateConsole('Verifica que el directorio WhatsappDB esta creado')
+		elif language=="english":	
+			root.updateConsole('Verify that the WhatsappDB directory is created')
 	
-def create_dir_log(root):
+def create_dir_log(root,language):
 	try:
 		os.mkdir("WhatsappLOG")
-		root.updateConsole('The directory was created correctly')
+		if language=="spanish":
+			root.updateConsole('El directorio fue creado de forma correcta')
+		elif language=="english":
+			root.updateConsole('The directory was created correctly')
 	except:
-		root.updateConsole('Verify that the WhatsappLOG directory is created')
-
-
+		if language=="spanish":
+			root.updateConsole('Verifica que el directorio WhatsappDB esta creado')
+		elif language=="english":	
+			root.updateConsole('Verify that the WhatsappDB directory is created')
 
 def decompress(filename):
 	comprimido=gzip.open(filename, "r")
@@ -325,18 +346,28 @@ def decompress(filename):
 	txt.write(descomprimido)
 	txt.close()
 
-def get_whatsappLog(log, root):
+def get_whatsappLog(log, root, language):
 	try:
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell su 0 dd if='/data/data/com.whatsapp/files/Logs/"+log+"' of='"+directory+log+"' bs=1000"
 			extract = utils.adb_comm+" pull "+directory+log+" WhatsappLOG/"+log
 			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 			if "directory" not in command:
-				root.updateConsole('USB debbuging active...')
+				if language == "english":
+					root.updateConsole('USB debbuging active...')
+				elif language == "spanish":
+					root.updateConsole('Modo depuracion USB activo')
 				subprocess.call(extract)
-				root.updateConsole('extract whatsapp log...')
+				if language == "english":
+					root.updateConsole('extract whatsapp log...')
+				elif language == "spanish":
+					root.updateConsole('extrayendo los log de whatsapp...')
 				return log
-			root.updateConsole('Change directory...')
+			if language =="spanish":
+				root.updateConsole('Change directory...')
+			elif language =="english":
+				root.updateConsole('Cambiando directorio...')
+
 	except :
 		print (utils.error_alert[0])
 
