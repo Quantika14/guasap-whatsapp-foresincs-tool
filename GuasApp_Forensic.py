@@ -339,11 +339,11 @@ def add_report(data, option):
 		packages = packages.split("\n")
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
-		if len(packages) <= 1:
+		if len(packages) >= 1:
 			text_final+="<p>"+packages[0]+"</p>"
-		if len(packages) <= 2:
+		if len(packages) >= 2:
 			text_final+="<p>"+packages[1]+"</p>"
-		if len(packages) <= 3:
+		if len(packages) >= 3:
 			text_final+="<p>"+packages[2]+"</p>"
 			text_final+="<div id='list'>"
 		
