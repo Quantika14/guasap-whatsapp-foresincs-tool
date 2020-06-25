@@ -3,7 +3,8 @@
 #-*- coding:utf-8 -*-
 import modules.utils, modules.functions, GuasApp_Forensic
 
-
+# FUNCTIONS #
+# Extract all logs
 def extract_log(root,language):
 	#Create directory
 	modules.functions.create_dir_log(root,language)

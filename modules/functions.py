@@ -6,8 +6,9 @@ from subprocess import Popen, PIPE, STDOUT
 import getpass
 import sqlite3
 
-#FORENSIC FUNCTIONS
 
+#FORENSIC FUNCTIONS
+# Function to extract information about deleted messages
 def extract_deleted_messages(root):
 	try:
 		log_list=list()
@@ -141,7 +142,7 @@ def extract_deleted_messages(root):
 		print (utils.error_alert[0])
 
 
-#MagiskManager-v7.5.1.apk es nuestra aplicacion 
+# Function to get if the device is root 
 def check_root(window,language):
 	root=check_su()
 	mensaje_deb=root+"\n"
@@ -203,8 +204,9 @@ def check_root(window,language):
 		list_root_info.append(magisk)
 	return list_root_info, root_posibility
 
+
+# Function to check magisk
 def check_magisk():
-	#no puede utilizar la aplicacion en windows por error de permiso
 	if modules.utils.adb_comm == "c:\\adb\\adb":
 		a = modules.utils.adb_comm+" shell cd data/data/adb && dir"
 		b = modules.utils.adb_comm+" shell cd data/adb && dir"
@@ -219,50 +221,49 @@ def check_magisk():
 	else:
 		return False
 
-#Aquí comprobamos a través de un comando si el dispositivo dispone de permisos de root.
+
+# Check if the device has root permissions
 def check_su():
 	global root_posibility
 	command = modules.utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp"
 	process = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
 	err = process.communicate()[0].decode('utf-8')
-#Nos devolverá este error si en nuestro equipo no tenemos instalado ADB
-	if "inaccessible or not found" in err:
+# Returns error if we don't have ADB installed
+	if "inaccessible or not found" in err or err=="":
 		root_posibility=False
 		return "Inaccessible or not found device make sure that your phone is connected and routed"
 
 	elif "sh: 1: adb:" in err or "no se reconoce como un comando" in err: 
 		root_posibility=False
 		return "No adb installed"
-#Nos devolverá este error si no hemos autorizado la depuración USB en nuestro dispositivo
+# Returns error if we have not authorized USB debugging on our device
 	elif "device unauthorized" in err :
 		root_posibility=False
 		return "No debugging active"
-#Nos devolverá este error si el dispositivo no se encuentra conectado a nuestro equipo
+# Returns error if the device is not connected to our equipment
 	elif "error: device" in err:
 		root_posibility=False
 		return "No such device"
-
-
 	else:
-#Nos devoverá este error si nuestro dispositivo no dispone de permisos de root o no se encuentra rooteado
+# Returns error if the device does not have root permissions or is not rooted
 		if "su: not found" in err:
 			root_posibility=False
 			return "No root device"
-#Nos devolverá este aviso en caso de que el dispositivo esté rooteado
+# Return this notice in case the device is rooted
 		else:
 			root_posibility=True
 			return "Root Device"
 
+
+# Extracts all databases from all directories
 def get_whatsappDB(db, root, language):
 	try:
 		for directory in utils.directory:
 			a = utils.adb_comm+" shell dd if='"+directory+"WhatsApp/Databases/"+db+"' of='"+directory+db+"' bs=1000"
 			extract = utils.adb_comm+" pull "+directory+db+" WhatsappDB/"+db
-			#command = os.popen(a)
 			command=subprocess.Popen(a, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 			command=command.replace("\r","").replace("\n","")
 			if "file or directory" != command[len(command)-17:len(command)] and "unknown operand" not in command:
-	#			os.system(a)
 				if language == "english":
 					root.updateConsole('USB debbuging active...')
 					root.updateConsole('extract whatsapp db...')
@@ -280,10 +281,10 @@ def get_whatsappDB(db, root, language):
 		return utils.error_alert[0]
 
 
+# Extract encrypted databases
 def get_whatsappDB_root(db):
 	try:
 		copy=utils.adb_comm+" shell su 0 cp '/data/data/com.whatsapp/databases/"+db+"' '/sdcard/"+db+"'"
-
 		extract = utils.adb_comm+" pull /sdcard/"+db+" WhatsappDB/"+db
 		subprocess.call(copy)
 		subprocess.call(extract)	
@@ -291,6 +292,7 @@ def get_whatsappDB_root(db):
 	except :
 		print (utils.error_alert[0]) 
 
+# Extract the database in case it is run through a database
 def get_whatsappDB_file(file):
 	file=file.replace("/","\\")
 	try:
@@ -300,6 +302,8 @@ def get_whatsappDB_file(file):
 	except :
 		print (utils.error_alert[0]) 
 
+
+# Create a directory where all the databases are cloned
 def create_dir_db(root,language):
 	try:
 		os.mkdir("WhatsappDB")
@@ -313,6 +317,7 @@ def create_dir_db(root,language):
 		elif language=="english":	
 			root.updateConsole('Verify that the WhatsappDB directory is created')
 
+# Create a directory where all the reports are generated
 def create_dir_report(root,language):
 	try:
 		os.mkdir("Reports_Guasap_Forensic")
@@ -325,7 +330,9 @@ def create_dir_report(root,language):
 			root.updateConsole('Verifica que el directorio WhatsappDB esta creado')
 		elif language=="english":	
 			root.updateConsole('Verify that the WhatsappDB directory is created')
-	
+
+
+# Create a directory where all the logs are cloned
 def create_dir_log(root,language):
 	try:
 		os.mkdir("WhatsappLOG")
@@ -339,6 +346,8 @@ def create_dir_log(root,language):
 		elif language=="english":	
 			root.updateConsole('Verify that the WhatsappDB directory is created')
 
+
+# Unzip a file
 def decompress(filename):
 	comprimido=gzip.open(filename, "r")
 	descomprimido=comprimido.read().decode("utf-8")
@@ -346,6 +355,8 @@ def decompress(filename):
 	txt.write(descomprimido)
 	txt.close()
 
+
+# Extract Whatsapp logs
 def get_whatsappLog(log, root, language):
 	try:
 		for directory in utils.directory:
@@ -367,11 +378,11 @@ def get_whatsappLog(log, root, language):
 				root.updateConsole('Change directory...')
 			elif language =="english":
 				root.updateConsole('Cambiando directorio...')
-
 	except :
 		print (utils.error_alert[0])
 
 
+# Change the permissions of the log files
 def set_permission_log(filenames):
 	username=getpass.getuser()
 	if utils.adb_comm=="c:\\adb\\adb":
@@ -380,14 +391,13 @@ def set_permission_log(filenames):
 		command = "chmod 777 WhatsappLOG/"+filenames
 	subprocess.call(command)
 
+
+# Get a list with all databases
 def count_dbs():
 	dbs_=list()
 	for directory in utils.directory:
 		command = utils.adb_comm+" shell ls "+directory+"WhatsApp/Databases/"
-		#command = utils.adb_comm + " shell ls " + "/data/data/com.whatsapp/databases/"
-		#dbs = os.popen(command).read()
 		dbs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
-
 		if "No such file or directory" in dbs:
 			continue
 		else:
@@ -401,12 +411,13 @@ def count_dbs():
 					dbs_.append(db)
 			return dbs_
 
+# Get a list with all logs
 def count_logs():
 	command = utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp/files/Logs/"
 	logs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")
 	logs = logs.replace("\r","").split("\n")
-	
 	return logs
+
 
 # To know the members that belong to a group, this function receives the identified "gjid" of the group
 def get_members(group):
@@ -417,10 +428,12 @@ def get_members(group):
 	group_members = [clean_user(member) for member in group_members_raw]
 	return group_members
 
+
 # A simple function for remove preffix and suffix added by Whatsapp to the user "jid"
 def clean_user(peer):
 	user = str(peer[2:]).replace("@s.whatsapp.net","")
 	return user
+
 
 # Parsing important data from msgstore.db structure header (first 100 bytes of *.db file) to try restore deleted messages
 def db_head_parser(db,root):
@@ -448,9 +461,8 @@ def db_head_parser(db,root):
 	#number_pages = int(number_pages_raw.encode("hex"), 16)
 	db_info.extend((page_size, number_pages, first_trunk_page, db_ver))
 
-	
 
-
+# Function to generate the hash of the files
 def get_hash(data, option):
 	if option == "origin":
 		for directory in utils.directory:
@@ -495,6 +507,8 @@ def get_hash(data, option):
 					return hash_2
 	return hash_
 
+
+# Function to generate the hash of the root files
 def get_hash_root(data, option):
 	if option == "origin":
 		command = utils.adb_comm+" shell su 0 md5 /data/data/com.whatsapp/databases/"+ data
@@ -526,6 +540,8 @@ def get_hash_root(data, option):
 					return hash_2				
 	return hash_
 
+
+# # Get a list with all root databases
 def count_dbs_root():
 	command = utils.adb_comm+" shell su 0 ls /data/data/com.whatsapp/databases"
 	dbs=subprocess.Popen(command, stdout=PIPE, stderr=PIPE).communicate()[0].decode("latin-1")

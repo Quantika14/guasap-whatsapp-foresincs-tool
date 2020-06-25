@@ -7,6 +7,8 @@ import modules.utils
 import subprocess
 from subprocess import Popen, PIPE
 
+# FUNCTIONS #
+# Check the files contained in the directory
 def check_directory():
 	for directory in modules.utils.directory:
 		direct = modules.utils.adb_comm +" shell ls "+directory+"WhatsApp/Media/"
@@ -18,9 +20,11 @@ def check_directory():
 		else:
 			return directory
 
-#extrae los archivos multimetidas de WhatsApp
+
+# Extract Whatsapp media files
 def pull_media(directory):
 	pull = subprocess.call(modules.utils.adb_comm + " pull "  + directory + "WhatsApp/Media Whatsapp_Extracted_Media/")
+
 
 # --- helpers ---
 def filehash(filepath):
@@ -34,6 +38,8 @@ def filehash(filepath):
 			md5.update(data)
 	return md5.hexdigest()
 
+
+# Function to get subdirectories of a directory
 def get_subdirectoris(directory):
 	ls_recursi = modules.utils.adb_comm+" shell ls -R "+directory+"WhatsApp/Media"
 	letras=subprocess.Popen(ls_recursi, stdout=PIPE, stderr=PIPE).communicate()
@@ -41,10 +47,10 @@ def get_subdirectoris(directory):
 	a=a.decode('utf-8')
 	return a
 
+
+# Generate md5
 def get_mdinfo(path, i):
-	
 	name =path+"/"+i
-	
 	if os.name == 'nt':
 		name = name.replace(" ", "\\ ")
 	else:
@@ -59,6 +65,7 @@ def get_mdinfo(path, i):
 		return name, hash_.split(" ")[0]
 
 
+# Function to extract and clone all media files
 def extract_mm(root,language):
 	md5_original=list()
 	md5_cloned=list()
@@ -68,7 +75,6 @@ def extract_mm(root,language):
 	subdirectoris=list()
 	directory = check_directory()
 	pull_media(directory)
-
 	PATH = 'Whatsapp_Extracted_Media/'
 	""" Clone media data check """
 	for path, dirs, files in os.walk(PATH):
@@ -82,7 +88,6 @@ def extract_mm(root,language):
 		root.updateConsole("Finish hash cloned...")
 	ls=get_subdirectoris(directory)
 	ls=ls.replace("\r", "").split("\n")
-
 	for l in ls:
 		if "/" in l and on_rute:
 			if on_file:
@@ -105,7 +110,6 @@ def extract_mm(root,language):
 			files.append(file_l)
 		else:
 			continue
-	
 	for directory in subdirectoris:
 		path=directory[len(directory)-1]
 		for f in directory:
@@ -113,7 +117,6 @@ def extract_mm(root,language):
 			for fil in fi:
 				name, md5 = get_mdinfo(path, fil)
 				md5_cloned.append((name,md5))
-
 	for i in range(len(md5_cloned)):
 		for has in md5_original:
 			if has[1] == md5_cloned[i][1]:

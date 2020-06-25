@@ -7,6 +7,8 @@ import subprocess
 from subprocess import Popen, PIPE
 import parser_db
 
+# FUNCTIONS #
+# Extract database file
 def extract_db(root,language):
 	count=1
 	#List with dicts with DBS and their hash
@@ -41,10 +43,11 @@ def extract_db(root,language):
 				root.updateConsole("Bases de datos extrídas de forma correcta [>] "+str(db))
 				root.updateConsole("Hash original [>] "+str(hash_origen))
 				root.updateConsole("Hash clonado [>] "+str(hash_clonado))
-
 			count+=1
 	return dbs_list
 
+
+# Extract root database file
 def extract_db_root(root,language):
 	count=1
 	#List with dicts with DBS and their hash
@@ -58,7 +61,6 @@ def extract_db_root(root,language):
 	elif language == "spanish":
 		mensaje_deb = "Encontradas bases de datos, extrayendo..."
 	root.updateConsole(mensaje_deb)
-	
 	for db in dbs:
 		db=db.split(" ")
 		for d in db:
@@ -86,6 +88,7 @@ def extract_db_root(root,language):
 	rows=parser_db.analyze_db()
 	return dbs_list, rows
 
+# Extract database file in ejecution by file
 def extract_db_file(root,fileName,language):
 	#create folder for 
 	modules.functions.create_dir_db(root,language)
@@ -93,7 +96,6 @@ def extract_db_file(root,fileName,language):
 		mensaje_deb = "Extrayendo base de datos ..."
 	elif language=="english":
 		mensaje_deb = "Extracting databases ..."
-
 	root.updateConsole(mensaje_deb)
 	#Extract db 
 	hash_origen = modules.functions.get_hash_root(fileName, "origin")
@@ -116,8 +118,8 @@ def extract_db_file(root,fileName,language):
 	rows=parser_db.analyze_db_file(fileName)
 	return d,rows
 
-    
 
+# Extract all messages into a list
 def count_messages(root):
 	mensaje_num = "Calculando..."
 	root.updateConsole(mensaje_num)
@@ -152,7 +154,7 @@ def count_messages(root):
 	return total_msg, byConversation_messages, groups_members
 
 
-
+# Get info about deleted messages
 def detect_breakID(total_msg):
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')
 	cursor = conn.cursor()

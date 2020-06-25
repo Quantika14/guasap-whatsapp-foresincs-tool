@@ -2,6 +2,8 @@
 #-*- coding:utf-8 -*-
 import sqlite3, datetime
 
+# FUNCTIONS #
+# Analyze and extract all information from messages
 def analyze_db():
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')	
 	cursor = conn.cursor()
@@ -20,6 +22,7 @@ def analyze_db():
 	conn.close()
 	return rows
 
+# Analyze and extract all information from messages of database file
 def analyze_db_file(file):
 	conn = sqlite3.connect(file)	
 	cursor = conn.cursor()

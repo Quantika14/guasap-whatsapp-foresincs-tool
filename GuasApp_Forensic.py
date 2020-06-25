@@ -40,14 +40,14 @@ rute=""
 fileName=None
 
 
-
+# Creck os
 if os.name == 'nt':
 	modules.utils.adb_comm=modules.utils.adb_w
 else:
 	modules.utils.adb_comm=modules.utils.adb_l
 
-# Funcionalidades graficas
 
+# Get Whatsapp media files
 def whatsapp_mm(root):
 	if language=="spanish":
 		mensaje_deb = "Extrayendo archivos multimedia..."
@@ -70,6 +70,8 @@ def whatsapp_mm(root):
 			mensaje_deb = "WhatsApp directory not found"
 		root.updateConsole(mensaje_deb)
 
+
+# Check if the device is root
 def info_root_f(root):
 	global info_root
 	global label_root
@@ -85,6 +87,8 @@ def info_root_f(root):
 	label_root = True
 	add_report(info_root,0)
 
+
+# Check different info about the device
 def check_how_root(android_v, marca):
 	perfect_option="none"
 	other_option="none"
@@ -102,7 +106,6 @@ def check_how_root(android_v, marca):
 		try:
 			if dicts["marca"]=="all" and (pvd==pvm or pvd<pvm):
 				other_option=dicts
-		#a veces las versiones no son comparables
 		except (TypeError):
 			pass
 	if perfect_option != "none":
@@ -111,11 +114,11 @@ def check_how_root(android_v, marca):
 		return other_option
 
 
+# Check different info about the device
 def check_data(root):
 	command=modules.utils.adb_comm+" shell getprop ro.build.version.release"
 	command2=modules.utils.adb_comm+" shell getprop ro.product.manufacturer"
 	objeto_version = Popen(command, stdout=PIPE, stderr=PIPE)
-	#TO DO checkear que tipo de objeto tiene que ser android_v
 	android_v=objeto_version.communicate()[0].decode("utf-8").split("\r\n")[0]
 	err=objeto_version.communicate()[1].decode("utf-8")
 
@@ -133,6 +136,8 @@ def check_data(root):
 			mensaje_deb ="Version not found on device"
 		root.updateConsole(mensaje_deb)
 
+
+# Check different root info about the device
 def whatsapp_root(root):
 	if language=="spanish":
 		try:
@@ -153,10 +158,8 @@ def whatsapp_root(root):
 			else:
 				mensaje_deb += "Observaciones:\n"+option["observaciones"] + "\n"	
 			root.updateConsole(mensaje_deb)
-
 		except:
 			pass
-	
 	elif language=="english":
 		try:
 			option , version, marca = check_data(root)
@@ -165,7 +168,6 @@ def whatsapp_root(root):
 			mensaje_deb += "\n App recommended to root: "+option["app"] + "\n"
 			mensaje_deb += option["observaciones"][65:130] + "\n"
 			mensaje_deb += option["observaciones"][130:] +" \n"
-			
 			if len(option["observaciones"]) > 150 and len(option["observaciones"]) < 200:
 				mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"][:65] + "\n"
 				mensaje_deb += option["observaciones"][65:130] + "\n"
@@ -176,10 +178,11 @@ def whatsapp_root(root):
 			else:
 				mensaje_deb += "OBSERVATIONS:\n"+option["observaciones"] + "\n"
 			root.updateConsole(mensaje_deb)
-
 		except:
 			pass
 
+
+# Extract the running database by file
 def db_uploaded_file(root):
 	global label_root
 	if language=="spanish":
@@ -201,13 +204,10 @@ def db_uploaded_file(root):
 	# differences between these 
 	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
 	add_report(msg_analytics, 5)
-	# end Trello tasks
-# Begin comments for message analytics report while the final workflow is under construction:
-	#add_report(rows, 5)
-# end "for message analytics"
 	label_root = True
 
 
+# Extract the root databases
 def whatsapp_db_root(root):
 	global label_root
 # Begin comments for offline development (using db files from another device (require one for root checker)):
@@ -231,12 +231,10 @@ def whatsapp_db_root(root):
 	# differences between these 
 	msg_analytics.append([[total_messages], [byConversation_messages], [removed_id], [groups_members]])
 	add_report(msg_analytics, 5)
-	# end Trello tasks
-# Begin comments for message analytics report while the final workflow is under construction:
-	#add_report(rows, 5)
-# end "for message analytics"
 	label_root = True
 	
+
+# Extract and analyze Whatsapp logs 
 def whatsapp_log_f(root):
 	global whatsapp_log
 	global label_root
@@ -249,6 +247,8 @@ def whatsapp_log_f(root):
 	add_report(info_root, 1)
 	label_root = True
 
+
+# Extract encrypted databases
 def whatsapp_db_f(root):
 	global list_dbs
 	global label_root
@@ -261,6 +261,8 @@ def whatsapp_db_f(root):
 	add_report(list_dbs, 2)
 	label_root = True
 
+
+# Add data to the final report
 def add_report(data, option):
 	global info_root
 	global list_dbs
@@ -296,16 +298,12 @@ def add_report(data, option):
 			text_final+="<p class='cabecera'><b>Extracted media</b></p>"
 		t = time.strftime('%A %B, %d %Y %H:%M:%S')
 
-		#Crea en el informe fecha y hora de Android
+		# Add date to the report
 		text_final+="<h3> Date of system: "+ str(t)+"</h3>"
-		#Obtiene la fecha y hora
 		command = modules.utils.adb_comm+" shell date"
 
-		#continuar con los cambios en las librerias
 		time_device,err=Popen(command2, stdout=PIPE, stderr=PIPE).communicate()
 		time_device=time_device.decode("utf-8")
-		#en,time_device,err = os.popen3(command)
-		#time_device=time_device.read()
 
 		if ":" not in time_device:
 			text_final+="Device Not found \n\n"
@@ -335,17 +333,19 @@ def add_report(data, option):
 		text_final+="</div>"
 
 		commandd = modules.utils.adb_comm+" shell pm list packages -f"
-		#en,packages,err = os.popen3(commandd)
 		
 		packages,err=Popen(commandd, stdout=PIPE, stderr=PIPE).communicate()
 		packages=packages.decode("utf-8")
 		packages = packages.split("\n")
 		text_final+="</p>"
 		text_final+="<p class='subcabecera'>Installed packages:</p>"
-		text_final+="<p>"+packages[0]+"</p>"
-		text_final+="<p>"+packages[1]+"</p>"
-		text_final+="<p>"+packages[2]+"</p>"
-		text_final+="<div id='list'>"
+		if len(packages) <= 1:
+			text_final+="<p>"+packages[0]+"</p>"
+		if len(packages) <= 2:
+			text_final+="<p>"+packages[1]+"</p>"
+		if len(packages) <= 3:
+			text_final+="<p>"+packages[2]+"</p>"
+			text_final+="<div id='list'>"
 		
 		for i in range(3,len(packages)):
 			text_final+="<p>"+packages[i]+"</p>"
@@ -460,13 +460,6 @@ function listar_log_"""+str(clase_list)+"""(){
 		if divo:
 			text_final+="</div>"
 			text_final+='<a id="boton_dbs_root" href="#" onclick="javascript:listar_dbs_root();return false">Show all</a>'
-		#text_final += "<p class='subcabecera'>Deleted Messages</p>"
-		# for row in data:
-		# 	text_final += """<p class='messages'>"""+row.replace("Numero de telefono de whatsapp borrado", "WhatsApp phone number deleted").replace("\nTimestamp","; Timestamp")+"<br>"
-		# text_final+="</p>"
-		# Adding message analytics:
-		# TODO: Create a new window that can offer  interaction to select or order messages by 
-		# groups, users, dates,  etc.  and show message analysis customized by users. 
 		text_final += "<p class='subcabecera'>Messages Analytics</p>"
 		for elem in data:
 			text_final+="<b>Total messages: </b>"+str(elem[0][0])+"<br>"
@@ -501,13 +494,11 @@ function listar_log_"""+str(clase_list)+"""(){
 		if out>2:
 			text_final+="</p></div>"
 			text_final+='<a id="boton_media" href="#" onclick="javascript:listar_media();return false">Show all</a>'
-	
-	
 	with io.open(rute, "a", encoding="utf-8") as f:
 		f.write(text_final)
-
 	f.close()
 
+# Create report with data
 def create_report_f(t, root):
 	global rute
 	modules.functions.create_dir_report(root,language)
@@ -596,7 +587,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		
 		else:
 			db_uploaded_file(self)
-			#whatsapp_db_root(self)
 		if language=="spanish":
 			self.updateConsole(" \n La ejecucion se ha completado")
 		elif language=="english":
