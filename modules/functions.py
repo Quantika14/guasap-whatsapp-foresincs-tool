@@ -375,9 +375,9 @@ def get_whatsappLog(log, root, language):
 					root.updateConsole('extrayendo los log de whatsapp...')
 				return log
 			if language =="spanish":
-				root.updateConsole('Change directory...')
-			elif language =="english":
 				root.updateConsole('Cambiando directorio...')
+			elif language =="english":
+				root.updateConsole('Change directory...')
 	except :
 		print (utils.error_alert[0])
 
