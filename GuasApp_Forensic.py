@@ -196,7 +196,7 @@ def db_uploaded_file(root):
 		mensaje_num = " Obtaining message statistics ..."
 	root.updateConsole(mensaje_num)
 	rows=whatsapp_db.extract_db_file(root,fileName,language)
-	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root,language)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
 	# Appending the msg analytics of each extraction for in a future will be able
@@ -223,7 +223,7 @@ def whatsapp_db_root(root):
 		mensaje_num = " Obtaining message statistics ..."
 	root.updateConsole(mensaje_num)
 	list_dbs,rows=whatsapp_db.extract_db_root(root,language)
-	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root)
+	total_messages, byConversation_messages, groups_members = whatsapp_db.count_messages(root,language)
 	removed_id = whatsapp_db.detect_breakID(total_messages)
 	msg_analytics = []
 	# Appending the msg analytics of each extraction for in a future will be able
@@ -241,7 +241,7 @@ def whatsapp_log_f(root):
 	if language == "spanish":
 		mensaje_deb = "Extrayendo/analizando logs..."
 	elif language == "english":
-			mensaje_deb = "Extracting / analyzing logs ..."
+		mensaje_deb = "Extracting / analyzing logs ..."
 	root.updateConsole(mensaje_deb)
 	whatsapp_log=whatsapp_log_forensic.extract_log(root,language)
 	add_report(info_root, 1)

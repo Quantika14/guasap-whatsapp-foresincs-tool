@@ -9,7 +9,7 @@ import sqlite3
 
 #FORENSIC FUNCTIONS
 # Function to extract information about deleted messages
-def extract_deleted_messages(root):
+def extract_deleted_messages(root,language):
 	try:
 		log_list=list()
 		for log in utils.analyze_logs:
@@ -274,7 +274,7 @@ def get_whatsappDB(db, root, language):
 				return db 
 			if language =="english":
 				root.updateConsole('Change directory...')
-			if language == "spanish":
+			elif language == "spanish":
 				root.updateConsole('Cambiando directorio...')
 
 	except :

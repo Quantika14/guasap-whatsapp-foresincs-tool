@@ -36,5 +36,5 @@ def extract_log(root,language):
 					#add name of logs for extract deleted messages
 					modules.utils.analyze_logs.append(log_name)
 	#Extract deleted messages
-	log_list=modules.functions.extract_deleted_messages(root)
+	log_list=modules.functions.extract_deleted_messages(root, language)
 	return log_list

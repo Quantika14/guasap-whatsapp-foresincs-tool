@@ -120,8 +120,11 @@ def extract_db_file(root,fileName,language):
 
 
 # Extract all messages into a list
-def count_messages(root):
-	mensaje_num = "Calculando..."
+def count_messages(root,language):
+	if language == "english":
+		mensaje_num = "Calculating ..."
+	elif language == "spanish":
+		mensaje_num = "Calculando ..."
 	root.updateConsole(mensaje_num)
 	conn = sqlite3.connect('WhatsappDB/msgstore.db')	
 	total_msg = 0
