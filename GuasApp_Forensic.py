@@ -24,7 +24,7 @@ from time import sleep
 from distutils.version import LooseVersion
 
 # Importamos el diseño
-from diseño_interfaz.model_ui import *
+from interface_design.model_ui import *
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QWidget, QLabel, QApplication, QFileDialog
 
@@ -517,6 +517,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		texto=self.lblDirectory.text()+" /Reports_Guasap_Forensic"
 		self.lblConsole.setStyleSheet("QLabel { background-color : black; color : white; padding: 0px 0px 10px 10px;}")
 		self.lblDirectory.setText(texto)
+		self.btnLicense.clicked.connect(self.show_license)
+		self.btnHelp.clicked.connect(self.show_help)
 		self.btnStart.clicked.connect(self.ejecucion)
 		self.btnFile.clicked.connect(self.openFileNameDialog)
 		self.rbEnglish.toggled.connect(lambda : self.english_screen())
@@ -535,7 +537,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		fileName, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","all files(*)", options=options)
 		file_checker=fileName.split(".")
 		if file_checker[len(file_checker)-1] != "db":
-			self.updateConsole("\n El archivo introducido no es valido o esta cifrado")
+			if language == "spanish":
+				self.updateConsole("\n El archivo introducido no es valido o esta cifrado")
+			elif language == "english":
+				self.updateConsole("\n The entered file is invalid or encrypted")
+
 			self.btnStart.setEnabled(False)
 		else:
 			self.btnStart.setEnabled(True)
@@ -568,6 +574,79 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		texto = self.lblConsole.text() + '\n' + text
 		self.lblConsole.setText(texto)
 		QtGui.QGuiApplication.processEvents()
+
+	def show_license(self):
+		if self.rbEnglish.isChecked():
+			console_text="""Copyright (c) 2020, QuantiKa14 Servicios Integrales S.L 
+All rights reserved.
+Redistribution and use in source and binary forms,
+ with or withoutmodification, are permitted provided that the 
+ following conditions are met: 
+1. Redistributions of source code must retain the above 
+copyright notice, this list of conditions and the following
+disclaimer. 
+2. Redistributions in binary form must reproduce the above 
+copyright notice, this list of conditions and the following 
+disclaimer in the documentation and/or other materials 
+provided with the distribution. 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+The views and conclusions contained in the software and 
+documentation are those of the authors and should not be 
+interpreted as representing official policies, either expressed
+or implied, of the FreeBSD Project."""
+
+		elif self.rbSpanish.isChecked():
+			console_text="""Copyright (c) 2020, QuantiKa14 Servicios Integrales S.L
+Todos los derechos reservados.
+Redistribución y uso en fuentes y formas binarias,
+ con o sin modificación, están permitidos siempre que el
+ Se cumplen las siguientes condiciones:
+1. Las redistribuciones del código fuente deben conservar lo anterior
+aviso de copyright, esta lista de condiciones y lo siguiente
+Descargo de responsabilidad.
+2. Las redistribuciones en forma binaria deben reproducir lo anterior
+aviso de copyright, esta lista de condiciones y lo siguiente
+descargo de responsabilidad en la documentación y / u otros materiales
+proporcionado con la distribución.
+ESTE SOFTWARE ES PROPORCIONADO POR LOS TITULARES DE LOS DERECHOS DE AUTOR Y
+CONTRIBUYENTES "TAL CUAL" Y CUALQUIER GARANTÍA EXPRESA O IMPLÍCITA,
+INCLUYENDO, PERO SIN LIMITARSE A, LAS GARANTÍAS IMPLÍCITAS DE
+COMERCIABILIDAD Y APTITUD PARA UN PROPÓSITO EN PARTICULAR SON
+RENUNCIADO EN NINGÚN CASO EL PROPIETARIO DE LOS DERECHOS DE AUTOR O
+LOS CONTRIBUYENTES SERÁN RESPONSABLES POR CUALQUIERA DIRECTA, INDIRECTA, INCIDENTAL,
+DAÑOS ESPECIALES, EJEMPLARES O CONSECUENTES (INCLUIDOS, PERO
+NO LIMITADO A LA ADQUISICIÓN DE BIENES O SERVICIOS SUSTITUTOS;
+PÉRDIDA DE USO, DATOS O GANANCIAS; O INTERRUPCIÓN EMPRESARIAL)
+SIN EMBARGO, Y EN CUALQUIER TEORÍA DE RESPONSABILIDAD, ENTRE
+CONTRATO, RESPONSABILIDAD ESTRICTA O TORT (INCLUYENDO NEGLIGENCIA
+O DE OTRA MANERA) QUE SURJA DE CUALQUIER FORMA DEL USO DE ESTE
+SOFTWARE, INCLUSO SI SE LE INDICA LA POSIBILIDAD DE TALES DAÑOS.
+Las opiniones y conclusiones contenidas en el software y
+la documentación es de los autores y no debe ser
+interpretado como representación de políticas oficiales, ya sea expresado
+o implícito, del Proyecto FreeBSD."""
+
+		self.lblConsole.setText(console_text)
+		
+
+	def show_help(self):
+		if self.rbEnglish.isChecked():
+			help_text="For more information on how the application works \n visit the web: https://quantika14.com/guasap-forensic/"
+		elif self.rbSpanish.isChecked():
+			help_text="Para más información sobre el funcionamiento de la aplicación \n visite la web: https://quantika14.com/guasap-forensic/"
+		self.lblConsole.setText(help_text)
 
 	def ejecucion(self):
 		global language
