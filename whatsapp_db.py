@@ -27,7 +27,7 @@ def extract_db(pop_wait):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			print "DB extract sucesfully [>] "+str(db)
+			print "DB extract successfully [>] "+str(db)
 			print "Original hash file[>] "+str(hash_origen)
 			print "Cloned file hash [>] "+str(hash_clonado)
 			count+=1
@@ -57,7 +57,7 @@ def extract_db_root(pop_wait):
 			name_d="dict_"+str(count)
 			name_d={"name":db,"hash_o":hash_origen,"hash_d":hash_clonado}
 			dbs_list.append(name_d)
-			print "DB extract sucesfully [>] "+str(db)
+			print "DB extract successfully [>] "+str(db)
 			print "Original hash file[>] "+str(hash_origen)
 			print "Cloned file hash [>] "+str(hash_clonado)
 			count+=1
